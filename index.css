@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,500;0,700;0,900;1,400;1,500;1,900&display=swap');
 
   :root{
-    --red:#c2141c;
+    --red:#ED2323;
     --black:#333;
     --light-color:#666;
     --box-shadow:0 .5rem 1.5rem rgba(0,0,0,.1)
@@ -19,14 +19,20 @@ body{
     background-image: linear-gradient(to right, black, red);
     height: .4rem;
     width: 100%;
+    margin-top: 3rem;
 }
+h2{
+    background: lightgray;
+    color: var(--red);
+}
+
 .header{
     position: sticky;
 }
 
 .header .top{
     
-    background: #c2141c;
+    background: var(--black);
     height: 1rem;
     text-align: center;
     color: #eee;
@@ -35,7 +41,7 @@ body{
 .header2{
     position: fixed;
     position: relative;
-    background: black;
+    background: var(--red);
     height: 15vh;
     padding-left: 3rem;
     display: flex;
@@ -93,6 +99,15 @@ text-decoration: none;
     margin: 3rem 2rem;
 
 }
+.favourite{
+    display: none;
+
+}
+.favourite a{
+   text-decoration: none;
+   color: #eee;
+   align-items: center;
+}
 
 .header2 .header-right a{
     text-decoration: none;
@@ -113,24 +128,23 @@ text-decoration: none;
 
 
 .container .left-nav{
-    margin-left: 2rem;
-   
-   
-    width: 20rem;
+    width: 120%;
     height: 100vh;
-    margin-top: 4rem;
-    align-items: center;
-    text-align: center;
+    margin-top: 3rem;
+    padding-left: 3rem;
+   
 }
 .container .left-nav h2{
     background: lightgray;
+    color: var(--red);
 }
 
 
 .container .slider{
-    margin-left: 4rem;
+    margin-left: 5rem;
     width:50% ;
-    height: 90vh;
+    height: 70vh;
+    margin-top: -11rem;
 }
 .swiper{
 width: 100%;
@@ -173,6 +187,42 @@ align-items: center;
     box-shadow:1rem 1.5rem 1.5rem rgba(0,0,0,.1)
 }
 
+/* left nav list */
+.left-nav .left-nav-list{
+    flex-direction: column;
+    justify-content: start;
+
+}
+.left-nav .left-nav-list a{
+    text-decoration: none;
+    color: var(--black);
+    
+    font-size: 1rem;
+  
+}
+.left-nav .left-nav-list img{
+    height: 1.4rem;
+    margin-bottom: -.4rem;
+    
+
+
+}
+
+
+.left-nav .left-nav-list li{
+    list-style: none;
+    margin: 1rem;
+   
+}
+
+
+/* nav right */
+.container .nav-right{
+    width: 25%;
+    margin: 1rem;
+    margin-top: -45rem;
+}
+
 
 
 
@@ -186,6 +236,20 @@ align-items: center;
 
 
 @media (max-width:991px){
+    body{
+        padding: 1rem;
+    }
+    .container .slider{
+        width: 100%;
+        overflow: hidden;
+        margin: 0;
+    }
+    .container .left-nav{
+        display: none;
+    }
+    .container .nav-right{
+        display: none;
+    }
     .header2{
         
         height: 20vh;
@@ -197,9 +261,8 @@ align-items: center;
     }
     .header .links{
         margin-top: 2rem;
-       
-        display: inline-block;
-        
+
+    
         margin-left: -14rem;
     }
     .header2 .header-right{
@@ -207,33 +270,54 @@ align-items: center;
         margin: 8rem 2rem;
         margin-left: -10rem;
         
+        
 }
 }
 
 @media (max-width:768px) {
+    .favourite{
+        display: flex;
+        justify-content: center;
+        
+    }
+    .header{
+        display: block;
+    }
     .header2{
         
         height: 15vh;
        
        
     }
+    .container .slider{
+        width: 100%;
+        overflow: hidden;
+        margin: 0;
+    }
+    .container .left-nav{
+        display: none;
+    }
     .header .logo{
-        margin-left: -2rem;
+        margin-left: -3rem;
+        width: 40%;
+        
     }
     .header .logo img{
         margin-top: 0;
+       
     }
     .header .links a{
        display: none;
        }
        .header .bars{
+        margin-left: -5rem;
         display: flex;
         flex-direction: column;
         
         }   
         .header2 .header-right{
-            align-items: baseline;
-            margin: 8rem 2rem;
-            margin-left: -10rem;
+            display: none;
+            margin-top:7rem;
+          
         }
 }
