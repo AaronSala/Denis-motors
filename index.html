@@ -7,7 +7,7 @@
     <title>Denis motors</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="index.css">
-    <script src="https://cdnilwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
 </head>
 <body>
@@ -49,7 +49,7 @@
     </section>
 
 <section>
-    <div class="container">
+    <div class="containers">
     <nav>
         <div class="left-nav">
          <div class="bar"></div>
@@ -120,17 +120,137 @@
           
            
         </div> 
-        <div class="search "> <input type="search" placeholder="make, year, maker, model"> <i class="fas fa-magnifying-glass"></i>
+        <div class="search mt-3"> <input type="search" placeholder="make, year, maker, model"> <i class="fas fa-magnifying-glass"></i>
              </div>
              <div class="bar"></div>
              <h2>Recomended Cars</h2>
-</div>
+    </div>
 
 <div class="nav-right">
 <div class="bar"></div>
 <h2 class="">Search Cars</h2>
-</div>
+ <div class="form border-2 border-grey">
+  
+  <select class="w-full p-1 bg-white border-2">
+    <option>Maker (All)</option>
+    <option> NISSAN(12)</option>
+    <option>TOYOTA(12)</option>
+    <option> MAZDA(12)</option>
+    <option> MITSUBISHI(12)</option>
+    <option> HONDA(12)</option>
+    <option> BENZ(12)</option>
+    <option> BMW(12)</option>
+    <option> SUZUKI(12)</option>
+    <option> OTHERS(12)</option>
+  </select>
+  <select class="w-full p-1 bg-white border-2">
+    <option>Shape (all)</option>
+    <option> NISSAN(12)</option>
+    <option>TOYOTA(12)</option>
+    <option> MAZDA(12)</option>
+    <option> MITSUBISHI(12)</option>
+    <option> HONDA(12)</option>
+    <option> BENZ(12)</option>
+    <option> BMW(12)</option>
+    <option> SUZUKI(12)</option>
+    <option> OTHERS(12)</option>
+  </select>
+  <input type="text" class="w-full p-1 border-2" placeholder="Stock ID"></input>
+ 
+   
+  <div class="select flex items-center h-56">
+    <div class="left w-1/2">
+        <select class=" p-1 w-4/5 bg-white border-2 ">
+            <option>Year (min)</option>
+            <option>2022 </option>
+            <option>2021</option>
+            <option>2020</option>
+            <option>2019</option>
+            <option>2018</option>
+            <option>2017 </option>
+            <option>2016</option>
+            <option>2015 </option>
+            <option>2014</option>
+          </select>
+          
+          <select class=" p-1 w-4/5 bg-white border-2 ">
+            <option>km (min)</option>
+            <option>50 000 </option>
+            <option>80 000</option>
+            <option>100 000</option>
+            <option>150 000</option>
+            <option>170 000</option>
+            <option>2017 </option>
+            
+          </select>  
 
+          <select class=" p-1 w-4/5 bg-white border-2 ">
+            <option>cc (min)</option>
+            <option> 700 </option>
+            <option>1500</option>
+            <option>2500</option>
+            <option>3000</option>
+            <option>3500</option>
+            <option>4000 </option>
+            
+          </select>  
+         
+          <input type="text" class="w-1/2 p-1 border-2 w-" placeholder="price">$</input>
+    </div>
+         <div class="right w-1/2">
+            <select class=" p-1 w-full bg-white border-2 ">
+                <option>Year (max)</option>
+                <option>2022 </option>
+                <option>2021</option>
+                <option>2020</option>
+                <option>2019</option>
+                <option>2018</option>
+                <option>2017 </option>
+                <option>2016</option>
+                <option>2015 </option>
+                <option>2014</option>
+              </select>
+
+              <select class=" p-1 w-full bg-white border-2 ">
+                <option>km (max)</option>
+                <option>50 000 </option>
+                <option>80 000</option>
+                <option>100 000</option>
+                <option>150 000</option>
+                <option>170 000</option>
+                <option>2017 </option>
+                
+              </select>  
+             
+              <select class=" p-1 w-full bg-white border-2 ">
+                <option>cc (max)</option>
+                <option> 700 </option>
+                <option>1500</option>
+                <option>2500</option>
+                <option>3000</option>
+                <option>3500</option>
+                <option>4000 </option>
+                
+              </select>  
+              <input type="text" class="w-1/2 p-1 border-2 " placeholder="price">$</input></br>
+              <span>Price ($ ksh=120)</span>
+         </div>
+        
+</div>
+<select class=" p-1 w-full bg-white border-2 ">
+    <option>City/Town</option>
+    <option> Nakuru </option>
+    <option>Nairobi</option>
+    <option>Mombasa</option>
+    <option>Kisumu</option>
+    <option>Nyeri</option>
+    <option>Machakos </option>
+    
+  </select>
+ <button class="w-5/6 bg-red-600 text-center m-3 ">Search</button>
+
+ </div>
+</div>
 </div>
 
 </section>
