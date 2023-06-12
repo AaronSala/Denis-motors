@@ -155,7 +155,7 @@ nav{
     padding-top: 1rem;
     margin-left: .5rem;
     width:48% ;
-    height: 20vh;
+    
    
     
 }
@@ -240,6 +240,7 @@ align-items: center;
     width: 25%;
     margin: 1rem;
     margin-top:-2rem ;
+    padding-bottom: 8rem;
    
 }
 
