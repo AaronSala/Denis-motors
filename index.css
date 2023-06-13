@@ -45,17 +45,17 @@ h2{
     font-size: .7rem;
 }
 .header2{
-    position: fixed;
+   
     position: relative;
     background: var(--red);
-    height: 15vh;
+  
    
     display: flex;
     justify-content: space-between;
 }
 .header .logo{
     display: flex;
-    justify-content: center;
+    
     align-items: center;
    
 }
@@ -63,11 +63,7 @@ h2{
 .header .logo img{
     height: 10vh;
 }
-.header .links{
-    position: center;
-    display: inline-block;
-    
-}
+
 .header .links a{
  text-decoration: none;
  
@@ -121,7 +117,7 @@ h2{
 .containers{
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    
   
     
 }
@@ -252,10 +248,33 @@ align-items: center;
     body{
         padding: 1rem;
     }
+    .header .bars{
+        margin-left: rem;
+        display: flex;
+        flex-direction: column;
+        
+        }   
+    .header .links{
+        z-index: -6;
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+         top:100% ; left: 0; right: 0;
+         background: red;
+         border-top: 1rem solid rgba(0, 0, 0, .2);
+         border-bottom: 1rem solid rgba(0, 0, 0, .2);
+         padding: 1rem;
+         margin-top: rem;
+         clip-path: polygon(0 0, 100% 0, 100% 0%, 0% 0%);
+       }
+       .header .links.active{
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+        
+    }
     .containers .slider{
         width: 100%;
         overflow: hidden;
-        margin: 0;
+        
     }
     .containers .left-nav{
         display: none;
@@ -265,27 +284,20 @@ align-items: center;
     }
     .header2{
         
-        height: 20vh;
-       
-       
+        height: 20vh; 
     }
-    .header .logo img{
-        margin-top: -5rem;
-    }
-    .header .links{
-        margin-top: 2rem;
+    
+    
 
     
-        margin-left: -14rem;
-    }
     .header2 .header-right{
         align-items: baseline;
-        margin: 8rem 2rem;
+       
         margin-left: -10rem;
         
-        
+    }      
 }
-}
+
 
 @media (max-width:768px) {
     .favourite{
@@ -293,9 +305,7 @@ align-items: center;
         justify-content: center;
         
     }
-    .header{
-        display: block;
-    }
+    
     .header2{
         
         height: 15vh;
@@ -305,7 +315,7 @@ align-items: center;
     .containers .slider{
         width: 100%;
         overflow: hidden;
-        margin: 0;
+        
     }
     .containers .left-nav{
         display: none;
@@ -319,18 +329,16 @@ align-items: center;
         margin-top: 0;
        
     }
-    .header .links a{
-       display: none;
-       }
-       .header .bars{
-        margin-left: -5rem;
-        display: flex;
-        flex-direction: column;
-        
-        }   
+    
+      
+       
         .header2 .header-right{
             display: none;
             margin-top:7rem;
+           
           
         }
+       
+       
+       
 }
