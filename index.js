@@ -1,5 +1,13 @@
        
-       
+  const bars= document.querySelector('.bars')   
+  const menu=document.querySelector('.links')
+
+  bars.addEventListener('click', ()=>{
+  menu.style.display='block'
+    console.log('you clicked me')
+  })
+
+
  const swiper = new Swiper('.swiper', {
     autoplay:{
      delay:3000,

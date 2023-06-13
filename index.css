@@ -49,7 +49,7 @@ h2{
     position: relative;
     background: var(--red);
     height: 15vh;
-    padding-left: 3rem;
+   
     display: flex;
     justify-content: space-between;
 }
@@ -59,15 +59,7 @@ h2{
     align-items: center;
    
 }
-.header .bars{
-display: flex;
-flex-direction: column;
-font-size: 1.5rem;
-color: #eee;
-display:none;
-text-decoration: none;
 
-}
 .header .logo img{
     height: 10vh;
 }
