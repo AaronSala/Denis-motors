@@ -18,3 +18,33 @@
    // And if we need scrollbar
   
  });
+
+//  quastion and answer area
+const question = document.querySelectorAll('.quiz');
+const add = document.querySelectorAll('.plus');
+const answer = document.querySelectorAll('.hidden');
+
+
+
+
+add.forEach(function(plus){
+  plus.addEventListener('click', function(e) {
+    
+    
+    answer.forEach(question => {
+      question.style.display='block'
+    }); 
+     
+
+})
+});
+// add.addEventListener('click', ()=>{
+//   if(answer.style.display='hidden'){
+//     add.classList.toggle('fa-tims');
+//  answer.style.display='block'
+//   }else if(answer.style.display='block'){
+//     set(answer.style.display='hidden')
+//   }
+ 
+// });
+console.log('am on');
