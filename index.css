@@ -232,6 +232,13 @@ align-items: center;
    
 }
 
+.containers .slider .detail{
+   display: none;
+}
+.containers .slider .detail.active{
+   display: block;
+}
+
 
 
 
@@ -255,7 +262,7 @@ align-items: center;
         
         }   
     .header .links{
-        z-index: -6;
+       
         display: flex;
         flex-direction: column;
         position: absolute;
@@ -321,7 +328,7 @@ align-items: center;
         display: none;
     }
     .header .logo{
-        margin-left: -3rem;
+        
         width: 40%;
         
     }
