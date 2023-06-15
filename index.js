@@ -9,6 +9,7 @@ const slider = document.querySelector(".slider");
 
 bars.addEventListener("click", () => {
   links.classList.toggle("active");
+  slider.classList.toggle("active")
 });
 
 const swiper = new Swiper(".swiper", {

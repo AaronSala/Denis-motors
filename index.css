@@ -44,7 +44,7 @@ h2{
 }
 .header2{
    
-    position: relative;
+  
     background: var(--red);
   
    
@@ -269,18 +269,25 @@ align-items: center;
         position: absolute;
          top:100% ; left: 0; right: 0;
          background: red;
-         
          padding: 1rem;
          margin-top: rem;
          clip-path: polygon(0 0, 100% 0, 100% 0%, 0% 0%);
        }
        .header .links.active{
         clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
-        
+        overflow-y: scroll;
+  transition: 1s;
+  overflow: hidden;
+       
     }
     .containers .slider{
         width: 100%;
+        z-index: -2;
         
+        
+    }
+    .containers .slider.active{
+        margin-top: 14rem;
         
     }
     .containers .left-nav{
@@ -308,6 +315,7 @@ align-items: center;
     .containers .slider{
         width: 100%;
         overflow: hidden;
+        
         
     }
     .containers .left-nav{
