@@ -1,3 +1,8 @@
+
+const home=document.getElementById('home')
+
+
+
 const bars = document.querySelector(".bars");
 const links = document.querySelector(".links");
 const slider = document.querySelector(".slider");
@@ -44,7 +49,7 @@ add.addEventListener('click', ()=>{
   add1.addEventListener('click', ()=>{
     detail1.classList.toggle("active")
     add1.classList.toggle('fa-times')
-    
+
   })
     add2.addEventListener('click', ()=>{
       detail2.classList.toggle("active")
