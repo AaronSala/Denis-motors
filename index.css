@@ -19,7 +19,7 @@
 }
 body{
     margin: 0px;
-    padding: 2rem;    
+       
 }
 .bar{
     background-image: linear-gradient(to right, black, red);
@@ -116,6 +116,8 @@ h2{
 .containers{
     display: flex;
     flex-wrap: wrap;
+    overflow: hidden;
+    
     
   
     
