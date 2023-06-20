@@ -65,7 +65,7 @@ add.addEventListener('click', ()=>{
 // the change page of cars to redirect
 
 const toyota =document.querySelector('.toyota');
-const nissan =document.querySelector('nissan');
+const nissan =document.querySelector('.nissan');
 const benz =document.querySelector('.benz');
 const subaru =document.querySelector('.subaru');
 const mazda =document.querySelector('.mazda');
@@ -74,9 +74,9 @@ const logo = document.querySelector('.logo-img');
 const headers = document.getElementsByClassName('.header-1');
 
 console.log("am home");
-logo.addEventListener('click', ()=>{
+nissan.addEventListener('click', ()=>{
 //logo.src ="images/logos/nissan.jpeg";
-headers.style.background='black'
+nissan.style.background='black'
 
 nissan.classList.toggle=("images/logos/nissan.jpeg");
 });
