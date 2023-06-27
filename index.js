@@ -1,3 +1,115 @@
+const vehicles= [
+  {
+    id:1,
+    image:"./images/cars/suv.png",
+     maker:"toyota",
+    model:"LandCruiser",
+    description:"",
+    year:2016,
+    price:"2.8m",
+    mileage:"80 000km",
+    shape:"suv",
+    category:"recomended" 
+  },
+  {
+    id:2,
+    image:"./images/cars/th (4).jpeg",
+     maker:"nissan",
+    model:"patrol",
+    description:"",
+    year:2017,
+    price:"5.8m",
+    mileage:"50 000km",
+    shape:"suv",
+    category:"newArrival" 
+  },
+  {
+    id:3,
+    image:"./images/cars/bmw.jpeg",
+     maker:"bmw",
+    model:"x5",
+    description:"",
+    year:2015,
+    price:"4.8m",
+    mileage:"80 000km" ,
+    shape:"suv",
+    category:"newArrival" 
+  },
+  {
+    id:4,
+    image:"./images/cars/th (2).jpeg",
+     maker:"lexus ",
+    model:"lx 570",
+    description:"",
+    year:2019,
+    price:"10.8m",
+    mileage:"40 000km" ,
+    shape:"suv",
+    category:"bestDeals" 
+  },
+  {
+    id:5,
+    image:"./images/cars/car1.jpeg",
+     maker:"toyota",
+    model:"premio",
+    description:"",
+    year:2015,
+    price:"1.8m",
+    mileage:"100 000km", 
+    shape:"sedan",
+    category:"bestDeals" 
+  },
+  {
+    id:6,
+    image:"./images/cars/honda.jpeg",
+     maker:"honda",
+    model:"prius",
+    description:"",
+    year:2016,
+    price:"1.2m",
+    mileage:"90 000km", 
+    category:"bestDeals" 
+  },
+]
+
+//display all cars
+const result = document.querySelector('.allCars')
+const carsNames = vehicles.map((vehicles)=>` 
+<a href="#" class="cursor-pointer ">
+                     <img src="${vehicles.image}" alt="honda" class="h-20">
+                     <div class="detail text-blue-600 uppercase hover:underline hover:text-gray-800">
+                     
+                     <h5>${vehicles.maker}</h5>
+                     <h4>${vehicles.model}</h4>
+                     <h4>${vehicles.year}</h4>
+                     <h4>${vehicles.price}</h4>
+                     </div>
+                     </a>
+    
+`)
+result.innerHTML = carsNames.join(" ")
+
+
+//displays new arrival cars
+const news = document.querySelector('.newArrivals')
+
+const newCar = vehicles.filter((vehicles)=>vehicles.category ==='newArrival'
+
+`<a href="#" class="cursor-pointer ">
+                     <img src="${newCar.image}" alt="honda" class="h-20">
+                     <div class="detail text-blue-600 uppercase hover:underline hover:text-gray-800">
+                     
+                     <h5>${newCar.maker}</h5>
+                     <h4>${newCar.model}</h4>
+                     <h4>${newCar.year}</h4>
+                     <h4>${newCar.price}</h4>
+                     </div>
+                     </a>
+    
+`)
+news.innerHTML = "home dmkkjfgnk"
+
+
 
 const home=document.getElementById('home')
 

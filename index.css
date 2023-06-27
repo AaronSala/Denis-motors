@@ -69,6 +69,9 @@ h2{
  padding: .4rem;
  color: #eee;
 }
+.header .links a:hover{
+    background: black;
+}
 .header .links a i{
     color: #eee;
     padding: .3rem;
