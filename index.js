@@ -91,24 +91,42 @@ result.innerHTML = carsNames.join(" ")
 
 
 //displays new arrival cars
-const news = document.querySelector('.newArrivals')
+const carssort = vehicles.filter(vehicl=> 
+vehicl.category==="newArrival" )
+const result2 = document.querySelector('.newcars')
 
-const newCar = vehicles.filter((vehicles)=>vehicles.category ==='newArrival'
+const content =carssort.map(vehicl =>{
+  return `<a href="#" class="cursor-pointer hover:underline hover:text-gray-800 ">
+  
+  <div class="detail text-blue-600 uppercase hover:underline hover:text-gray-800">
+  <img src="${vehicl.image}" alt="honda" class="h-20">
+  <h5>${vehicl.maker}</h5>
+  <h4>${vehicl.model}</h4>
+  <h4>${vehicl.year}</h4>
+  <h4>${vehicl.price}</h4>
+  </div>
+  </a>`
+})
+result2.innerHTML=content.join(" ")
 
-`<a href="#" class="cursor-pointer ">
-                     <img src="${newCar.image}" alt="honda" class="h-20">
-                     <div class="detail text-blue-600 uppercase hover:underline hover:text-gray-800">
-                     
-                     <h5>${newCar.maker}</h5>
-                     <h4>${newCar.model}</h4>
-                     <h4>${newCar.year}</h4>
-                     <h4>${newCar.price}</h4>
-                     </div>
-                     </a>
+// displaying cars in best deals
+const deals = vehicles.filter(vehicledeals=> 
+  vehicledeals.category==="bestDeals" )
+  const result3 = document.querySelector('.bestdeals')
+  
+  const bestDeals =deals.map(vehicledeals =>{
+    return `<a href="#" class="cursor-pointer hover:underline hover:text-gray-800 ">
     
-`)
-news.innerHTML = "home dmkkjfgnk"
-
+    <div class="detail text-blue-600 uppercase hover:underline hover:text-gray-800">
+    <img src="${vehicledeals.image}" alt="honda" class="h-20">
+    <h5>${vehicledeals.maker}</h5>
+    <h4>${vehicledeals.model}</h4>
+    <h4>${vehicledeals.year}</h4>
+    <h4>${vehicledeals.price}</h4>
+    </div>
+    </a>`
+  })
+  result3.innerHTML=bestDeals.join(" ")
 
 
 const home=document.getElementById('home')
