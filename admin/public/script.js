@@ -59,7 +59,7 @@ function fetchAndDisplayCars() {
 
         const carInfoElement = document.createElement('div');
         carInfoElement.innerHTML = `
-          <h2>Maker:${car.maker} Model${car.model}</h2>
+          <h2>${car.maker} ${car.model}</h2>
           <p>Year: ${car.year}</p>
           <p>Price: ${car.price}</p>
           <p>mileage: ${car.mileage}</p>
