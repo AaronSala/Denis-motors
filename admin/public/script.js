@@ -1,5 +1,5 @@
 // Get the form element
-const carForm = document.getElementById('carForm');
+//const carForm = document.getElementById('carForm');
 
 // Add event listener for form submission
 carForm.addEventListener('submit', function(event) {

@@ -55,6 +55,12 @@ app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, 'admin.html'));
 });
 
+// Set the MIME type for JavaScript files
+app.use('/server.js', (req, res, next) => {
+  res.setHeader('Content-Type', 'application/javascript');
+  next();
+});
+
 // Handle POST request for creating a new car
 app.post('/cars', upload.single('image'), function(req, res) {
   const { maker, model, year, price, mileage, category, engine, description, shape } = req.body;
