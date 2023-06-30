@@ -59,14 +59,14 @@ function fetchAndDisplayCars() {
 
         const carInfoElement = document.createElement('div');
         carInfoElement.innerHTML = `
-          <h2>${car.maker} ${car.model}</h2>
+          <h2>Maker:${car.maker} Model${car.model}</h2>
           <p>Year: ${car.year}</p>
           <p>Price: ${car.price}</p>
           <p>mileage: ${car.mileage}</p>
-          <p>engine: ${car.engine}</p>
-          <p>description: ${car.description}</p>
-          <p>shape: ${car.shape}</p>
-          <p>category: ${car.category}</p>
+          <p>Engine: ${car.engine}</p>
+          <p>Description: ${car.description}</p>
+          <p>Shape: ${car.shape}</p>
+          <p>Category: ${car.category}</p>
 
         `;
         carElement.appendChild(carInfoElement);
@@ -74,7 +74,7 @@ function fetchAndDisplayCars() {
         const editButton = document.createElement('button');
         editButton.textContent = 'Edit';
         editButton.addEventListener('click', function() {
-          openEditForm(car._id, car.maker, car.model, car.year, car.price);
+          openEditForm(car._id, car.maker, car.model, car.year, car.price, car.model, car.shape, car.category);
         });
         carElement.appendChild(editButton);
 
@@ -97,17 +97,17 @@ function fetchAndDisplayCars() {
 fetchAndDisplayCars();
 
 // Function to open the edit form
-function openEditForm(carId, maker, model, year, price) {
+function openEditForm(carId, maker, model, year, price,shape, engine, category,description) {
   // Populate the form fields with existing car data
   document.getElementById('editCarId').value = carId;
   document.getElementById('editMaker').value = maker;
   document.getElementById('editModel').value = model;
   document.getElementById('editYear').value = year;
   document.getElementById('editPrice').value = price;
-  document.getElementById('editShape').value = price;
-  document.getElementById('editEngine').value = price;
-  document.getElementById('editCategory').value = price;
-  document.getElementById('editDescription').value = price;
+  document.getElementById('editShape').value = shape;
+  document.getElementById('editEngine').value = engine;
+  document.getElementById('editCategory').value = category;
+  document.getElementById('editDescription').value = description;
 
   // Show the edit form
   document.getElementById('editFormContainer').style.display = 'block';

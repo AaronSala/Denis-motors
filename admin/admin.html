@@ -6,10 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Denis motors</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="../index.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src=" https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
 
 </head>
 <body class="m-0 ">
@@ -179,7 +180,7 @@
 <h2 class="">Add cars</h2>
 
  <div class="border-2 border-grey bg-slate-200 p-4">
-  <form action="/cars" method="POST" id="carForm">
+  <form action="/cars" method="POST" id="carForm" enctype="multipart/form-data">
   <select class="w-full p-2 bg-white border-2" name="maker">
     <option>Maker </option>
     <option> NISSAN</option>
@@ -290,12 +291,12 @@
         <input type="text" id="editMaker" name="editMaker">
       </div>
       <div>
-        <label for="editMaker">Shape:</label>
-        <input type="text" id="editMaker" name="editShape">
+        <label for="editShape">Shape:</label>
+        <input type="text" id="editShape" name="editShape">
       </div>
       <div>
-        <label for="editMaker">Category:</label>
-        <input type="text" id="editMaker" name="editCategory">
+        <label for="editCategory">Category:</label>
+        <input type="text" id="editCategory" name="editCategory">
       </div>
       <div>
         <label for="editModel">Model:</label>
@@ -306,16 +307,16 @@
         <input type="text" id="editYear" name="editYear">
       </div>
       <div>
-        <label for="editMaker">Description:</label>
-        <input type="textfield" id="editMaker" name="editDescription">
+        <label for="editDescription">Description:</label>
+        <input type="textfield" id="editDescription" name="editDescription">
       </div>
       <div>
-        <label for="editMaker">Mileage:</label>
-        <input type="text" id="editMaker" name="editMileage">
+        <label for="editMileage">Mileage:</label>
+        <input type="text" id="editMileage" name="editMileage">
       </div>
       <div>
-        <label for="editMaker">Engine Capacity:</label>
-        <input type="text" id="editMaker" name="editEngine">
+        <label for="editEngine">Engine Capacity:</label>
+        <input type="text" id="editEngine" name="editEngine">
       </div>
       <div>
         <label for="editPrice">Price:</label>
