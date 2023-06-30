@@ -17,28 +17,15 @@
       .then(cars => {
         const carList = document.getElementById('carList');
 
-        if (cars.length > 0) {
-          cars.forEach(car => {
-            const listItem = document.createElement('li');
-            listItem.innerHTML = `
-              <h2>${car.maker} ${car.model}</h2>
-              <img src="${car.image}" alt="${car.maker} ${car.model}">
-              <p>${car.description}</p>
-              <p>Price: ${car.price}</p>
-            `;
-            carList.appendChild(listItem);
-          });
-        } else {
-          carList.innerHTML = '<p>No cars found.</p>';
-        }
-      })
-      .then(cars => {
-        const carList = document.getElementById('bestList');
 
+        
         if (cars.length > 0) {
           cars.forEach(car => {
-            const listItem = document.createElement('li');
+            
+            const listItem = document.createElement('div');
+            
             listItem.innerHTML = `
+              
               <h2>${car.maker} ${car.model}</h2>
               <img src="${car.image}" alt="${car.maker} ${car.model}">
               <p>${car.description}</p>
@@ -50,7 +37,56 @@
           carList.innerHTML = '<p>No cars found.</p>';
         }
       })
-      .catch(error => console.error('Error fetching car data:', error));
+      fetch('http://localhost:3000/cars')
+  .then(response => response.json())
+  .then(cars => {
+    const carList = document.getElementById('bestList');
+    const toyotaCars = cars.filter(car => car.category === 'bestDeals');
+
+    if (toyotaCars.length > 0) {
+      toyotaCars.forEach(car => {
+        const listItem = document.createElement('div');
+        listItem.innerHTML = `
+          <h2>${car.maker} ${car.model}</h2>
+          <img src="${car.image}" alt="${car.maker} ${car.model}">
+          <p>${car.description}</p>
+          <p>Price: ${car.price}</p>
+        `;
+        carList.appendChild(listItem);
+      });
+    } else {
+      carList.innerHTML = '<p>No Toyota cars found.</p>';
+    }
+  })
+  .catch(error => {
+    console.error('Error fetching car data:', error);
+  });
+  fetch('http://localhost:3000/cars')
+  .then(response => response.json())
+  .then(cars => {
+    const carList = document.getElementById('newArrivals');
+    const toyotaCars = cars.filter(car => car.category === 'newArrivals');
+
+    if (toyotaCars.length > 0) {
+      toyotaCars.forEach(car => {
+        const listItem = document.createElement('div');
+        listItem.innerHTML = `
+          <h2>${car.maker} ${car.model}</h2>
+          <img src="${car.image}" alt="${car.maker} ${car.model}">
+          <p>${car.description}</p>
+          <p>Price: ${car.price}</p>
+        `;
+        carList.appendChild(listItem);
+      });
+    } else {
+      carList.innerHTML = '<p>No Toyota cars found.</p>';
+    }
+  })
+  .catch(error => {
+    console.error('Error fetching car data:', error);
+  });
+
+     
   </script>
 <body>
     <!-- header section -->
@@ -236,21 +272,21 @@
              <!-- recomended cars -->
              <div  class="bar"></div>
                 <h2>Recomended Cars</h2>
-                <div id="carList" class="allCars p-4 flex col-span-5  sm:gap-2">
+                <div id="carList" class="allCars p-4 flex col-span-5  gap-2">
             </div>
 
                  
             <!-- new arrivals -->
             <div class="bar"></div>
                 <h2>New Arrivals</h2>
-                <div id="bestList" class="newcars p-4 flex columns-6 sm:gap-2">
+                <div id="newArrivals" class="newcars p-4 flex columns-6 sm:gap-2">
             </div>
         
 
         <div class="bar"></div>
         <h2>Best Deals</h2>
 
-        <div class="bestdeals p-4 columns-6 sm:gap-2 ">
+        <div id="bestList" class="bestdeals p-4 flex columns-6 sm:gap-2 ">
     
 
             
