@@ -333,8 +333,9 @@
                     
             </ul>
         </div>
-        <div class="flex">
-            <div class="left w-1/2 mr-1 h-24">
+        
+        <div class="flex sm:block w-full ">
+            <div class="left w-1/2 mr-1 min-w-full ">
                 <div class="announcements">
                    <div class="bar"></div>
                    <h2 class="">News And Announcements</h2>
@@ -346,7 +347,7 @@
                     reprehenderit! 
                     Tenetur placeat provident odio repellendus molestias ipsa.</p>
                  </div>
-                 <div class="announcements h-24">
+                 <div class="announcements">
                     <div class="bar"></div>
                     <h2 class="">Denis Motors Advantages</h2>
                     <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
@@ -358,7 +359,7 @@
                         Tenetur placeat provident odio repellendus molestias ipsa.</p>
                   </div>
             </div>
-            <div class="right w-1/2 ml-1 ">
+            <div class="right w-1/2 ml-1 min-w-full ">
                 <div class="announcements">
                    <div class="bar"></div>
                    <h2 class="">Blog Articles (all)</h2>
@@ -586,15 +587,19 @@
      <!-- footer starts -->
     <div class="footer bg-slate-900 ">
         <div class="p-12 text-white flex justify-center">
-            <div class="p-4 ">
+            <div class=" flex p-4">
                 <img src="images/logo3.png" class="w-56">
-                <h4> Denis Motors Imports Ltd</h4>
-                <h1>Nairobi Headquaters</h1>
+                <div class="ml-12">
+                <h4 class="text-xl font-bold"> Denis Motors Imports Ltd</h4>
+                <h1 class="font-semibold ">Nairobi Headquaters</h1>
                 <span>TEL:</span></br>
                 <span>PHONE:</span></br>
                 <span>EMAIL:</span>
             </div>
-            <div class="p-4">
+            </div>
+
+
+            <div class="p-4 sm:hidden">
                 <ul>
                     <li class="font-semibold mb-6"><h3>Search By Maker</h3>
                     </li>
@@ -636,7 +641,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="p-4">
+            <div class="p-4 sm:hidden">
                 <ul>
                     <li class="font-semibold mb-6"><h3>Search By Shape</h3>
                     </li>
@@ -663,7 +668,7 @@
                 </li>
             </div>
 
-            <div class="p-4">
+            <div class="p-4 sm:hidden">
                 <ul>
                     <li class="font-semibold mb-6"><h3>Search By FOB Price</h3>
                     </li>
@@ -689,7 +694,7 @@
                         <a class="hover:underline cursor-pointer">Under $1,000</a>
                     </li>
             </div>
-            <div class="p-4">
+            <div class="p-4 sm:hidden">
                 <ul>
                     <li class="font-semibold mb-6"><h3>About Us</h3>
                     </li>
@@ -730,7 +735,7 @@
     </div>
     <div class="h-8 bg-red-600 flex justify-between pl-16 pr-16 text-white">
         <p><span>@</span>copyright 2021- Denis Motors Imports LTD. All rights Reserved</p>
-        <div class=""><h5>Developed By: Salaz Techiz</h5></div>
+        <div class="sm:hidden"><h5>Developed By: Salaz Techiz</h5></div>
     </div>
 </section>
 
