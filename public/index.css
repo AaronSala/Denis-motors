@@ -337,12 +337,7 @@ align-items: center;
         width: 40%;
         
     }
-    .header{
-        width: 100%;
-        margin: 0;
-        padding: 2rem;
-    }
-      
+   
        
         .header2 .header-right{
             display: none;
