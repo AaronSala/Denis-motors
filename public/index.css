@@ -257,7 +257,7 @@ align-items: center;
 
 @media (max-width:991px){
     body{
-        padding: 1rem;
+        padding-right: rem;
     }
     .header .bars{
         margin-left: rem;
@@ -314,8 +314,13 @@ align-items: center;
     .favourite{
         display: flex;
         justify-content: center;
+        margin-top: 2rem;
         
     }
+    .favourite a{
+        padding: .5rem;
+    }
+   
     
     
     .containers .slider{
@@ -331,6 +336,11 @@ align-items: center;
         
         width: 40%;
         
+    }
+    .header{
+        width: 100%;
+        margin: 0;
+        padding: 2rem;
     }
       
        
