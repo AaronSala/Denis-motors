@@ -15,6 +15,7 @@ const collectionName = 'cars';
 // Serve static files from the "public" directory
 app.use(express.static('public'));
 
+
 // Define a route for serving the HTML file
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
