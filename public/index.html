@@ -22,7 +22,7 @@
         if (cars.length > 0) {
           cars.forEach(car => {
             
-            const listItem = document.createElement('div');
+            const listItem = document.createElement('a');
             
             listItem.innerHTML = `
               
@@ -45,7 +45,7 @@
 
     if (toyotaCars.length > 0) {
       toyotaCars.forEach(car => {
-        const listItem = document.createElement('div');
+        const listItem = document.createElement('a');
         listItem.innerHTML = `
           <h2>${car.maker} ${car.model}</h2>
           <img src="${car.image}" alt="${car.maker} ${car.model}">
@@ -272,7 +272,7 @@
              <!-- recomended cars -->
              <div  class="bar"></div>
                 <h2>Recomended Cars</h2>
-                <div id="carList" class="allCars p-4 flex col-span-5  gap-2">
+                <div id="carList" class="w-full allCars p-4 flex columns-6 gap-2">
             </div>
 
                  
