@@ -54,11 +54,12 @@ function fetchAndDisplayCars() {
         carElement.classList.add('car');
 
         const carImageElement = document.createElement('img');
-        carImageElement.src = `/uploads/${car.image}`;
+        carImageElement.src = `${car.image}`;
         carElement.appendChild(carImageElement);
 
-        const carInfoElement = document.createElement('div ');
+        const carInfoElement = document.createElement('div');
         carInfoElement.innerHTML = `
+         <div class="cars1">
           <h2>${car.maker} ${car.model}</h2>
           <p>Year: ${car.year}</p>
           <p>Price: ${car.price}</p>
@@ -67,11 +68,11 @@ function fetchAndDisplayCars() {
           <p>Description: ${car.description}</p>
           <p>Shape: ${car.shape}</p>
           <p>Category: ${car.category}</p>
-
+         </div>
         `;
         carElement.appendChild(carInfoElement);
 
-        const editButton = document.createElement('button');
+        const editButton = document.createElement('button1');
         editButton.textContent = 'Edit';
         editButton.addEventListener('click', function() {
           openEditForm(car._id, car.maker, car.model, car.year, car.price, car.model, car.shape, car.category);
