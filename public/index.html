@@ -25,9 +25,9 @@
             const listItem = document.createElement('a');
             
             listItem.innerHTML = `
-              
+            <img src="${car.image}" alt="${car.maker} ${car.model}">
               <h2>${car.maker} ${car.model}</h2>
-              <img src="${car.image}" alt="${car.maker} ${car.model}">
+              
               <p>${car.description}</p>
               <p>Price: ${car.price}</p>
             `;
@@ -47,8 +47,9 @@
       toyotaCars.forEach(car => {
         const listItem = document.createElement('a');
         listItem.innerHTML = `
+        <img src="${car.image}" alt="${car.maker} ${car.model}">
           <h2>${car.maker} ${car.model}</h2>
-          <img src="${car.image}" alt="${car.maker} ${car.model}">
+          
           <p>${car.description}</p>
           <p>Price: ${car.price}</p>
         `;
@@ -88,9 +89,9 @@
 
      
   </script>
-<body>
+<body class="m-0 p-0">
     <!-- header section -->
-    <section class="header">
+    <section class="header ">
 <!-- header top -->
      <div class="top" id="head">
         <h3>High Quality used and new japan cars - Denis Motors Imports limited</h3>
@@ -130,11 +131,11 @@
 <section>
 
 
-    <div class="containers lg:pl-20 xl:pr-20">
+    <div class="containers">
 
 
         <!-- left nav extends to the bottom -->
-    <nav>
+    <nav class="">
         <div class="left-nav">
          <div class="bar"></div>
          <h2>search by Maker</h2>
@@ -272,21 +273,22 @@
              <!-- recomended cars -->
              <div  class="bar"></div>
                 <h2>Recomended Cars</h2>
-                <div id="carList" class="w-full allCars p-4 flex columns-6 gap-2">
+                <div id="carList" class=" allCars p-4 flex  gap-2">
+
             </div>
 
                  
             <!-- new arrivals -->
             <div class="bar"></div>
                 <h2>New Arrivals</h2>
-                <div id="newArrivals" class="newcars p-4 flex columns-6 sm:gap-2">
+                <div id="newArrivals" class="newcars p-4 flex columns-4 sm:gap-2">
             </div>
         
 
         <div class="bar"></div>
         <h2>Best Deals</h2>
 
-        <div id="bestList" class="bestdeals p-4 flex columns-6 sm:gap-2 ">
+        <div id="bestList" class="bestdeals p-4 flex columns-4 sm:gap-2 ">
     
 
             

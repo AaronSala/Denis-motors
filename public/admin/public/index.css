@@ -243,6 +243,23 @@ align-items: center;
    display: block;
 }
 
+#editCarForm label{
+margin-top: .5rem;
+font-style: italic;
+font-size: 1.5rem;
+
+}
+#editCarForm input{
+    border: 1px solid green;
+    padding: .1rem;
+}
+#carList div cars{
+border: 1px solid black;
+background: #ED2323;
+width: 25%;
+
+
+}
 
 
 

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Denis motors</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../index.css">
@@ -13,7 +14,7 @@
 
 
 </head>
-<body class="m-0 ">
+<body class="">
     <!-- header section -->
     <section class="header">
 <!-- header top -->
@@ -52,11 +53,11 @@
      </div>
     </section>
 
-<section class="border-black border-4 pl-16 pt-1 overflow-hidden m-8 flex" >
+<section class="border-black border-4 p-1 overflow-hidden m-8 flex" >
 
 
         <!-- left nav extends to the bottom -->
-    <nav class="h-full -mt-8 w-1/3  sm:hidden">
+    <nav class="h-full  w-1/3 ">
         <div class="left-nav  ">
          <div class="bar"></div>
          <h2>search by Maker</h2>
@@ -208,9 +209,9 @@
 
   <select class="w-full p-2 bg-white border-2" name="category">
     <option>Vehicle Category</option>
-    <option>NEW ARRIVALS</option>
-    <option> BEST DEALS</option>
-    <option>FEATURED CARS</option>
+    <option>newArrivals</option>
+    <option> bestDeals</option>
+    <option>featuredCars</option>
     
   </select>
 
@@ -280,7 +281,8 @@
  </div>
 
  <!-- edit car firm -->
- <div id="editFormContainer" style="display: none;">
+ <div id="editFormContainer" style="display: none;" class="ml-8 mt-2 w-1/2">
+    <h2>Edit car</h2>
     <form id="editCarForm">
       <!-- Car ID field -->
       <input type="hidden" id="editCarId">
@@ -324,9 +326,10 @@
       </div>
   
       <!-- Submit button -->
-      <div>
-        <button type="submit">Update</button>
-        <button type="button" onclick="closeEditForm()">Cancel</button>
+      <div class="mt-8 align-middle">
+        
+        <button type="submit" class="bg-lime-500 w-28 p-2 rounded-lg text-white font-semibold">Update</button>
+        <button type="button" onclick="closeEditForm() " class="w-28 bg-orange-600 p-2 text-white ml-8 rounded-lg">Cancel</button>
       </div>
     </form>
   </div>
@@ -338,7 +341,7 @@
 </div>
 <h3 class=" w-full h-8 text-white bg-blue-900 p-2 "> All</h3>
 <!-- display all cars here -->
-<div id="carList" class="p-4 flex  columns-4  gap-2">
+<div id="carList" class="p-4   gap-8">
 
      
             
