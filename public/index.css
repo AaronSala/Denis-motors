@@ -311,6 +311,9 @@ cursor: pointer;
 
 @media (max-width:768px) {
     
+    body{
+        width: 100%;
+    }
     .favourite{
         display: flex;
         justify-content: center;
@@ -320,18 +323,19 @@ cursor: pointer;
     .favourite a{
         padding: .5rem;
     }
-   
-    
+   nav{
+    display: none;
+   }
+   .containers .nav-right{
+    display: none;
+}
     
     .containers .slider{
         width: 100%;
         overflow: hidden;
-        
-        
+       
     }
-    .containers .left-nav{
-        display: none;
-    }
+    
     .header .logo{
         
         width: 40%;
@@ -341,9 +345,6 @@ cursor: pointer;
        
         .header2 .header-right{
             display: none;
-            
-           
-          
         }
        
        
