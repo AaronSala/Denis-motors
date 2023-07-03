@@ -64,13 +64,14 @@ app.use('/server.js', (req, res, next) => {
 
 // Handle POST request for creating a new car
 app.post('/cars', upload.single('image'), function(req, res) {
-  const { maker, model, year, price, mileage, category, engine, description, shape } = req.body;
-  const imagePath = req.file ?'uploads'+ req.file.filename : ''; // Get the file name from the uploaded image
+  const { maker, model, image, year, price, mileage, category, engine, description, shape } = req.body;
+  const imagePath = req.file ?'/uploads/'+ req.file.filename : ' '; // Get the file name from the uploaded image
 
   // Create a new car object
   const car = new Car({
     maker,
     model,
+    image,
     year,
     price,
     mileage,

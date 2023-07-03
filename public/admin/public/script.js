@@ -57,7 +57,7 @@ function fetchAndDisplayCars() {
         carImageElement.src = `/uploads/${car.image}`;
         carElement.appendChild(carImageElement);
 
-        const carInfoElement = document.createElement('div');
+        const carInfoElement = document.createElement('div ');
         carInfoElement.innerHTML = `
           <h2>${car.maker} ${car.model}</h2>
           <p>Year: ${car.year}</p>

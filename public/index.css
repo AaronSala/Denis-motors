@@ -17,10 +17,8 @@
     padding: 0;
     box-sizing: border-box;
 }
-body{
-    margin: 0px;
-       
-}
+
+
 .bar{
     background-image: linear-gradient(to right, black, red);
     height: .4rem;
@@ -118,11 +116,9 @@ h2{
 }
 .containers{
     display: flex;
-    flex-wrap: wrap;
-    overflow: hidden;
-    
-    
-  
+    justify-content: center;
+    width: 100%;
+    overflow-x: hidden;
     
 }
 nav{
@@ -241,6 +237,13 @@ align-items: center;
 }
 .containers .slider .detailz.active{
    display: block;
+   
+}
+
+
+.allCars a:hover{
+cursor: pointer;
+
 }
 
 
@@ -253,12 +256,8 @@ align-items: center;
 
 
 
-
-
 @media (max-width:991px){
-    body{
-        padding-right: rem;
-    }
+   
     .header .bars{
         margin-left: rem;
         display: flex;
@@ -311,6 +310,7 @@ align-items: center;
 
 
 @media (max-width:768px) {
+    
     .favourite{
         display: flex;
         justify-content: center;
