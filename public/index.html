@@ -115,17 +115,33 @@
         </div>
        </div>
     <!-- header right -->
-       <div class="header-right ">
-        <a href="#search"><i class="fas fa-heart"></i>Favorites</a>
-        <a href="#search"><i class="fas fa-envelope"></i>Inquiry</a>
-        <a href="./admin/admin.html"><i class="fas fa-user"></i>Member</a>
-       
+    <div class="header-right ">
+  
+            <div class="align-bottom flex">
+                <div class="flex">
+                <input class="p-1 h-6" type="text" placeholder="User Name" name="userName">
+                <input class="p-1 h-6 ml-2" type="password" placeholder="Password" name="password">
+            </div>
+            <div>
+                <div class="flex">
+                <button class="bg-green-600 rounded-sm px-4 ml-1" >Login</button>
+                <button class="bg-green-500 rounded-sm px-4 ml-1">Register</button>
+               </div>
+                <a class="text-red-600 align-middle">Forgot password?</a>
+            </div>
+               </div>
+               <div class=" right-1">
+                <a href="#search"><i class="fas fa-envelope"></i>Inquiry</a>
+                <a href="./admin/admin.html"><i class="fas fa-user"></i>
+                    <select class="bg-red-600 hover:bg-black">
+                        <option>Member</option>
+                        <option>New member</option>s
+                        <option>LogIn</option>
+                        <option>Forgot Password</option>
+                    </select></a>
+                </div>
        </div>
        
-        <div class="favourite">
-            <a href="#search"><i class="fas fa-heart"></i>Favorites</a>
-            <a href="#search"><i class="fas fa-user"></i>login</a>
-        </div>
      </div>
     </section>
 

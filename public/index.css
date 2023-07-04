@@ -90,8 +90,7 @@ h2{
 }
 .header2 .header-right{
     align-items: center;
-    margin: 3rem 2rem;
-
+   
 }
 .favourite{
     display: none;
@@ -295,12 +294,20 @@ cursor: pointer;
         margin-top: 14rem;
         
     }
-    .containers .left-nav{
-        display: none;
-    }
+   
     .containers .nav-right{
         display: none;
     }
+    nav{
+        display: none;
+       }
+       
+        
+        .containers .slider{
+            width: 100%;
+            overflow: hidden;
+           
+        }
     
     
 
