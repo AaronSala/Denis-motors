@@ -108,24 +108,24 @@
         <a href="index.html"><img src="images/logos/denis-logo.png"></a>
         
         <div class="links lg:w-full ">
-            <a href="#search" class="hover: hover:bg-black"><i class="fas fa-car "></i>Search cars</a>
-            <a href="#buy" class="hover: hover:bg-black"><i class="fas fa-shopping-cart"></i>how To Buy</a>
+            <a href="#home" class="hover: hover:bg-black"><i class="fas fa-car "></i>Home</a>
+            <a href="#contacts" class="hover: hover:bg-black"><i class="fas fa-shopping-cart"></i>Contacts</a>
             <a href="#about" class="hover: hover:bg-black"><i class="fas fa-info"></i>About Us</a>
             <a href="#testimanials" class="hover: hover:bg-black"><i class="fas fa-thumbs-up"></i>Testmonials</a>
-            <a href="#recently-viewed" class="hover: hover:bg-black"><i class="fas fa-clock"></i>Recently Viewed</a>
+            <a href="#location" class="hover: hover:bg-black"><i class="fas fa-clock"></i>Location</a>
             
         </div>
        </div>
     <!-- header right -->
     <div class="header-right ">
   
-            <form id="loginForm" >
-                <div class="flex">
+            <form class="loginForm" id="loginForm" >
+            <div class="login flex sm:block">
                 <input id="username" class="p-1 h-6" type="text" placeholder="User Name" name="userName">
                 <input id="password" class="p-1 h-6 ml-2" type="password" placeholder="Password" name="password">
             </div>
             <div>
-                <div class=" flex ">
+                <div class=" buttons flex mt-1 ">
                 <button type="submit" id="login" class="bg-green-600 rounded-sm px-4 ml-1" >Login</button>
                 <button id="submit" class="bg-green-500 rounded-sm px-4 ml-1">Register</button>
                </div>
@@ -135,12 +135,14 @@
                <div class=" right-1">
                 <a href="#search"><i class="fas fa-envelope"></i>Inquiry</a>
                 <a href="./admin/admin.html"><i class="fas fa-user"></i>
+                    <div>
                     <select class="bg-red-600 hover:bg-black">
                         <option>Member</option>
-                        <option><a href="#member">New member</a></option>s
-                        <option><a href="#member">LogIn</a></option>
+                        <option><a href="#loginForm">New member</a></option>s
+                        <option><a href="#loginForm">LogIn</a></option>
                         <option><a href="#member">Forgot Password</a></option>
                     </select></a>
+                </div>
                 </div>
        </div>
        
