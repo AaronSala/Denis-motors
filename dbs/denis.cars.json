@@ -1,0 +1,103 @@
+[{
+  "_id": {
+    "$oid": "649c3506cdfb75e74a6b61c1"
+  },
+  "image": "uploads/golf.jpeg ",
+  "maker": "honda",
+  "model": "prius",
+  "description": "",
+  "year": 2016,
+  "price": "145433",
+  "mileage": "90 000km",
+  "category": "bestDeals"
+},
+{
+  "_id": {
+    "$oid": "649c366acdfb75e74a6b61c7"
+  },
+  "image": "uploads/bmw.jpeg",
+  "maker": "bmw",
+  "model": "x5",
+  "description": "",
+  "year": 2015,
+  "price": "4333847",
+  "mileage": "80 000km",
+  "shape": "suv",
+  "category": "newArrivals"
+},
+{
+  "_id": {
+    "$oid": "649d7881cef3b96a1dfa1cf5"
+  },
+  "maker": "volks wagen",
+  "model": "golf",
+  "year": 2018,
+  "image": "uploads/golf.jpeg",
+  "price": 223848,
+  "__v": 0,
+  "category": "bestDeals"
+},
+{
+  "_id": {
+    "$oid": "649e6b46c16348b99afe0620"
+  },
+  "maker": "NISSAN",
+  "model": "teana",
+  "year": 2016,
+  "image": "",
+  "price": 2332223,
+  "category": "newArrivals",
+  "shape": "COUPE",
+  "description": null,
+  "engine": null,
+  "mileage": "100 000",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64a34dab96b6a0fb81aeac64"
+  },
+  "maker": "BENZ",
+  "model": "E350",
+  "year": 2020,
+  "image": " ",
+  "price": 4300000,
+  "category": "bestDeals",
+  "shape": "SEDAN",
+  "description": null,
+  "engine": null,
+  "mileage": "80 000",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64a34dab96b6a0fb81aeac66"
+  },
+  "maker": "BENZ",
+  "model": "E350",
+  "year": 2020,
+  "image": " uploads/benz.jpeg",
+  "price": 4300000,
+  "category": "bestDeals",
+  "shape": "SEDAN",
+  "description": null,
+  "engine": null,
+  "mileage": "80 000",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64a3537296b6a0fb81aeac74"
+  },
+  "maker": "HONDA",
+  "model": "CX 7",
+  "year": 2019,
+  "image": " ",
+  "price": 4500000,
+  "category": "newArrivals",
+  "shape": "SUV",
+  "description": null,
+  "engine": null,
+  "mileage": "50 000",
+  "__v": 0
+}]
