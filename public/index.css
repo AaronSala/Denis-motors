@@ -310,7 +310,12 @@ cursor: pointer;
         }
         .header-right{
             float: right;
-            margin-block-end: 0;
+            margin-right: 0;
+            
+           width: 35%;
+           align-items: right;
+           text-align: right;
+           padding: 0;
         }
     .header-right .login{
         display: block;
@@ -320,7 +325,20 @@ cursor: pointer;
         margin: 0;
         margin-top: .5rem;
     }
-
+    .questions{
+        display: block;
+        width: 100%;
+       }
+       .footer .smallfooter{
+        display: block;
+       }
+       .footer .footerlist{
+        display: none;
+       }
+       .footer{
+        margin: 0;
+        padding: .5rem;
+       }
     
     
 }
@@ -367,4 +385,24 @@ cursor: pointer;
         display: block;
        
        }
+       .slider .questions{
+        display: block;
+        width: 100%;
+       }
+       .slider .questions .left{
+          width: 100%;
+       }
+       .slider .questions .right{
+        width: 100%;
+       }
+       .footer img{
+        width: 25%;
+        margin: 0;
+       }
+       .footer{
+        margin: 0;
+        padding: .5rem;
+        justify-content: none;
+       }
+
 }
