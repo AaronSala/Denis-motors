@@ -77,3 +77,43 @@ nissan.style.background='black'
 nissan.classList.toggle=("images/logos/nissan.jpeg");
 });
 console.log('grue')
+
+
+
+const loginForm = document.getElementById('loginForm');
+
+loginForm.addEventListener('submit', e => {
+  e.preventDefault(); // Prevent form submission
+
+  // Retrieve username and password from form fields
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+
+
+  if (!username || !password) {
+    console.error('Username and password are required');
+    
+    loginForm.username.style.border="1px solid red"
+    return;
+  }
+  // Send login request to the server
+  fetch('/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, password })
+  })
+    .then(response => {
+      if (response.ok) {
+        // Redirect to admin.html if login is successful
+        window.location.href = 'admin.html';
+        console.log('Logged in');
+      } else if (response.status === 401) {
+        // Display error message if login fails due to unauthorized access
+        console.error('Unauthorized');
+      } else {
+        // Display error message for other server errors
+        console.error('Server Error');
+      }
+    })
+    .catch(error => console.error('Error:', error));
+});

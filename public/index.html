@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
 </head>
 <script>
+
     // Fetch car data from the server
     fetch('http://localhost:3000/cars')
       .then(response => response.json())
@@ -88,7 +89,8 @@
     console.error('Error fetching car data:', error);
   });
 
-     
+
+  
   </script>
 <body class="m-0 p-0">
     <!-- header section -->
@@ -106,39 +108,41 @@
         <a href="index.html"><img src="images/logos/denis-logo.png"></a>
         
         <div class="links lg:w-full ">
-            <a href="#search" class="hover: hover:bg-black"><i class="fas fa-car "></i>Search cars</a>
-            <a href="#buy" class="hover: hover:bg-black"><i class="fas fa-shopping-cart"></i>how To Buy</a>
+            <a href="#home" class="hover: hover:bg-black"><i class="fas fa-car "></i>Home</a>
+            <a href="#contacts" class="hover: hover:bg-black"><i class="fas fa-shopping-cart"></i>Contacts</a>
             <a href="#about" class="hover: hover:bg-black"><i class="fas fa-info"></i>About Us</a>
             <a href="#testimanials" class="hover: hover:bg-black"><i class="fas fa-thumbs-up"></i>Testmonials</a>
-            <a href="#recently-viewed" class="hover: hover:bg-black"><i class="fas fa-clock"></i>Recently Viewed</a>
+            <a href="#location" class="hover: hover:bg-black"><i class="fas fa-clock"></i>Location</a>
             
         </div>
        </div>
     <!-- header right -->
     <div class="header-right ">
   
-            <div class="align-bottom flex">
-                <div class="flex">
-                <input class="p-1 h-6" type="text" placeholder="User Name" name="userName">
-                <input class="p-1 h-6 ml-2" type="password" placeholder="Password" name="password">
+            <form class="loginForm" id="loginForm" >
+            <div class="login flex sm:block">
+                <input id="username" class="p-1 h-6" type="text" placeholder="User Name" name="userName">
+                <input id="password" class="p-1 h-6 ml-2" type="password" placeholder="Password" name="password">
             </div>
             <div>
-                <div class="flex">
-                <button class="bg-green-600 rounded-sm px-4 ml-1" >Login</button>
-                <button class="bg-green-500 rounded-sm px-4 ml-1">Register</button>
+                <div class=" buttons flex mt-1 ">
+                <button type="submit" id="login" class="bg-green-600 rounded-sm px-4 ml-1" >Login</button>
+                <button id="submit" class="bg-green-500 rounded-sm px-4 ml-1">Register</button>
                </div>
-                <a class="text-red-600 align-middle">Forgot password?</a>
+                <a class="text-red-600 align-middle hover:cursor-pointer">Forgot password?</a>
             </div>
-               </div>
+        </form>
                <div class=" right-1">
                 <a href="#search"><i class="fas fa-envelope"></i>Inquiry</a>
                 <a href="./admin/admin.html"><i class="fas fa-user"></i>
+                    <div>
                     <select class="bg-red-600 hover:bg-black">
                         <option>Member</option>
-                        <option>New member</option>s
-                        <option>LogIn</option>
-                        <option>Forgot Password</option>
+                        <option><a href="#loginForm">New member</a></option>s
+                        <option><a href="#loginForm">LogIn</a></option>
+                        <option><a href="#member">Forgot Password</a></option>
                     </select></a>
+                </div>
                 </div>
        </div>
        
@@ -306,10 +310,8 @@
         <h2>Best Deals</h2>
 
         <div id="bestList" class="bestdeals p-4 flex columns-4 sm:gap-2 ">
-    
-
-            
         </div>
+
         <div class="bar"></div>
         <h2>Q&A</h2>
         <div>
@@ -353,8 +355,8 @@
             </ul>
         </div>
         
-        <div class="flex sm:block w-full ">
-            <div class="left w-1/2 mr-1 min-w-full ">
+        <div class="flex sm: ">
+            <div class="left w-1/2 mr-1  ">
                 <div class="announcements">
                    <div class="bar"></div>
                    <h2 class="">News And Announcements</h2>
@@ -378,7 +380,7 @@
                         Tenetur placeat provident odio repellendus molestias ipsa.</p>
                   </div>
             </div>
-            <div class="right w-1/2 ml-1 min-w-full ">
+            <div class="right w-1/2 ml-1  ">
                 <div class="announcements">
                    <div class="bar"></div>
                    <h2 class="">Blog Articles (all)</h2>
@@ -763,7 +765,7 @@
 
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
-    <script src="server.js"> </script>
+    <script src="../server.js"> </script>
     <script src="index2.js"></script>
     <script src="http://localhost:3001/server.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
