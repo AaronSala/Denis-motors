@@ -14,6 +14,13 @@ const url = 'mongodb://localhost:27017';
 const dbName = 'denis';
 const collectionName = 'cars';
 
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', 'https://dennis-motors.vercel.app');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+});
+
 // Serve static files from the "public" directory
 app.use(express.static('public'));
 

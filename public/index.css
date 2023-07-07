@@ -404,5 +404,7 @@ cursor: pointer;
         padding: .5rem;
         justify-content: none;
        }
-
+     .containers .search {
+        width: 90%;
+     }
 }
