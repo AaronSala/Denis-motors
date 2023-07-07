@@ -1,5 +1,5 @@
 // Get the form element
-//const carForm = document.getElementById('carForm');
+const carForm = document.getElementById('carForm');
 
 // Add event listener for form submission
 carForm.addEventListener('submit', function(event) {
@@ -26,7 +26,7 @@ carForm.addEventListener('submit', function(event) {
   const imageFile = formData.get('image');
 
   // Send a POST request to the server to save the car data
-  axios.post('/cars', carData)
+  axios.post('/cars', formData)
     .then(function(response) {
       console.log('Car added:', response.data);
       carForm.reset(); // Reset the form
@@ -136,7 +136,7 @@ document.getElementById('editCarForm').addEventListener('submit', function(event
   const carId = formData.get('editCarId');
 
   // Send a PUT request to the server to update the car data
-  axios.put(`/cars/${carId}`, carData)
+  axios.patch(`/cars/${carId}`, carData)
     .then(function(response) {
       console.log('Car updated:', response.data);
       closeEditForm(); // Close the edit form

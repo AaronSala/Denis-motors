@@ -62,16 +62,16 @@ app.use('/server.js', (req, res, next) => {
   next();
 });
 
+
 // Handle POST request for creating a new car
 app.post('/cars', upload.single('image'), function(req, res) {
-  const { maker, model, image, year, price, mileage, category, engine, description, shape } = req.body;
-  const imagePath = req.file ?'/uploads/'+ req.file.filename : ' '; // Get the file name from the uploaded image
+  const { maker, model, year, price, mileage, category, engine, description, shape } = req.body;
+  const imagePath = req.file ? '/uploads/' + req.file.filename : ''; // Get the file path from the uploaded image
 
   // Create a new car object
   const car = new Car({
     maker,
     model,
-    image,
     year,
     price,
     mileage,
@@ -79,7 +79,7 @@ app.post('/cars', upload.single('image'), function(req, res) {
     engine,
     description,
     shape,
-    image: imagePath // Assign the file name to the image field
+    image: imagePath // Assign the file path to the image field
   });
 
   // Save the car object to the database
@@ -90,6 +90,7 @@ app.post('/cars', upload.single('image'), function(req, res) {
     })
     .catch(error => console.error('Error saving car:', error));
 });
+
 // Handle DELETE request for deleting a car
 app.delete('/cars/:id', function(req, res) {
   const carId = req.params.id;
