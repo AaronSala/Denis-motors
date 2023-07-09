@@ -254,7 +254,9 @@ position: absolute;
 display: none;
 z-index: 1;
 }
-
+.right-1 .registerForm{
+    display: none;
+}
 
 
 
@@ -359,6 +361,26 @@ z-index: 1;
         display: block;
          background: black;
      }
+     .header-right .loginForms{
+        display: none;
+       }
+       .header-right .loginForms.active{
+        display: block;
+       }
+       
+       .containers .slider .detailz{
+        display: none;
+     }
+     .containers .slider .detailz.active{
+        display: block;
+        
+     }
+     .registerForm{
+        display: none;
+    }
+    .registerForm.active{
+        display: block;
+    }
 }
 
 
@@ -395,9 +417,7 @@ z-index: 1;
         
     }
     
-    .header-right form{
-        display: none;
-       }
+    
 
        .header-right .right-1{
         display: block;
