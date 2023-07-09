@@ -25,7 +25,7 @@
             
             listItem.innerHTML = `
             
-            <img src="${car.image}" alt="${car.maker} ${car.model}">
+            <img src="/admin/public${car.image}" alt="${car.maker} ${car.model}">
               <h2>${car.maker} ${car.model}</h2>
               
               <p>${car.description}</p>
@@ -47,12 +47,13 @@
       toyotaCars.forEach(car => {
         const listItem = document.createElement('a');
         listItem.innerHTML = `
-        <img src="${car.image}" alt="${car.maker} ${car.model}">
+        <img src="/admin/public${car.image}" alt="${car.maker} ${car.model}">
           <h2>${car.maker} ${car.model}</h2>
           
           <p>${car.description}</p>
           <p>Price: ${car.price}</p>
         `;
+    
         carList.appendChild(listItem);
       });
     } else {
@@ -73,7 +74,7 @@
         const listItem = document.createElement('div');
         listItem.innerHTML = `
           <h2>${car.maker} ${car.model}</h2>
-          <img src="${car.image}" alt="${car.maker} ${car.model}">
+          <img src="/admin/public${car.image}" alt="${car.maker} ${car.model}">
           <p>${car.description}</p>
           <p>Price: ${car.price}</p>
         `;
@@ -89,32 +90,18 @@
 
 
   //fetching reviews
-  fetch('http://localhost:3000/reviews')
-  .then(response => response.json())
-  .then(reviews => {
-    const review = document.getElementById('reviews');
-    const comments = reviews.filter(person => person.rating=== 'good');
+ 
 
-    if (comments.length > 0) {
-      comments.forEach(car => {
-        const listItem = document.createElement('div');
-        listItem.innerHTML = `
-          <h2>${person.tittle} 
-          <img src="${person.image}" >
-          <p>${person.comment}</p>
-          
-        `;
-        review.appendChild(listItem);
-      });
-    } else {
-      review.innerHTML = '<p>No Toyota cars found.</p>';
-    }
-  })
-  .catch(error => {
-    console.error('Error fetching car data:', error);
-  });
+ // const membert = document.getElementById('member')
+const members=document.querySelector('.members')
+const member = document.getElementById('member');
+members.addEventListener('click', ()=>{
+members.style.display = 'block'
+member.style.background='black'
+console.log('clicked me')
 
-  
+})
+
   </script>
 <body class="m-0 p-0">
     <!-- header section -->
@@ -141,6 +128,7 @@
         </div>
        </div>
     <!-- header right -->
+    
     <div class="header-right ">
   
             <form class="loginForm" id="loginForm" >
@@ -159,23 +147,38 @@
                <div class=" right-1 text-white text-lg">
                 <a href="#search"><i class=" fas fa-envelope "></i>&nbsp; Inquiry</a>
                 
-                    <div class="mt-1">
+                    <div  class="member mt-1 lg:hidden">
                         <i class="fas fa-user text-white"></i>
-                    <select class="bg-red-600 hover:bg-black">
-                        <option>Member</option>
-                        <option><a href="#loginForm">Register</a></option>s
-                        <option><a href="#loginForm">LogIn</a></option>
-                        
-                    </select>
+                    
+                        <button id="member" class="">Member</button>
+                        <div class="members bg-blue-600  ">
+                        <a href="#loginForm">Register</a>
+                        <a href="#loginForm">LogIn</a>
+                    </div>
+                   
                 </div>
                 </div>
        </div>
        
+
      </div>
     </section>
-
+    <div class="registerForm p-8 text-zinc-900 bg-red-600 hidden">
+<form >
+    <div class="cols ">
+  <label for="username">Username</label>
+  <input class="" type="text" placeholder="username" name="user">
+  <label class="mt-2" for="email">Email</label>
+  <input class="border-2" type="email" placeholder="Email" name="email">
+  <label for="password">Password</label>
+  <input class="border-2" type="password" placeholder="password" name="pass">
+  <label  class="mt-6" for="password">Location</label>
+  <input class="border-2" type="location" placeholder="location" name="location">
+</div>
+</form>
+</div>
 <section>
-
+<img src="/image-1688704721057-191776035">
 
     <div class="containers">
 
