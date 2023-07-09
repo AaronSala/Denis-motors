@@ -92,15 +92,7 @@
   //fetching reviews
  
 
- // const membert = document.getElementById('member')
-const members=document.querySelector('.members')
-const member = document.getElementById('member');
-members.addEventListener('click', ()=>{
-members.style.display = 'block'
-member.style.background='black'
-console.log('clicked me')
 
-})
 
   </script>
 <body class="m-0 p-0">
@@ -131,8 +123,8 @@ console.log('clicked me')
     
     <div class="header-right ">
   
-            <form class="loginForm" id="loginForm" >
-            <div class="login flex sm:block 2xl:flex">
+            <form class="loginForms" id="loginForm" >
+            <div id="" class="login flex sm:block 2xl:flex">
                 <input id="username" class="p-1 h-6" type="text" placeholder="User Name" name="userName">
                 <input id="password" class="p-1 h-6 ml-2" type="password" placeholder="Password" name="password">
             </div>
@@ -145,15 +137,16 @@ console.log('clicked me')
             </div>
         </form>
                <div class=" right-1 text-white text-lg">
-                <a href="#search"><i class=" fas fa-envelope "></i>&nbsp; Inquiry</a>
+                <a href="#search"><i class="memb fas fa-envelope "></i>&nbsp; Inquiry</a>
                 
-                    <div  class="member mt-1 lg:hidden">
+                    <div  class="member mt-1 ">
                         <i class="fas fa-user text-white"></i>
                     
-                        <button id="member" class="">Member</button>
-                        <div class="members bg-blue-600  ">
-                        <a href="#loginForm">Register</a>
-                        <a href="#loginForm">LogIn</a>
+                        <button id="memb" class="memb">Member</button>
+
+                        <div class="members bg-red-600 ">
+                        <a href="#" class="register">Register</a>
+                        <a href="#s" class="login2">LogIn</a>
                     </div>
                    
                 </div>
@@ -163,22 +156,45 @@ console.log('clicked me')
 
      </div>
     </section>
-    <div class="registerForm p-8 text-zinc-900 bg-red-600 hidden">
-<form >
-    <div class="cols ">
-  <label for="username">Username</label>
-  <input class="" type="text" placeholder="username" name="user">
-  <label class="mt-2" for="email">Email</label>
-  <input class="border-2" type="email" placeholder="Email" name="email">
-  <label for="password">Password</label>
-  <input class="border-2" type="password" placeholder="password" name="pass">
-  <label  class="mt-6" for="password">Location</label>
-  <input class="border-2" type="location" placeholder="location" name="location">
+    <div class="registerForm p-8 text-zinc-900 bg-red-600 ">
+<form  class=" d">
+    <div class="p-1 cols w-1/2 flex-col  ">
+  <label for="username">Username</label></br>
+  <input class="p-2" type="text" placeholder="username" name="user"></br>
+  <label class="mt-2" for="email">Email</label></br>
+  <input class="p-2" type="email" placeholder="Email" name="email"></br>
+  <label for="password">Password</label></br>
+  <input class="p-2" type="password" placeholder="password" name="pass"></br>
+  <label  class="mt-6" for="password">Location</label></br>
+  <input class="p-2" type="location" placeholder="location" name="location"></br>
+  <button class="bg-green-700 p-2 rounded-md w-1/2 mt-2 font-bold text-white text-lg">Register</button>
 </div>
 </form>
 </div>
 <section>
-<img src="/image-1688704721057-191776035">
+<script>
+     // const membert = document.getElementById('member')
+const memb =document.getElementById('memb')
+const members = document.querySelector('.members')
+const register = document.querySelector('.register')
+const login = document.querySelector('.login2')
+const registerForm = document.querySelector('.registerForm')
+const loginForms = document.querySelector('.loginForms')
+
+memb.addEventListener('mouseenter', ()=>{
+    members.style.display='block'
+})
+register.addEventListener('click', ()=>{
+    registerForm.classList.toggle("active")
+    
+})
+
+login.addEventListener('click', ()=>{
+    
+loginForms.classList.toggle("active")
+})
+
+</script>
 
     <div class="containers">
 
