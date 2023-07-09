@@ -70,7 +70,7 @@ const User = mongoose.model('User', userSchema, 'users');
 app.use(bodyParser.json());
 
 // Serve static files from the "public" directory
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public, index.html')));
 
 // Handle user login request
 app.post('/login', async(req, res) => {
@@ -93,6 +93,7 @@ app.post('/login', async(req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
+
 
 
 
