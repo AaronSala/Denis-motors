@@ -254,9 +254,51 @@ position: absolute;
 display: none;
 z-index: 1;
 }
-.right-1 .registerForm{
+ .registerForm{
     display: none;
 }
+.registerForm.active{
+    display: block;
+}
+#carList a {
+width: 12rem;
+
+
+}
+#carList img{
+    width: 12rem;
+    height: 10vh;
+}
+#carList p{
+    color: rgb(51, 51, 181);
+    
+}
+#bestList a {
+    width: 12rem;
+    
+    
+    }
+    #bestList img{
+       width: 12rem;
+        height: 15vh;
+    }
+    #bestList p{
+        color: rgb(51, 51, 181);
+        
+    }
+    #newArrivals a {
+        width: 12rem;
+        
+        
+        }
+        #newArrivals img{
+           width: 12rem;
+            height: 15vh;
+        }
+        #newArrivals p{
+            color: rgb(51, 51, 181);
+            
+        }
 
 
 
