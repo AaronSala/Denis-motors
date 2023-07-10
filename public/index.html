@@ -28,7 +28,8 @@
             <img src="/admin/public${car.image}" alt="${car.maker} ${car.model}">
               <h2>${car.maker} ${car.model}</h2>
               
-              <p>${car.description}</p>
+              <p>Engine${car.engine}</p>
+              <p>Mileage:${car.mileage}</p>
               <p>Price: ${car.price}</p>
             `;
             carList.appendChild(listItem);
@@ -50,8 +51,9 @@
         <img src="/admin/public${car.image}" alt="${car.maker} ${car.model}">
           <h2>${car.maker} ${car.model}</h2>
           
-          <p>${car.description}</p>
+          <p>Engine:${car.engine}</p>
           <p>Price: ${car.price}</p>
+          <p>Mileage: ${car.mileage}</p>
         `;
     
         carList.appendChild(listItem);
@@ -73,10 +75,12 @@
       toyotaCars.forEach(car => {
         const listItem = document.createElement('div');
         listItem.innerHTML = `
-          <h2>${car.maker} ${car.model}</h2>
+          
           <img src="/admin/public${car.image}" alt="${car.maker} ${car.model}">
-          <p>${car.description}</p>
+          <h2>${car.maker} ${car.model}</h2>
+          <p>engine:${car.engine}</p>
           <p>Price: ${car.price}</p>
+          <p>mileage: ${car.mileage}</p>
         `;
         carList.appendChild(listItem);
       });
@@ -131,7 +135,7 @@
             <div>
                 <div class=" buttons flex mt-1 ">
                 <button type="submit" id="login" class="bg-green-600 rounded-sm px-4 ml-1" >Login</button>
-                <button id="submit" class="bg-green-500 rounded-sm px-4 ml-1">Register</button>
+                <button onclick="register()" class="registerb bg-green-500 rounded-sm px-4 ml-1">Register</button>
                </div>
                 <a class="text-red-600 align-middle hover:cursor-pointer">Forgot password?</a>
             </div>
@@ -142,7 +146,7 @@
                     <div  class="member mt-1 ">
                         <i class="fas fa-user text-white"></i>
                     
-                        <button id="memb" class="memb">Member</button>
+                        <button id="memb" class="memb lg:hidden">Member</button>
 
                         <div class="members bg-red-600 ">
                         <a href="#" class="register">Register</a>
@@ -186,11 +190,11 @@ memb.addEventListener('mouseenter', ()=>{
 })
 register.addEventListener('click', ()=>{
     registerForm.classList.toggle("active")
-    
+    members.style.display='none'
 })
 
 login.addEventListener('click', ()=>{
-    
+    members.style.display='none'
 loginForms.classList.toggle("active")
 })
 
@@ -338,32 +342,23 @@ loginForms.classList.toggle("active")
              <!-- recomended cars -->
              <div  class="bar"></div>
                 <h2>Recomended Cars</h2>
-                <div id="carList" class=" allCars p-4 flex  gap-2 colu row-auto">
+                <div id="carList" class=" allCars p-4 flex  gap-2 uppercase">
 
             </div>
-            <style>
-                #carList{
-                    columns: 4;
-                   
-                }
-                #carList a{
-                  width: 10rem;
-                 
-                }
-               </style>
+            
                
                  
             <!-- new arrivals -->
             <div class="bar"></div>
                 <h2>New Arrivals</h2>
-                <div id="newArrivals" class="newcars p-4 flex columns-4 sm:gap-2">
+                <div id="newArrivals" class="newcars p-4 flex sm:gap-2 uppercase">
             </div>
         
 
         <div class="bar"></div>
         <h2>Best Deals</h2>
 
-        <div id="bestList" class="bestdeals p-4 flex columns-4 sm:gap-2 ">
+        <div id="bestList" class="bestdeals p-4 flex sm:gap-2 uppercase">
         </div>
 
         <div class="bar"></div>
@@ -411,51 +406,40 @@ loginForms.classList.toggle("active")
         
         <div class="questions flex ">
             <div class="left w-1/2 mr-1  ">
-                <div class="announcements">
+                <div class="news" id="news">
                    <div class="bar"></div>
                    <h2 class="">News And Announcements</h2>
-                   <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
-                    Consequuntur eum aliquam ut minus voluptatum, explicabo rerum 
-                    aliquid expedita doloremque animi sequi nam. Doloremque facilis 
-                    odio quidem tempora aut? Cumque libero sapiente ex. Consequuntur 
-                    veritatis ad deleniti? Illo cum voluptates minima, earum culpa 
-                    reprehenderit! 
-                    Tenetur placeat provident odio repellendus molestias ipsa.</p>
+                   <p>DENIS MOTORS IMPORTS LIMITED Is now the Best Car Dealer In Kenya</p>
                  </div>
-                 <div class="announcements">
+                 <div class="advantages" id="news">
                     <div class="bar"></div>
                     <h2 class="">Denis Motors Advantages</h2>
-                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
-                        Consequuntur eum aliquam ut minus voluptatum, explicabo rerum 
-                        aliquid expedita doloremque animi sequi nam. Doloremque facilis 
-                        odio quidem tempora aut? Cumque libero sapiente ex. Consequuntur 
-                        veritatis ad deleniti? Illo cum voluptates minima, earum culpa 
-                        reprehenderit! 
-                        Tenetur placeat provident odio repellendus molestias ipsa.</p>
+                    <p>
+                       We offer you the BEST quality services for all cars types both
+                       localy and from outside
+                       we offer shipping services also to your doorstep
+                       we offer advices and consultation conserning cars to our customers free
+                       reach to us and you will like our services.
+
+                    </p>
                   </div>
             </div>
             <div class="right w-1/2 ml-1  ">
-                <div class="announcements">
+                <div class="blogs" id="blogs">
                    <div class="bar"></div>
                    <h2 class="">Blog Articles (all)</h2>
-                   <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
-                    Consequuntur eum aliquam ut minus voluptatum, explicabo rerum 
-                    aliquid expedita doloremque animi sequi nam. Doloremque facilis 
-                    odio quidem tempora aut? Cumque libero sapiente ex. Consequuntur 
-                    veritatis ad deleniti? Illo cum voluptates minima, earum culpa 
-                    reprehenderit! 
-                    Tenetur placeat provident odio repellendus molestias ipsa.</p>
+                   <p>Comming Soon.</p>
                  </div>
-                 <div class="announcements ">
+                 <div class="about " id="about">
                     <div class="bar"></div>
                     <h2 class="">About Denis Motors </h2>
-                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
-                        Consequuntur eum aliquam ut minus voluptatum, explicabo rerum 
-                        aliquid expedita doloremque animi sequi nam. Doloremque facilis 
-                        odio quidem tempora aut? Cumque libero sapiente ex. Consequuntur 
-                        veritatis ad deleniti? Illo cum voluptates minima, earum culpa 
-                        reprehenderit! 
-                        Tenetur placeat provident odio repellendus molestias ipsa.</p>
+                    <p>
+                        DENIS MOTORS IMPORTS LIMITED Exports and Imports
+                        best quality cars. Its fast and secure in shipping with vast 
+                        experience in the best and quality Cars
+
+                        For More INFO contact C.E.O Denis Nyaga:+254700914360
+                    </p>
                   </div>
             </div>
         </div>
@@ -658,8 +642,8 @@ loginForms.classList.toggle("active")
     <div class="bg-slate-200 h-16 mt-3" >
         <div class="flex justify-center">
           <a>  <img src="images/th (4).jpeg" class="h-12 m-2"></a>
-           <a> <img src="images/th (3).jpeg" class="h-12 m-2 ml-8"></a>
-            <a><img src="images/th (2).jpeg" class="h-12 m-2 ml-8"></a>
+           <a href="https://www.instagram.com/denismotorsimports/"> <img src="images/th (3).jpeg" class="h-12 m-2 ml-8"></a>
+            <a href="https://www.facebook.com/profile.php?id=100065128466178"><img src="images/th (2).jpeg" class="h-12 m-2 ml-8"></a>
         </div>
      </div>
 
@@ -672,9 +656,9 @@ loginForms.classList.toggle("active")
                 <div class="smallfooter ml-12 hidden">
                 <h4 class="text-xl font-bold"> Denis Motors Imports Ltd</h4>
                 <h1 class="font-semibold ">Nairobi Headquaters</h1>
-                <span>TEL:</span></br>
-                <span>PHONE:</span></br>
-                <span>EMAIL:</span>
+                <span>TEL:+254700914360</span></br>
+                <span>PHONE:+254700914360</span></br>
+                <span>EMAIL:deniscarimports@gmail.com</span>
             </div>
             </div>
 
