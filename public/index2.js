@@ -26,6 +26,8 @@ const swiper = new Swiper(".swiper", {
   // And if we need scrollbar
 });
 
+  // And if we need scrollbar
+
 //  quastion and answer area
 const question = document.querySelectorAll(".quiz");
 const add = document.querySelector(".plus1");
@@ -117,4 +119,6 @@ loginForm.addEventListener('submit', e => {
     })
     .catch(error => console.error('Error:', error));
 });
+
+
 
