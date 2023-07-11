@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Denis motors</title>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="index.css">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -12,32 +13,43 @@
 </head>
 <script>
 
-    // Fetch car data from the server
-    fetch('http://localhost:3000/cars')
-      .then(response => response.json())
-      .then(cars => {
-        const carList = document.getElementById('carList');
+fetch('http://localhost:3000/cars')
+  .then(response => response.json())
+  .then(cars => {
+    const swiperWrapper = document.querySelector('.swiper-wrapper');
 
-        if (cars.length > 0) {
-          cars.forEach(car => {
-            
-            const listItem = document.createElement('a');
-            
-            listItem.innerHTML = `
-            
-            <img src="/admin/public${car.image}" alt="${car.maker} ${car.model}">
-              <h2>${car.maker} ${car.model}</h2>
-              
-              <p>Engine${car.engine}</p>
-              <p>Mileage:${car.mileage}</p>
-              <p>Price: ${car.price}</p>
-            `;
-            carList.appendChild(listItem);
-          });
-        } else {
-          carList.innerHTML = '<p>No cars found.</p>';
-        }
-      })
+    if (cars.length > 0) {
+      cars.forEach(car => {
+        const slide = document.createElement('div');
+        slide.classList.add('swiper-slide');
+
+        slide.innerHTML = `
+          <img src="/admin/public${car.image}" alt="${car.maker} ${car.model}">
+          <h2>${car.maker} ${car.model}</h2>
+          <p>Engine: ${car.engine}</p>
+          <p>Mileage: ${car.mileage}</p>
+          <p>Price: ${car.price}</p>
+        `;
+        swiperWrapper.appendChild(slide);
+      });
+    }
+
+    const swiper = new Swiper('.swiper-container', {
+      slidesPerView: 5,
+      spaceBetween: 10,
+      loop: true,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+    });
+  });
+
+
+
+   
+
+
       fetch('http://localhost:3000/cars')
   .then(response => response.json())
   .then(cars => {
@@ -274,28 +286,28 @@ loginForms.classList.toggle("active")
          <h2>search by Shape </h2>
          <div >
         <ul class="list-none">
-            <li class="pt-3"><a href="#toyota" class="flex text-blue-600">
+            <li class="pt-3"><a href="shape.html" class="flex text-blue-600">
                 <img src="images/cars/coupe.png " class="w-12 mr-3">COUPE</a>
             </li>
-            <li class="pt-3"><a href="#toyota" class="flex text-blue-600">
+            <li class="pt-3"><a href="shape.html" class="flex text-blue-600">
                 <img src="images/cars/hatchback.png" class="w-12 mr-3">HATCHBACK</a>
             </li>
-            <li class="pt-3"><a href="#toyota" class="flex text-blue-600">
+            <li class="pt-3"><a href="shape.html" class="flex text-blue-600">
                 <img src="images/cars/sedan.png" class="w-12 mr-3">SEDAN</a>
             </li>
-            <li class="pt-3"><a href="#toyota" class="flex text-blue-600">
+            <li class="pt-3"><a href="shape.html" class="flex text-blue-600">
                 <img src="images/cars/pickup.png" class="w-12 mr-3">PICKUP</a>
             </li>
-            <li class="pt-3"><a href="#toyota" class="flex text-blue-600">
+            <li class="pt-3"><a href="shape.html" class="flex text-blue-600">
                 <img src="images/cars/micro.png" class="w-12 mr-3">MICRO</a>
             </li>
-            <li class="pt-3"><a href="#toyota" class="flex text-blue-600">
+            <li class="pt-3"><a href="shape.html" class="flex text-blue-600">
                 <img src="images/cars/van.png" class="w-12 mr-3">VAN</a>
             </li>
-            <li class="pt-3"><a href="#toyota" class="flex text-blue-600">
+            <li class="pt-3"><a href="shape.html" class="flex text-blue-600">
                 <img src="images/cars/truck.png" class="w-12 mr-3">TRUCK</a>
             </li>
-            <li class="pt-3"><a href="#toyota" class="flex text-blue-600">
+            <li class="pt-3"><a href="shape.html" class="flex text-blue-600">
                 <img src="images/cars/wagon.png" class="w-12 mr-3">WAGON</a>
             </li>
         </ul>
@@ -340,31 +352,34 @@ loginForms.classList.toggle("active")
              </div>
             
              <!-- recomended cars -->
+             
              <div  class="bar"></div>
                 <h2>Recomended Cars</h2>
-                <swiper-container class="mySwipers " pagination="true"
-                pagination-clickable="true" slides-per-view="4"
-                space-between="30" free-mode="true">
                 
-                <swiper-slide><div id="carList" class=" allCars p-4 flex  gap-2 uppercase"></div></swiper-slide>
-                <div class="swiper-pagination"></div>
-          
-            </swiper-container>
+                <div class="swiper-container w-40 ">
+                    <div class="swiper-wrapper flex gap-4 h-4  ">
+                        
+                      <!-- Car items will be dynamically populated here -->
+                    </div>
+                    <div class="swiper-pagination"></div>
+                  </div>
+                
+               
             
-            
+        
                
                  
             <!-- new arrivals -->
             <div class="bar"></div>
                 <h2>New Arrivals</h2>
-                <div id="newArrivals" class="newcars p-4 flex sm:gap-2 uppercase">
+                <div id="newArrivals" class="newcars p-4 flex gap-2 sm:gap-2 uppercase">
             </div>
         
 
         <div class="bar"></div>
         <h2>Best Deals</h2>
 
-        <div id="bestList" class="bestdeals p-4 flex sm:gap-2 uppercase">
+        <div id="bestList" class="bestdeals p-4 flex gap-4 sm:gap-2 uppercase">
         </div>
 
         <div class="bar"></div>
@@ -450,6 +465,26 @@ loginForms.classList.toggle("active")
             </div>
         </div>
         <div class="bar"></div>
+        <h2 class="">Comment/ give feedback </h2>
+        <form class="mt-2 border border-stone-400 flex justify-center" action="reviews"></br>
+            <div class="w-1/2">
+          <label for="name">name</label></br>
+          <input class="border-2 p-1 w-full border-slate-950" type="text" name="name" placeholder="your name"></br>
+          <label for="name">location</label></br>
+          <input class="border-2 p-1 w-full border-slate-950" type="text" name="location" placeholder="city or town"></br>
+          <label for="name">country</label></br>
+          
+          <input class="border-2 p-1 w-full border-slate-950" type="text" name="country" placeholder="your country"></br>
+        </div><div class="ml-8 w-1/2">
+          <label for="name">email</label></br>
+          <input class="border-2 p-1 w-full border-slate-950" type="text" name="name" placeholder="your emial"></br>
+          <label for="name">comment</label></br>
+         <textarea class="border-2 p-2 w-full border-slate-950" name="comment" id="" cols="" rows=""></textarea>
+         <button class="p-2 w-full bg-emerald-600 rounded-md font-semibold text-white">Submit</button>
+        </div>
+        </form>
+
+        <div class="bar"></div>
         <h2 class="">Reviews <button class="bg-red-600 text-white rounded-md p-1 ml-4 w-16">more</button></h2>
         <h4 class="font-semibold text-lg ml-3 mt-4">Voice from Denis Motors Customers</h4>
          <div id="reviews" class="border-4 flex  gap-4"></div>
@@ -458,13 +493,6 @@ loginForms.classList.toggle("active")
 
         
     </div>
-   <style>
-    #reviews div{
-      width: 10rem;
-      background: blue;
-    }
-   </style>
-   
     
 <!--  -->
 
@@ -472,13 +500,13 @@ loginForms.classList.toggle("active")
 <!-- all section on the right -->
 <div class="nav-right  ">
 <div class="bar"></div>
-<h2 class="">Search Cars</h2>
+<h2 class="inquire">Inquire Cars</h2>
  <div class="form border-2 border-grey bg-slate-200">
   
-  <select class="w-full p-1 bg-white border-2 ">
-    <option>Maker (All)</option>
+  <select name="maker" class="w-full p-1 bg-white border-2 ">
+    <option> Maker (All)</option>
     <option> NISSAN(12)</option>
-    <option>TOYOTA(12)</option>
+    <option> TOYOTA(12)</option>
     <option> MAZDA(12)</option>
     <option> MITSUBISHI(12)</option>
     <option> HONDA(12)</option>
@@ -487,7 +515,7 @@ loginForms.classList.toggle("active")
     <option> SUZUKI(12)</option>
     <option> OTHERS(12)</option>
   </select>
-  <select class="w-full p-1 bg-white border-2">
+  <select name="shape" class="w-full p-1 bg-white border-2">
     <option>Shape (all)</option>
     <option> COUPE(12)</option>
     <option>SEDAN(12)</option>
@@ -504,7 +532,7 @@ loginForms.classList.toggle("active")
    
   <div class="select flex items-center h-56">
     <div class="left w-1/2">
-        <select class=" p-1 w-4/5 bg-white border-2 ">
+        <select name="minyear" class=" p-1 w-4/5 bg-white border-2 ">
             <option>Year (min)</option>
             <option>2022 </option>
             <option>2021</option>
@@ -517,7 +545,7 @@ loginForms.classList.toggle("active")
             <option>2014</option>
           </select>
           
-          <select class=" p-1 w-4/5 bg-white border-2 ">
+          <select name="mindistance" class=" p-1 w-4/5 bg-white border-2 ">
             <option>km (min)</option>
             <option>50 000 </option>
             <option>80 000</option>
@@ -528,7 +556,7 @@ loginForms.classList.toggle("active")
             
           </select>  
 
-          <select class=" p-1 w-4/5 bg-white border-2 ">
+          <select name="mincc" class=" p-1 w-4/5 bg-white border-2 ">
             <option>cc (min)</option>
             <option> 700 </option>
             <option>1500</option>
@@ -541,7 +569,7 @@ loginForms.classList.toggle("active")
          
           <input type="text" class="w-1/2 p-1 border-2 w-" placeholder="price">$</input>
     </div>
-         <div class="right w-1/2">
+         <div name="maxyear" class="right w-1/2">
             <select class=" p-1 w-full bg-white border-2 ">
                 <option>Year (max)</option>
                 <option>2022 </option>
@@ -555,7 +583,7 @@ loginForms.classList.toggle("active")
                 <option>2014</option>
               </select>
 
-              <select class=" p-1 w-full bg-white border-2 ">
+              <select name="maxdistance" class=" p-1 w-full bg-white border-2 ">
                 <option>km (max)</option>
                 <option>50 000 </option>
                 <option>80 000</option>
@@ -566,7 +594,7 @@ loginForms.classList.toggle("active")
                 
               </select>  
              
-              <select class=" p-1 w-full bg-white border-2 ">
+              <select name="maxcc" class=" p-1 w-full bg-white border-2 ">
                 <option>cc (max)</option>
                 <option> 700 </option>
                 <option>1500</option>
@@ -581,19 +609,14 @@ loginForms.classList.toggle("active")
          </div>
         
 </div>
-<select class=" p-1 w-full bg-white border-2 ">
-    <option>City/Town</option>
-    <option> Nakuru </option>
-    <option>Nairobi</option>
-    <option>Mombasa</option>
-    <option>Kisumu</option>
-    <option>Nyeri</option>
-    <option>Machakos </option>
+<h2>comments</h2>
+<textarea name="comment" class=" p-1 w-full bg-white border-2 border-slate-800 "></textarea>
+    
     
 
     
   </select>
- <button class="w-full bg-red-600 text-center m-1 mb-8  border rounded ">Search</button>
+ <button class="w-full bg-red-600 text-center m-1 mb-8  border rounded ">submit</button>
 
  </div>
     <div class="countries columns-3 mt-4">
@@ -716,25 +739,25 @@ loginForms.classList.toggle("active")
                     <li class="font-semibold mb-6"><h3>Search By Shape</h3>
                     </li>
                 <li class="p-1">
-                    <a class="hover:underline cursor-pointer m-3">COUPE</a>
+                    <a href="shape.html" class="hover:underline cursor-pointer m-3">COUPE</a>
                 </li>
                 <li class="p-1">
-                    <a class="hover:underline cursor-pointer m-3">SEDAN</a>
+                    <a href="shape.html" class="hover:underline cursor-pointer m-3">SEDAN</a>
                 </li>
                 <li class="p-1">
-                    <a class="hover:underline cursor-pointer m-3">HATCHBACK</a>
+                    <a href="shape.html" class="hover:underline cursor-pointer m-3">HATCHBACK</a>
                 </li>
                 <li class="p-1">
-                    <a class="hover:underline cursor-pointer m-3">WAGON</a>
+                    <a href="shape.html" class="hover:underline cursor-pointer m-3">WAGON</a>
                 </li>
                 <li class="p-1">
-                    <a class="hover:underline cursor-pointer m-3">SUV</a>
+                    <a href="shape.html" class="hover:underline cursor-pointer m-3">SUV</a>
                 </li>
                 <li class="p-1">
-                    <a class="hover:underline cursor-pointer m-3">VAN</a>
+                    <a href="shape.html" class="hover:underline cursor-pointer m-3">VAN</a>
                 </li>
                 <li class="p-1">
-                    <a class="hover:underline cursor-pointer m-3">TRUCK</a>
+                    <a href="shape.html" class="hover:underline cursor-pointer m-3">TRUCK</a>
                 </li>
             </div>
 
@@ -807,6 +830,8 @@ loginForms.classList.toggle("active")
 <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <script src="../server.js"> </script>
     <script src="index2.js"></script>
+    <script src="index.js"></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script src="http://localhost:3001/server.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
