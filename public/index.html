@@ -342,9 +342,15 @@ loginForms.classList.toggle("active")
              <!-- recomended cars -->
              <div  class="bar"></div>
                 <h2>Recomended Cars</h2>
-                <div id="carList" class=" allCars p-4 flex  gap-2 uppercase">
-
-            </div>
+                <swiper-container class="mySwipers " pagination="true"
+                pagination-clickable="true" slides-per-view="4"
+                space-between="30" free-mode="true">
+                
+                <swiper-slide><div id="carList" class=" allCars p-4 flex  gap-2 uppercase"></div></swiper-slide>
+                <div class="swiper-pagination"></div>
+          
+            </swiper-container>
+            
             
                
                  

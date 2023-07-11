@@ -10,6 +10,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
    
 </head>
+
 <body class="m-0 ">
     <!-- header section -->
     <section class="header">
@@ -59,42 +60,109 @@
          <h2>search by Maker</h2>
          <div class="left-nav-list pl-2 text">
             <ul>
-                <li class="pt-4"><a href="#toyota">
-                    <img src="images/logos/toyota1.jpeg">TOYOTA<span>(12)</span></a>
-                </li>
+            <li ><a href="" class="toyota" >
+                <img src="images/logos/toyota1.jpeg">TOYOTA<span>(12)</span></a>
+            </li>
 
-                <li class=" -pt-4"><a href="#nissan" class="nissan">
-                    <img src="images/logos/nissan.jpeg" >NISSAN<span>(12)</span></a>
-                </li>
+            <li><a href="" class="nissan" >
+                <img src="images/logos/nissan.jpeg">NISSAN<span>(12)</span></a>
+            </li>
 
-                <li><a href="#benz">
-                    <img src="images/logos/benz.jpeg">BENZ<span>(12)</span></a>
-                </li>
+            <li><a href="cars.html" class="benz">
+                <img src="images/logos/benz.jpeg">BENZ<span>(12)</span></a>
+            </li>
 
-                <li><a href="#mazda">
-                    <img src="images/logos/mazda.jpeg">MAZDA<span>(12)</span></a>
-                </li>
+            <li><a href="cars.html" class="mazda">
+                <img src="images/logos/mazda.jpeg">MAZDA<span>(12)</span></a>
+            </li>
 
-               
-                <li><a href="#subaru">
-                    <img src="images/logos/subaru.jpeg">SUBARU<span>(12)</span></a>
-                </li>
-                <li><a href="#suzuki">
-                    <img src="images/logos/suzuki.jpeg">SUZUKI<span>(12)</span></a>
-                </li>
-                <li><a href="#hond">
-                    <img src="images/logos/honda.jpeg">HONDA<span>(12)</span></a>
-                </li>
-                <li><a href="#bmw">
-                    <img src="images/logos/bmw.png">BMW<span>(12)</span></a>
-                </li>
-                <li><a href="#volks">
-                    <img src="images/logos/volks.jpeg">VOLKS<span>(12)</span></a>
-                </li>
-                
-               
-            </ul>
+           
+            <li><a href="cars.html" class="subaru">
+                <img src="images/logos/subaru.jpeg">SUBARU<span>(12)</span></a>
+            </li>
+            <li><a href="cars.html">
+                <img src="images/logos/suzuki.jpeg">SUZUKI<span>(12)</span></a>
+            </li>
+            <li><a href="cars.html">
+                <img src="images/logos/honda.jpeg">HONDA<span>(12)</span></a>
+            </li>
+            <li><a href="cars.html">
+                <img src="images/logos/bmw.png">BMW<span>(12)</span></a>
+            </li>
+            <li><a href="cars.html">
+                <img src="images/logos/volks.jpeg">VOLKS<span>(12)</span></a>
+            </li>
+            
+           
+        </ul>
          </div>
+         <script>
+            const toyota = document.querySelector('.toyota')
+
+            toyota.addEventListener('click', ()=>{
+            fetch('http://localhost:3000/cars')
+          .then(response => response.json())
+          .then(cars => {
+            const carList = document.getElementById('carList');
+            const toyotaCars = cars.filter(car => car.maker === 'TOYOTA');
+        
+            if (toyotaCars.length > 0) {
+              toyotaCars.forEach(car => {
+                const listItem = document.createElement('a');
+                listItem.innerHTML = `
+                <img src="/admin/public${car.image}" alt="${car.maker} ${car.model}">
+                  <h2>${car.maker} ${car.model}</h2>
+                  
+                  <p>Engine:${car.engine}</p>
+                  <p>Price: ${car.price}</p>
+                  <p>Mileage: ${car.mileage}</p>
+                `;
+            
+                carList.appendChild(listItem);
+              });
+            } else {
+              carList.innerHTML = '<p>No Toyota cars found.</p>';
+            }
+          })
+          .catch(error => {
+            console.error('Error fetching car data:', error);
+          });
+          console.log('toyotas')    
+            })
+        
+          const nissan = document.querySelector('.nissan')
+            
+            nissan.addEventListener('click', ()=>{
+            fetch('http://localhost:3000/cars')
+          .then(response => response.json())
+          .then(cars => {
+            const carList = document.getElementById('carList');
+            const toyotaCars = cars.filter(car => car.maker === 'NISSAN');
+        
+            if (toyotaCars.length > 0) {
+              toyotaCars.forEach(car => {
+                const listItem = document.createElement('a');
+                listItem.innerHTML = `
+                <img src="/admin/public${car.image}" alt="${car.maker} ${car.model}">
+                  <h2>${car.maker} ${car.model}</h2>
+                  
+                  <p>Engine:${car.engine}</p>
+                  <p>Price: ${car.price}</p>
+                  <p>Mileage: ${car.mileage}</p>
+                `;
+            
+                carList.appendChild(listItem);
+              });
+            } else {
+              carList.innerHTML = '<p>No Toyota cars found.</p>';
+            }
+          })
+          .catch(error => {
+            console.error('Error fetching car data:', error);
+          });
+          console.log('nissans')
+            })
+        </script>
 
          <!-- search by fob -->
          <div class="bar"></div>
@@ -170,52 +238,10 @@
 
         <h3 class=" w-full h-8 text-white bg-blue-900 p-2 "> Best-selling vehicles of TOYOTA</h3>
 
-        <div class=" p-3 flex columns-4 gap-2">
-            <div class="">
-              <img src="images/cars/th (2).jpeg">
-              <span class="uppercase"> vanguard</span><br>
-             <button class="bg-green-400 rounded-lg text-sm  w-20 h-6">SUV</button><br>
-              <span>Price:<span class="text-red-400"> ksh 1.8m ~ 2.8m</span></span>
-            </div>
-            <div class="">
-                <img src="images/cars/th (2).jpeg">
-                <span class="uppercase"> vanguard</span><br>
-               <button class="bg-green-400 rounded-lg text-sm  w-20 h-6">SUV</button><br>
-                <span>Price:<span class="text-red-400"> ksh 1.8m ~ 2.8m</span></span>
-              </div>
-              <div class="">
-                <img src="images/cars/th (2).jpeg">
-                <span class="uppercase"> vanguard</span><br>
-               <button class="bg-green-400 rounded-lg text-sm  w-20 h-6">SUV</button><br>
-                <span>Price:<span class="text-red-400"> ksh 1.8m ~ 2.8m</span></span>
-              </div>
+        <div class=" ">
+            <div class="carList flex gap-2" id="carList">
         </div>
 
-        <div class="mt-8 bg-gray-200 flex"><img class=" logo-img m-2 border border-black" 
-            src="images/logos/toyota1.jpeg " width=30><h3 class="pt-2 font-mono">All models</h3>
-    </div>
-    <h3 class=" w-full h-8 text-white bg-blue-900 p-2 "> A</h3>
-
-    <div class=" p-3 flex columns-4 gap-2">
-        <div class="">
-          <img src="images/cars/th (2).jpeg">
-          <span class="uppercase"> vanguard</span><br>
-         <button class="bg-green-400 rounded-lg text-sm  w-20 h-6">SUV</button><br>
-          <span>Price:<span class="text-red-400"> ksh 1.8m ~ 2.8m</span></span>
-        </div>
-        <div class="">
-            <img src="images/cars/th (2).jpeg">
-            <span class="uppercase"> vanguard</span><br>
-           <button class="bg-green-400 rounded-lg text-sm  w-20 h-6">SUV</button><br>
-            <span>Price:<span class="text-red-400"> ksh 1.8m ~ 2.8m</span></span>
-          </div>
-          <div class="">
-            <img src="images/cars/th (2).jpeg">
-            <span class="uppercase"> vanguard</span><br>
-           <button class="bg-green-400 rounded-lg text-sm  w-20 h-6">SUV</button><br>
-            <span>Price:<span class="text-red-400"> ksh 1.8m ~ 2.8m</span></span>
-          </div>
-    </div>
     </div>
 </section>
 
