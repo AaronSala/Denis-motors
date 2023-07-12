@@ -348,11 +348,126 @@ loginForms.classList.toggle("active")
           
            
         </div> 
-        <div class="search search mt-3"> <input type="search" placeholder="make, year, maker, model"> <i class="fas fa-magnifying-glass"></i>
+        <div class="search  mt-3"> <input type="search" placeholder="make, year, maker, model"> <i class="fas fa-magnifying-glass"></i>
              </div>
-            
+             <div class="nav-small p-4 lg:hidden ">
+    
+                <div class="bar"></div>
+                <h2 class="inquire">Inquire Cars</h2>
+                 <div class="form border-2 border-grey bg-slate-200">
+                  
+                  <select name="maker" class="w-full p-1 bg-white border-2 ">
+                    <option> Maker (All)</option>
+                    <option> NISSAN(12)</option>
+                    <option> TOYOTA(12)</option>
+                    <option> MAZDA(12)</option>
+                    <option> MITSUBISHI(12)</option>
+                    <option> HONDA(12)</option>
+                    <option> BENZ(12)</option>
+                    <option> BMW(12)</option>
+                    <option> SUZUKI(12)</option>
+                    <option> OTHERS(12)</option>
+                  </select>
+                  <select name="shape" class="w-full p-1 bg-white border-2">
+                    <option>Shape (all)</option>
+                    <option> COUPE(12)</option>
+                    <option>SEDAN(12)</option>
+                    <option> HATCHBACK(12)</option>
+                    <option> WAGON(12)</option>
+                    <option> SUV(12)</option>
+                    <option> BUS(12)</option>
+                    <option> VAN(12)</option>
+                    <option> LORRY</option>
+                    <option> TRUCK</option>
+                  </select>
+                  <input type="text" class="w-full p-1 border-2" placeholder="Stock ID"></input>
+                 
+                   
+                  <div class="select flex items-center h-56">
+                    <div class="left w-1/2">
+                        <select name="minyear" class=" p-1 w-4/5 bg-white border-2 ">
+                            <option>Year (min)</option>
+                            <option>2022 </option>
+                            <option>2021</option>
+                            <option>2020</option>
+                            <option>2019</option>
+                            <option>2018</option>
+                            <option>2017 </option>
+                            <option>2016</option>
+                            <option>2015 </option>
+                            <option>2014</option>
+                          </select>
+                          
+                          <select name="mindistance" class=" p-1 w-4/5 bg-white border-2 ">
+                            <option>km (min)</option>
+                            <option>50 000 </option>
+                            <option>80 000</option>
+                            <option>100 000</option>
+                            <option>150 000</option>
+                            <option>170 000</option>
+                            <option>2017 </option>
+                            
+                          </select>  
+                
+                          <select name="mincc" class=" p-1 w-4/5 bg-white border-2 ">
+                            <option>cc (min)</option>
+                            <option> 700 </option>
+                            <option>1500</option>
+                            <option>2500</option>
+                            <option>3000</option>
+                            <option>3500</option>
+                            <option>4000 </option>
+                            
+                          </select>  
+                         
+                          <input type="text" class="w-1/2 p-1 border-2 w-" placeholder="price">$</input>
+                    </div>
+                         <div name="maxyear" class="right w-1/2">
+                            <select class=" p-1 w-full bg-white border-2 ">
+                                <option>Year (max)</option>
+                                <option>2022 </option>
+                                <option>2021</option>
+                                <option>2020</option>
+                                <option>2019</option>
+                                <option>2018</option>
+                                <option>2017 </option>
+                                <option>2016</option>
+                                <option>2015 </option>
+                                <option>2014</option>
+                              </select>
+                
+                              <select name="maxdistance" class=" p-1 w-full bg-white border-2 ">
+                                <option>km (max)</option>
+                                <option>50 000 </option>
+                                <option>80 000</option>
+                                <option>100 000</option>
+                                <option>150 000</option>
+                                <option>170 000</option>
+                                <option>2017 </option>
+                                
+                              </select>  
+                             
+                              <select name="maxcc" class=" p-1 w-full bg-white border-2 ">
+                                <option>cc (max)</option>
+                                <option> 700 </option>
+                                <option>1500</option>
+                                <option>2500</option>
+                                <option>3000</option>
+                                <option>3500</option>
+                                <option>4000 </option>
+                                
+                              </select>  
+                              <input type="text" class="w-1/2 p-1 border-2 " placeholder="price">$</input></br>
+                              <span>Price ($ ksh=120)</span>
+                         </div>
+                        
+                </div>
+                </div>
+                <h2>comments</h2>
+                <textarea name="comment" class=" p-1 w-full bg-white border-2 border-slate-800 "></textarea>
+                <button class="w-full bg-red-600 text-center m-1 mb-8  border rounded ">submit</button>
              <!-- recomended cars -->
-             
+             </div>
              <div  class="bar"></div>
                 <h2>Recomended Cars</h2>
                 
@@ -466,7 +581,7 @@ loginForms.classList.toggle("active")
         </div>
         <div class="bar"></div>
         <h2 class="">Comment/ give feedback </h2>
-        <form class="mt-2 border border-stone-400 flex justify-center" action="reviews"></br>
+        <form class="comments mt-2 border border-stone-400 flex justify-center " action="reviews"></br>
             <div class="w-1/2">
           <label for="name">name</label></br>
           <input class="border-2 p-1 w-full border-slate-950" type="text" name="name" placeholder="your name"></br>
@@ -475,7 +590,7 @@ loginForms.classList.toggle("active")
           <label for="name">country</label></br>
           
           <input class="border-2 p-1 w-full border-slate-950" type="text" name="country" placeholder="your country"></br>
-        </div><div class="ml-8 w-1/2">
+        </div><div class="smright ml-8 w-1/2 ">
           <label for="name">email</label></br>
           <input class="border-2 p-1 w-full border-slate-950" type="text" name="name" placeholder="your emial"></br>
           <label for="name">comment</label></br>
@@ -499,6 +614,7 @@ loginForms.classList.toggle("active")
 
 <!-- all section on the right -->
 <div class="nav-right  ">
+
 <div class="bar"></div>
 <h2 class="inquire">Inquire Cars</h2>
  <div class="form border-2 border-grey bg-slate-200">
@@ -613,9 +729,6 @@ loginForms.classList.toggle("active")
 <textarea name="comment" class=" p-1 w-full bg-white border-2 border-slate-800 "></textarea>
     
     
-
-    
-  </select>
  <button class="w-full bg-red-600 text-center m-1 mb-8  border rounded ">submit</button>
 
  </div>
