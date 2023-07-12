@@ -423,6 +423,28 @@ width: 12rem;
     .registerForm.active{
         display: block;
     }
+    .comments{
+        display: flex;
+        flex-direction: column;
+        width: 180%;
+        
+        margin-left: .5rem;
+        padding: 1rem;
+    }
+    .comments .smright{
+        margin: 0;
+    }
+    .containers .slider .search{
+        width: 97%;
+    }
+    .containers .slider .search i{
+        font-size: 1.5rem;
+        margin-left: .5rem;
+        color: #eee;
+    }
+    .containers .slider .search:hover{
+        box-shadow:1rem 1.5rem 1.5rem rgba(0,0,0,.1)
+    }
 }
 
 
