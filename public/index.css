@@ -365,7 +365,6 @@ width: 12rem;
         }
         .header-right{
             float: right;
-            margin-right: 0;
             
            width: 35%;
            align-items: right;
@@ -399,12 +398,13 @@ width: 12rem;
     
          display: inline-block;
        }
-       .right-1 .member :hover  .members{
+       .right-1 .member :hover .members{
         display: block;
          background: black;
      }
      .header-right .loginForms{
         display: none;
+        
        }
        .header-right .loginForms.active{
         display: block;
@@ -507,7 +507,30 @@ width: 12rem;
         justify-content: none;
        }
      .containers .search {
-        width: 90%;
+        width: 80%;
      }
+     .header-right .loginForms{
+        display: none;
+        margin-right: 0;
+        
+       }
+       
+       .header-right .loginForms.active{
+        display: block;
+       }
+       
+       .containers .slider .detailz{
+        display: none;
+     }
+     .containers .slider .detailz.active{
+        display: block;
+        
+     }
+     .registerForm{
+        display: none;
+    }
+    .registerForm.active{
+        display: block;
+    }
 
 }
