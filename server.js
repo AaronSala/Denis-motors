@@ -6,7 +6,7 @@ const ObjectId = mongodb.ObjectId;
 const path = require('path');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-
+const multer = require('multer');
 // Database connection URL
 const url = 'mongodb://localhost:27017';
 
@@ -53,95 +53,51 @@ app.get('/cars', async (req, res) => {
 });
 
 
-// Connect to MongoDB
-mongoose.connect('mongodb://localhost/denis', { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('Connected to MongoDB'))
-  .catch(err => console.error('Error connecting to MongoDB:', err));
-
-// Define User schema
-const userSchema = new mongoose.Schema({
-  username: String,
-  password: String
+const reviewSchema = new mongoose.Schema({
+  name: String,
+  location: String,
+  country: String,
+  comments: String,
 });
 
-const User = mongoose.model('User', userSchema, 'users');
+// Create a review model
+const Review = mongoose.model('Review', reviewSchema);
 
-// Parse request body
+// Middleware
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(express.static('public'));
 
-// Serve static files from the "public" directory
-app.use(express.static(path.join(__dirname, 'public, index.html')));
-
-// Handle user login request
-app.post('/login', async(req, res) => {
-  const { username, password } = req.body;
-
-  try {
-    // Find a user with the provided username and password
-    const user = await User.findOne({ username, password });
-
-    if (user) {
-      
-      // User found, send success status
-      res.sendStatus(200);
-    } else {
-      // User not found, send unauthorized status
-      res.sendStatus(401);
-    }
-  } catch (error) {
-    console.error('Error finding user:', error);
-    res.status(500).send('Internal Server Error');
-  }
+// Serve the HTML file for the root path
+app.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname,  'public', 'index.html'));
 });
 
+// Set the MIME type for JavaScript files
+
+// Handle POST request for creating a new review
+app.post('/reviews', function(req, res) {
+  const { name, location, country, comments } = req.body;
+ 
+  // Create a new review object
+  const review = new Review({
+    name,
+    location,
+    country,
+    comments
+  });
+
+  // Save the review object to the database
+  review.save()
+    .then(() => {
+      console.log('Review saved:', comments);
+      res.redirect('/');
+    })
+    .catch(error => console.error('Error saving review:', error));
+});
 
 
 // Define route to fetch car data
-app.get('/cars', async (req, res) => {
-  let client; // Declare the client variable outside the try block
-
-  app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', 'https://dennis-motors.vercel.app');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    next();
-  });
-
-  try {
-    // Connect to MongoDB
-    client = new MongoClient(mongoURL);
-    await client.connect();
-    const db = client.db(dbName);
-    const collection = db.collection(collectionName);
-
-    // Fetch car data from MongoDB
-    const cars = await collection.find().toArray();
-
-    // Send car data as JSON response
-    res.json(cars);
-  } catch (error) {
-    console.error('Error:', error);
-    res.status(500).send('Internal Server Error');
-  } finally {
-    // Close the MongoDB connection if it exists
-    if (client) {
-      client.close();
-    }
-  }
-});
-
-// Serve the cars.html file for the root URL
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/public/index.html');
-});
-
-// Start the server
-
-
-
-
-// Start the server
-
 
 // Start the server
 app.listen(3000, () => {

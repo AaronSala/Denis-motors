@@ -1,5 +1,5 @@
 // Get the form element
-const carForm = document.getElementById('carForm');
+
 
 // Add event listener for form submission
 carForm.addEventListener('submit', function(event) {
@@ -59,7 +59,7 @@ function fetchAndDisplayCars() {
 
         const carInfoElement = document.createElement('div');
         carInfoElement.innerHTML = `
-         <div class="cars1">
+         <div>
           <h2>${car.maker} ${car.model}</h2>
           <p>Year: ${car.year}</p>
           <p>Price: ${car.price}</p>
@@ -75,7 +75,7 @@ function fetchAndDisplayCars() {
         const editButton = document.createElement('button1');
         editButton.textContent = 'Edit';
         editButton.addEventListener('click', function() {
-          openEditForm(car._id, car.maker, car.model, car.year, car.price, car.model, car.shape, car.category);
+          openEditForm(car.id, car.maker, car.model, car.year, car.price, car.shape, car.engine, car.category, car.description, car.mileage);
         });
         carElement.appendChild(editButton);
 
@@ -98,7 +98,7 @@ function fetchAndDisplayCars() {
 fetchAndDisplayCars();
 
 // Function to open the edit form
-function openEditForm(carId, maker, model, year, price,shape, engine, category,description) {
+function openEditForm(carId, maker, model, year, price,shape, engine, category,description,mileage) {
   // Populate the form fields with existing car data
   document.getElementById('editCarId').value = carId;
   document.getElementById('editMaker').value = maker;
@@ -109,7 +109,7 @@ function openEditForm(carId, maker, model, year, price,shape, engine, category,d
   document.getElementById('editEngine').value = engine;
   document.getElementById('editCategory').value = category;
   document.getElementById('editDescription').value = description;
-
+  document.getElementById('editMileage').value = mileage;
   // Show the edit form
   document.getElementById('editFormContainer').style.display = 'block';
 }
@@ -119,24 +119,26 @@ document.getElementById('editCarForm').addEventListener('submit', function(event
   event.preventDefault(); // Prevent form from submitting and page refresh
 
   // Get the form data
-  const formData = new FormData(event.target);
+  const formData = new FormData(this); // Use "new FormData(this)" instead of "new FormData(event.target)"
 
   // Create an object to hold the car data
   const carData = {
-    maker: formData.get('editMaker'),
-    model: formData.get('editModel'),
-    year: formData.get('editYear'),
-    price: formData.get('editPrice'),
-    shape: formData.get('editShape'),
-    description: formData.get('editDescription'),
-    engine: formData.get('editEngine'),
-    category: formData.get('editCategory')
+    carId: formData.get('editCarId'), // Use "editCarId" instead of "carId"
+    maker: formData.get('editMaker'), // Use "editMaker" instead of "maker"
+    model: formData.get('editModel'), // Use "editModel" instead of "model"
+    year: formData.get('editYear'), // Use "editYear" instead of "year"
+    price: formData.get('editPrice'), // Use "editPrice" instead of "price"
+    shape: formData.get('editShape'), // Use "editShape" instead of "shape"
+    description: formData.get('editDescription'), // Use "editDescription" instead of "description"
+    engine: formData.get('editEngine'), // Use "editEngine" instead of "engine"
+    category: formData.get('editCategory'), // Use "editCategory" instead of "category"
+    mileage: formData.get('editMileage'), // Use "editMileage" instead of "mileage"
   };
 
-  const carId = formData.get('editCarId');
+  const carId = formData.get('editCarId'); // Use "editCarId" instead of "carId"
 
-  // Send a PUT request to the server to update the car data
-  axios.patch(`/cars/${carId}`, carData)
+  // Send a PATCH request to the server to update the car data
+  axios.put(`/cars/${carId}`, carData)
     .then(function(response) {
       console.log('Car updated:', response.data);
       closeEditForm(); // Close the edit form
@@ -159,7 +161,7 @@ function closeEditForm() {
   document.getElementById('editDescription').value = '';
   document.getElementById('editEngine').value = '';
   document.getElementById('editCategory').value = '';
-
+  document.getElementById('editMileage').value = '';
   // Hide the edit form
   document.getElementById('editFormContainer').style.display = 'none';
 }

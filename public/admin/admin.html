@@ -14,6 +14,34 @@
 
 
 </head>
+<script>
+    fetch('http://localhost:3010/reviews')
+  .then(response => response.json())
+  .then(reviews => {
+    const comments = document.getElementById('comments');
+    const coment = reviews.find(comment => reviews.rating === 'good');
+    
+    if (coment.length > 0) {
+     coment.forEach(comment => {
+        const listItem = document.createElement('div');
+        listItem.innerHTML = `
+         
+          <h2>${comment.name} ${comment.location}</h2>
+          <p>engine:${comment.comment}</p>
+          <p>Price: ${comment.country}</p>
+          
+        `;
+        comments.appendChild(listItem);
+      });
+    } else {
+      comments.innerHTML = '<p>No Toyota cars found.</p>';
+    }
+  })
+  .catch(error => {
+    console.error('Error fetching car data:', error);
+  });
+
+</script>
 <body class="">
     <!-- header section -->
     <section class="header">
@@ -40,7 +68,7 @@
        </div>
     <!-- header right -->
        <div class="header-right ">
-        <a href="../index.html">Home</a>
+        <a href="./index.html">Home</a>
         
        </div>
        
@@ -281,22 +309,14 @@
  <!-- edit car firm -->
  <div id="editFormContainer" style="display: none;" class="ml-8 mt-2 w-1/2">
     <h2>Edit car</h2>
-    <form id="editCarForm">
+    <form id="editCarForm" method="PUT" action="/cars/:id">
       <!-- Car ID field -->
-      <input type="hidden" id="editCarId">
+      <input type="" id="editCarId" name="editCarId">
   
       <!-- Form fields for editing a car -->
       <div>
         <label for="editMaker">Maker:</label>
         <input type="text" id="editMaker" name="editMaker">
-      </div>
-      <div>
-        <label for="editShape">Shape:</label>
-        <input type="text" id="editShape" name="editShape">
-      </div>
-      <div>
-        <label for="editCategory">Category:</label>
-        <input type="text" id="editCategory" name="editCategory">
       </div>
       <div>
         <label for="editModel">Model:</label>
@@ -307,21 +327,32 @@
         <input type="text" id="editYear" name="editYear">
       </div>
       <div>
-        <label for="editDescription">Description:</label>
-        <input type="textfield" id="editDescription" name="editDescription">
+        <label for="editPrice">Price:</label>
+        <input type="text" id="editPrice" name="editPrice">
       </div>
       <div>
-        <label for="editMileage">Mileage:</label>
-        <input type="text" id="editMileage" name="editMileage">
+        <label for="editShape">Shape:</label>
+        <input type="text" id="editShape" name="editShape">
+      </div>
+      <div>
+        <label for="editDescription">Description:</label>
+        <input type="textfield" id="editDescription" name="editDescription">
       </div>
       <div>
         <label for="editEngine">Engine Capacity:</label>
         <input type="text" id="editEngine" name="editEngine">
       </div>
       <div>
-        <label for="editPrice">Price:</label>
-        <input type="text" id="editPrice" name="editPrice">
+        <label for="editCategory">Category:</label>
+        <input type="text" id="editCategory" name="editCategory">
       </div>
+      
+      <div>
+        <label for="editMileage">Mileage:</label>
+        <input type="text" id="editMileage" name="editMileage">
+      </div>
+      
+      
   
       <!-- Submit button -->
       <div class="mt-8 align-middle">
@@ -340,10 +371,12 @@
 <h3 class=" w-full h-8 text-white bg-blue-900 p-2 "> All</h3>
 <!-- display all cars here -->
 <div id="carList" class="p-4 flex   gap-2">
-
+    </div>
+    <h3 class=" w-full h-8 text-white bg-blue-900 p-2 "> comments</h3>
+    <!-- display all cars here -->
+    <div id="comments" class="p-4 flex   gap-2">
      
             
-    </div>
     </div>
 </section>
 

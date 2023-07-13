@@ -65,20 +65,25 @@ app.use('/server.js', (req, res, next) => {
 
 // Handle POST request for creating a new car
 app.post('/cars', upload.single('image'), function(req, res) {
-  const { maker, model, year, price, mileage, category, engine, description, shape } = req.body;
+  const { maker, model, year, price, shape, description, engine, category,mileage } = req.body;
   const imagePath = req.file ? '/uploads/' + req.file.filename : ''; // Get the file path from the uploaded image
 
   // Create a new car object
   const car = new Car({
+    id,
     maker,
     model,
     year,
     price,
-    mileage,
-    category,
-    engine,
-    description,
     shape,
+    description,
+    engine,
+    category,
+    mileage,
+    
+    
+    
+    
     image: imagePath // Assign the file path to the image field
   });
 
@@ -109,12 +114,14 @@ app.delete('/cars/:id', function(req, res) {
 
 
 // Handle PUT request for updating a car
-app.put('/cars/:id', function(req, res) {
+app.put('/cars/:id', upload.single('image'), function(req, res) {
   const carId = req.params.id;
-  const { maker, model, year, price, shape, mileage, description, engine, category } = req.body;
+  const { maker, model, year, price, shape, description, engine, category, mileage} = req.body;
+  const imagePath = req.file ? '/uploads/' + req.file.filename : '';
 
   // Find the car by its ID and update the fields
-  Car.findByIdAndUpdate(carId, { maker, model, year, price,shape, mileage, description, engine, category  }, { new: true })
+  Car.findByIdAndUpdate(carId, { maker, model, year, price,shape,  description, engine, category,mileage, image:imagePath  },
+     { new: true })
     .then(updatedCar => {
       if (updatedCar) {
         console.log('Car updated:', updatedCar);
@@ -147,8 +154,8 @@ app.get('/cars', function(req, res) {
 });
 
 // Start the server
-app.listen(3001, function() {
-  console.log('Server listening on port 3001');
+app.listen(3002, function() {
+  console.log('Server listening on port 3002');
 });
 
 // login form
