@@ -71,54 +71,41 @@ const mazda =document.querySelector('.mazda');
 const logo = document.querySelector('.logo-img');
 const headers = document.getElementsByClassName('.header-1');
 
-console.log("am home");
+
 nissan.addEventListener('click', ()=>{
 //logo.src ="images/logos/nissan.jpeg";
 nissan.style.background='black'
 
 nissan.classList.toggle=("images/logos/nissan.jpeg");
 });
-console.log('grue')
 
 
 
-const loginForm = document.getElementById('loginForm');
 
-loginForm.addEventListener('submit', e => {
-  e.preventDefault(); // Prevent form submission
+// posting inquiry t database
+const comments = document.getElementById('comments');
 
-  // Retrieve username and password from form fields
-  const username = document.getElementById('username').value;
-  const password = document.getElementById('password').value;
+comments.addEventListener('submit', function(event) {
+  event.preventDefault(); // Prevent form from submitting and page refresh
 
+  // Get the form data
+  const formData = new FormData(comments);
 
-  if (!username || !password) {
-    console.error('Username and password are required');
-    
-    loginForm.username.style.border="1px solid red"
-    return;
-  }
-  // Send login request to the server
-  fetch('/login', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username, password })
-  })
-    .then(response => {
-      if (response.ok) {
-        // Redirect to admin.html if login is successful
-        window.location.href = 'admin.html';
-        console.log('Logged in');
-      } else if (response.status === 401) {
-        // Display error message if login fails due to unauthorized access
-        console.error('Unauthorized');
-      } else {
-        // Display error message for other server errors
-        console.error('Server Error');
-      }
+  // Create an object to hold the comment data
+  const commentData = {
+    name: formData.get('name'),
+    location: formData.get('location'),
+    country: formData.get('country'),
+    comments: formData.get('comments'),
+  };
+
+  // Send a POST request to the server to save the comment data
+  axios.post('/reviews', commentData)
+    .then(function(response) {
+      console.log('Comment added:', response.data);
+      comments.reset(); // Reset the form
     })
-    .catch(error => console.error('Error:', error));
+    .catch(function(error) {
+      console.error('Error adding comment:', error);
+    });
 });
-
-
-
