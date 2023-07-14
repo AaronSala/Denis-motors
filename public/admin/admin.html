@@ -14,34 +14,7 @@
 
 
 </head>
-<script>
-    fetch('http://localhost:3010/reviews')
-  .then(response => response.json())
-  .then(reviews => {
-    const comments = document.getElementById('comments');
-    const coment = reviews.find(comment => reviews.rating === 'good');
-    
-    if (coment.length > 0) {
-     coment.forEach(comment => {
-        const listItem = document.createElement('div');
-        listItem.innerHTML = `
-         
-          <h2>${comment.name} ${comment.location}</h2>
-          <p>engine:${comment.comment}</p>
-          <p>Price: ${comment.country}</p>
-          
-        `;
-        comments.appendChild(listItem);
-      });
-    } else {
-      comments.innerHTML = '<p>No Toyota cars found.</p>';
-    }
-  })
-  .catch(error => {
-    console.error('Error fetching car data:', error);
-  });
 
-</script>
 <body class="">
     <!-- header section -->
     <section class="header">
@@ -292,8 +265,9 @@
           <input type="text" id="price" name="price" class="w-1/2 p-1 border-2 mb-16" placeholder="price">$</input>
     </div>
     <div class="div-right w-1/2 h-full flex-col">
-        <h3 class="mt-3 font-semibold text-red-500 uppercase w-full">Vihicle images</h3>
-        <input type="file" id="image" name="image" accept="image/jpeg, image/png" required>
+        <h3 class="mt-3 font-semibold text-red-500 uppercase w-full">Vehicle images</h3>
+<input type="file" id="image" name="image" accept="image/jpeg, image/png" multiple required>
+
        
          <!-- add vehicle ends here -->
     </div>
@@ -309,7 +283,7 @@
  <!-- edit car firm -->
  <div id="editFormContainer" style="display: none;" class="ml-8 mt-2 w-1/2">
     <h2>Edit car</h2>
-    <form id="editCarForm" method="PUT" action="/cars/:id">
+    <form id="editCarForm" method="PUT" action="/cars/:id" enctype="multipart/form-data">
       <!-- Car ID field -->
       <input type="" id="editCarId" name="editCarId">
   
@@ -352,7 +326,9 @@
         <input type="text" id="editMileage" name="editMileage">
       </div>
       
-      
+      <h3 class="mt-3 font-semibold text-red-500 uppercase w-full">Vehicle images</h3>
+<input type="file" id="editImage" name="editImage" accept="image/jpeg, image/png" multiple required>
+
   
       <!-- Submit button -->
       <div class="mt-8 align-middle">
@@ -374,7 +350,8 @@
     </div>
     <h3 class=" w-full h-8 text-white bg-blue-900 p-2 "> comments</h3>
     <!-- display all cars here -->
-    <div id="comments" class="p-4 flex   gap-2">
+    <img src="/images/quatation.jpeg">
+    <div  id="reviewList" class="p-4 flex w-full  gap-2">
      
             
     </div>
@@ -384,7 +361,7 @@
 <section class=" mt-2 w-full">
     <div class="bg-slate-200 h-16 mt-3" >
         <div class="flex justify-center">
-          <a>  <img src="images/th (4).jpeg" class="h-12 m-2"></a>
+          <a>  <img src="/images/th (4).jpeg" class="h-12 m-2"></a>
            <a> <img src="images/th (3).jpeg" class="h-12 m-2 ml-8"></a>
             <a><img src="images/th (2).jpeg" class="h-12 m-2 ml-8"></a>
         </div>
