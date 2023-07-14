@@ -65,6 +65,7 @@ function fetchAndDisplayReviews() {
         reviewListElement.appendChild(reviewElement);
       });
     })
+    console.log(reviewList.target)
     .catch(function(error) {
       console.error('Error fetching reviews:', error);
     });
