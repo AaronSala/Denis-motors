@@ -12,40 +12,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
 </head>
 <script>
-// Function to fetch and display the customer reviews
-function fetchAndDisplayReviews() {
-  // Send a GET request to the server to retrieve the customer reviews
-  axios.get('/reviews')
-    .then(function(response) {
-      const reviewList = response.data;
-
-      // Clear previous review list
-      const reviewListElement = document.getElementById('reviewList');
-      reviewListElement.innerHTML = '';
-
-      // Iterate over the review list and create HTML elements to display each review
-      reviewList.forEach(function(review) {
-        const reviewElement = document.createElement('div');
-        reviewElement.classList.add('review');
-
-        // Combine all items for the review in a single div
-        reviewElement.innerHTML = `
-          <h2>${review.name}</h2>
-          <p>Location: ${review.location}</p>
-          <p>Rating: ${review.rating}</p>
-          <p>Comment: ${review.comment}</p>
-        `;
-
-        reviewListElement.appendChild(reviewElement);
-      });
-    })
-    .catch(function(error) {
-      console.error('Error fetching reviews:', error);
-    });
-}
-
-// Call the fetchAndDisplayReviews function to load and display the customer reviews
-fetchAndDisplayReviews();
 
 
 
@@ -59,11 +25,11 @@ fetchAndDisplayReviews();
       toyotaCars.forEach(car => {
         const listItem = document.createElement('a');
         listItem.innerHTML = `
-        <img src="/admin/public${car.image}" alt="${car.maker} ${car.model}">
+        <img src="/admin/public/${car.image}" alt="${car.maker} ${car.model}">
           <h2>${car.maker} ${car.model}</h2>
           
           <p>Engine:${car.engine}</p>
-          <p>Price: ${car.price}</p>
+          <p>Price: ${car.price}</p>s
           <p>Mileage: ${car.mileage}</p>
         `;
     
@@ -148,7 +114,7 @@ fetchAndDisplayReviews();
                 <button type="submit" id="login" class="bg-green-600 rounded-sm px-2 ml-1" >Login</button>
                 <button onclick="register()" class="registerb bg-green-500 rounded-sm px-2 ml-1">Register</button>
                </div>
-                <a class="text-red-600 align-middle hover:cursor-pointer disabled:">Forgot password?</a>
+                <a href="admin/admin.html" class="text-red-600 align-middle hover:cursor-pointer disabled:">Forgot password?</a>
             </div>
         </form>
                <div class=" right-1 text-white text-lg">
