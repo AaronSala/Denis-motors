@@ -2,6 +2,7 @@
 // Add event listener for form submission
 // Function to handle form submission for adding a new car
 // Prevent form from submitting and page refresh
+const carForm = document.getElementById('carForm');
 
 carForm.addEventListener('submit', function(event) {
   event.preventDefault();
@@ -76,7 +77,7 @@ function fetchAndDisplayCars() {
         carElement.classList.add('car');
 
         const carImageElement = document.createElement('img');
-        carImageElement.src = car.images[0]; // Display the first image
+        carImageElement.src =`${car.images[0]}`; // Display the first image
         carElement.appendChild(carImageElement);
 
         const carInfoElement = document.createElement('div');
