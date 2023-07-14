@@ -1,46 +1,63 @@
-// Get the form element
-//const carForm = document.getElementById('carForm');
 
 // Add event listener for form submission
-carForm.addEventListener('submit', function(event) {
-  event.preventDefault(); // Prevent form from submitting and page refresh
+// Function to handle form submission for adding a new car
+// Prevent form from submitting and page refresh
 
-  // Get the form data
-  const formData = new FormData(carForm);
+carForm.addEventListener('submit', function(event) {
+  event.preventDefault();
+
+  // Get the form inputs by their IDs
+  const makerInput = document.getElementById('maker');
+  const modelInput = document.getElementById('model');
+  const yearInput = document.getElementById('year');
+  const priceInput = document.getElementById('price');
+  const categoryInput = document.getElementById('category');
+  const shapeInput = document.getElementById('shape');
+  const mileageInput = document.getElementById('mileage');
+  const engineInput = document.getElementById('engine');
+  const descriptionInput = document.getElementById('description');
+  const imageInput = document.getElementById('image');
 
   // Create an object to hold the car data
   const carData = {
-    maker: formData.get('maker'),
-    model: formData.get('model'),
-    year: formData.get('year'),
-    price: formData.get('price'),
-    image: [],
-    mileage: formData.get('mileage'),
-    shape: formData.get('shape'),
-    category: formData.get('category'),
-    description: formData.get('description'),
-    engine: formData.get('engine')
+    maker: makerInput.value,
+    model: modelInput.value,
+    year: yearInput.value,
+    price: priceInput.value,
+    category: categoryInput.value,
+    shape: shapeInput.value,
+    mileage: mileageInput.value,
+    engine: engineInput.value,
+    description: descriptionInput.value
   };
 
-  // Get the image files from the form data
-  const imageFiles = formData.getAll('image');
+  // Get the selected images from the file input
+  const images = Array.from(imageInput.files);
 
-  // Iterate over the image files and add them to the carData object
-  for (let i = 0; i < imageFiles.length; i++) {
-    carData.image.push(imageFiles[i]);
+  // Create a new FormData object
+  const formData = new FormData();
+
+  // Append the car data to the formData object
+  for (const key in carData) {
+    formData.append(key, carData[key]);
   }
 
+  // Append the selected images to the formData object
+  images.forEach((image, index) => {
+    formData.append('images', image);
+  });
+
   // Send a POST request to the server to save the car data
-  axios.post('/cars', carData)
+  axios.post('/cars', formData)
     .then(function(response) {
       console.log('Car added:', response.data);
       carForm.reset(); // Reset the form
-      fetchAndDisplayCars(); // Fetch and display the updated car data
     })
     .catch(function(error) {
       console.error('Error adding car:', error);
     });
 });
+
 
 // Function to fetch and display the car data
 function fetchAndDisplayCars() {
@@ -59,7 +76,7 @@ function fetchAndDisplayCars() {
         carElement.classList.add('car');
 
         const carImageElement = document.createElement('img');
-        carImageElement.src = car.image[0]; // Display the first image
+        carImageElement.src = car.images[0]; // Display the first image
         carElement.appendChild(carImageElement);
 
         const carInfoElement = document.createElement('div');
@@ -75,14 +92,14 @@ function fetchAndDisplayCars() {
         `;
         carElement.appendChild(carInfoElement);
 
-        const editButton = document.createElement('button');
+        const editButton = document.createElement('button1');
         editButton.textContent = 'Edit';
         editButton.addEventListener('click', function() {
           openEditForm(car._id, car.maker, car.model, car.year, car.price, car.shape, car.engine, car.category, car.description, car.mileage);
         });
         carElement.appendChild(editButton);
 
-        const deleteButton = document.createElement('button');
+        const deleteButton = document.createElement('button2');
         deleteButton.textContent = 'Delete';
         deleteButton.addEventListener('click', function() {
           deleteCar(car._id);
@@ -140,7 +157,7 @@ document.getElementById('editCarForm').addEventListener('submit', function(event
   };
 
   const carId = formData.get('editCarId'); // Use "editCarId" instead of "carId"
-  const imageFile = formData.get('editImage');
+  const imageFile = formData.get('images');
 
   // Create a new FormData object
   const updatedFormData = new FormData();
@@ -209,10 +226,10 @@ function fetchAndDisplayReviews() {
         // Combine all items for the review in a single div
         reviewElement.innerHTML = `
           <h2>${review.name}</h2>
-          <p>location: ${review.location}</p>
-          <p>Country: ${review.country}</p>
-          <p>Rating: ${review.rating}</p>
-          <p>Comment: ${review.comments}</p>
+          <p>location: <span>${review.location}</span></p>
+          <p>Country: <span>${review.country}</span></p>
+          <p>Rating: <span>${review.rating}</span></p>
+          <p>Comment: <span>${review.comments}</span></p>
         `;
 
         const editButton = document.createElement('button');

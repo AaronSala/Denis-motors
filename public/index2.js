@@ -79,9 +79,6 @@ nissan.style.background='black'
 nissan.classList.toggle=("images/logos/nissan.jpeg");
 });
 
-
-
-
 // posting inquiry t database
 // Get the form element
 // index2.js

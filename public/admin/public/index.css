@@ -17,10 +17,8 @@
     padding: 0;
     box-sizing: border-box;
 }
-body{
-    margin: 0px;
-       
-}
+
+
 .bar{
     background-image: linear-gradient(to right, black, red);
     height: .4rem;
@@ -91,9 +89,8 @@ h2{
   
 }
 .header2 .header-right{
-    align-items: center;
-    margin: 3rem 2rem;
-
+    align-items: end;
+   
 }
 .favourite{
     display: none;
@@ -118,11 +115,9 @@ h2{
 }
 .containers{
     display: flex;
-    flex-wrap: wrap;
-    overflow: hidden;
-    
-    
-  
+    justify-content: center;
+    width: 100%;
+    overflow-x: hidden;
     
 }
 nav{
@@ -241,41 +236,90 @@ align-items: center;
 }
 .containers .slider .detailz.active{
    display: block;
+   
+}
+
+
+ .allCars a:hover{
+cursor: pointer;
+
+}
+.right-1 .member{
+   position: relative;
+    display: inline-block;
+    
+}
+.right-1 .member .members{
+position: absolute;
+display: none;
+z-index: 1;
+}
+ .registerForm{
+    display: none;
+}
+.registerForm.active{
+    display: block;
 }
 
 #editCarForm label{
-margin-top: .5rem;
-font-style: italic;
-font-size: 1.5rem;
+    margin-top: .5rem;
+    font-style: italic;
+    font-size: 1.5rem;
+    
+    }
+    #editCarForm input{
+        border: 1px solid green;
+        padding: .1rem;
+    }
+    #carList img{
+        width: 14rem;
+        height: 8rem;
+    }
+   
+    
+    #carList button1{
+        margin-top: .5rem;
+        display: block;
+        background: green;
+        width: 12rem;
+        text-align: center;
+        color: aliceblue;
+    }
+    #carList button2{
+        margin-top: .5rem;
+        display: block;
+        background: red;
+        width: 12rem;
+        text-align: center;
+        color: aliceblue;
+    }
+    #reviewList p{
+        font-weight: bold;
+        font-size: large;
+    }
+    #reviewList span{
+        color: blue;
+        font-weight: 700;
+        font-style:italic ;
+    }
 
-}
-#editCarForm input{
-    border: 1px solid green;
-    padding: .1rem;
-}
-#carList{
-    columns: 4;
-    display: flex;
-    justify-content: space-between;
-}
-#carList .cars1{
 
-}
-#carList button{
-background: red;
-border-radius: .5rem;
-padding:.5rem;
-width: 50%;
+    #reviewList div{
+       background: beige;
+       width: 18rem;
+       align-items: center;
+       
 
-height: 4vh;
-}
-#carList button1{
-background: green;
-padding: .5rem;
-border-radius: .5rem;
-width: 50%;
-height: 4vh;
-}
+    }
+    #reviewList button{
+        background: green;
+        color: antiquewhite;
+        font-weight: 900;
+        width: 90%;
+        text-align: center;
+         margin-top: 1rem;
+    }
+
 
 
 
@@ -289,9 +333,7 @@ height: 4vh;
 
 
 @media (max-width:991px){
-    body{
-        padding: 1rem;
-    }
+   
     .header .bars{
         margin-left: rem;
         display: flex;
@@ -329,52 +371,188 @@ height: 4vh;
         margin-top: 14rem;
         
     }
-    .containers .left-nav{
-        display: none;
-    }
+   
     .containers .nav-right{
         display: none;
     }
-    
-    
+    nav{
+        display: none;
+       }
+       
+        
+        .containers .slider{
+            width: 100%;
+            overflow: hidden;
+           
+        }
+        .header-right{
+            float: right;
+            
+           width: 35%;
+           align-items: right;
+           text-align: right;
+           padding: 0;
+        }
+    .header-right .login{
+        display: block;
 
+    }
+    .header-right .login #password{
+        margin: 0;
+        margin-top: .5rem;
+    }
+    .questions{
+        display: block;
+        width: 100%;
+       }
+       .footer .smallfooter{
+        display: block;
+       }
+       .footer .footerlist{
+        display: none;
+       }
+       .footer{
+        margin: 0;
+        padding: .5rem;
+       }
+       .right-1 .member{
+        position: relative;
     
-    
+         display: inline-block;
+       }
+       .right-1 .member :hover .members{
+        display: block;
+         background: black;
+     }
+     .header-right .loginForms{
+        display: none;
+        
+       }
+       .header-right .loginForms.active{
+        display: block;
+       }
+       
+       .containers .slider .detailz{
+        display: none;
+     }
+     .containers .slider .detailz.active{
+        display: block;
+        
+     }
+     .registerForm{
+        display: none;
+    }
+    .registerForm.active{
+        display: block;
+    }
+    .comments{
+        display: flex;
+        flex-direction: column;
+        width: 180%;
+        
+        margin-left: .5rem;
+        padding: 1rem;
+    }
+    .comments .smright{
+        margin: 0;
+    }
+    .containers .slider .search{
+        width: 97%;
+    }
+    .containers .slider .search i{
+        font-size: 1.5rem;
+        margin-left: .5rem;
+        color: #eee;
+    }
+    .containers .slider .search:hover{
+        box-shadow:1rem 1.5rem 1.5rem rgba(0,0,0,.1)
+    }
 }
 
 
 @media (max-width:768px) {
+    
+    body{
+        width: 100%;
+    }
     .favourite{
         display: flex;
         justify-content: center;
+        margin-top: 2rem;
         
     }
-    
+    .favourite a{
+        padding: .5rem;
+    }
+   nav{
+    display: none;
+   }
+   .containers .nav-right{
+    display: none;
+}
     
     .containers .slider{
         width: 100%;
         overflow: hidden;
-        
-        
+       
     }
-    .containers .left-nav{
-        display: none;
-    }
+    
     .header .logo{
         
         width: 40%;
         
     }
-      
+    
+    
+
+       .header-right .right-1{
+        display: block;
        
-        .header2 .header-right{
-            display: none;
+       }
+       .slider .questions{
+        display: block;
+        width: 100%;
+       }
+       .slider .questions .left{
+          width: 100%;
+       }
+       .slider .questions .right{
+        width: 100%;
+       }
+       .footer img{
+        width: 25%;
+        margin: 0;
+       }
+       .footer{
+        margin: 0;
+        padding: .5rem;
+        justify-content: none;
+       }
+     .containers .search {
+        width: 80%;
+     }
+     .header-right .loginForms{
+        display: none;
+        margin-right: 0;
+        
+       }
        
-        }
-        nav{
-            display: none;
-        }
+       .header-right .loginForms.active{
+        display: block;
+       }
        
-       
-       
+       .containers .slider .detailz{
+        display: none;
+     }
+     .containers .slider .detailz.active{
+        display: block;
+        
+     }
+     .registerForm{
+        display: none;
+    }
+    .registerForm.active{
+        display: block;
+    }
+
 }
