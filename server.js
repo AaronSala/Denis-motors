@@ -51,49 +51,27 @@ app.get('/cars', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
+app.use(express.json());
 
-
+// Create a review schema
 const reviewSchema = new mongoose.Schema({
   name: String,
   location: String,
-  country: String,
-  comments: String,
+  rating: String,
+  comment: String,
 });
 
-// Create a review model
 const Review = mongoose.model('Review', reviewSchema);
 
-// Middleware
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(express.static('public'));
-
-// Serve the HTML file for the root path
-app.get('/', function(req, res) {
-  res.sendFile(path.join(__dirname,  'public', 'index.html'));
-});
-
-// Set the MIME type for JavaScript files
-
-// Handle POST request for creating a new review
-app.post('/reviews', function(req, res) {
-  const { name, location, country, comments } = req.body;
- 
-  // Create a new review object
-  const review = new Review({
-    name,
-    location,
-    country,
-    comments
-  });
-
-  // Save the review object to the database
-  review.save()
-    .then(() => {
-      console.log('Review saved:', comments);
-      res.redirect('/');
+app.get('/reviews', function (req, res) {
+  Review.find()
+    .then(reviews => {
+      res.json(reviews);
     })
-    .catch(error => console.error('Error saving review:', error));
+    .catch(error => {
+      console.error('Error fetching reviews:', error);
+      res.status(500).json({ error: 'Error fetching reviews' });
+    });
 });
 
 
