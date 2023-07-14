@@ -204,3 +204,4 @@ app.put('/reviews/:id', function (req, res) {
       res.status(500).json({ error: 'Error updating rating' });
     });
 });
+

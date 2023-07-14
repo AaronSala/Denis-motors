@@ -71,5 +71,6 @@ function fetchAndDisplayReviews() {
     });
 }
 
+
 // Call the fetchAndDisplayReviews function to load and display the customer reviews
 fetchAndDisplayReviews();
