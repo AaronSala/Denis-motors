@@ -4,6 +4,12 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', 'https://dennis-motors.vercel.app');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+});
 // Connect to MongoDB
 mongoose
   .connect('mongodb://localhost/denis', {
@@ -20,12 +26,7 @@ mongoose
     next();
   });
   
-  app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', 'https://dennis-motors.vercel.app');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    next();
-  });
+  
 // Create a car schema
 const carSchema = new mongoose.Schema({
   maker: String,
