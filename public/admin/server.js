@@ -6,6 +6,13 @@ const path = require('path');
 const multer = require('multer');
 
 // Connect to MongoDB
+
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', 'https://dennis-motors.vercel.app');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+});
 mongoose
   .connect('mongodb://localhost/denis', {
     useNewUrlParser: true,
