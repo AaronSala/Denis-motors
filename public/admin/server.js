@@ -2,17 +2,9 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const path = require('path');
 const multer = require('multer');
 
 // Connect to MongoDB
-
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', 'https://dennis-motors.vercel.app');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  next();
-});
 mongoose
   .connect('mongodb://localhost/denis', {
     useNewUrlParser: true,
@@ -23,18 +15,29 @@ mongoose
     console.error('Error connecting to MongoDB:', error)
   );
 
+  app.use('/server.js', (req, res, next) => {
+    res.setHeader('Content-Type', 'application/javascript');
+    next();
+  });
+  
+  app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', 'https://dennis-motors.vercel.app');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+  });
 // Create a car schema
 const carSchema = new mongoose.Schema({
   maker: String,
   model: String,
   year: Number,
-  image: [String],
+  images: [String],
   price: Number,
   category: String,
   shape: String,
-  description: String,
-  engine: String,
   mileage: String,
+  engine: String,
+  description:String,
 });
 
 // Create a car model
@@ -51,7 +54,7 @@ const storage = multer.diskStorage({
     cb(null, file.fieldname + '-' + uniqueSuffix);
   },
 });
-app.use('/public/uploads', express.static('public/uploads'));
+
 // Create the multer middleware using the storage configuration
 const upload = multer({ storage: storage });
 
@@ -62,43 +65,48 @@ app.use(express.static('public'));
 
 // Serve the HTML file for the root path
 app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, 'admin.html'));
-});
-
-
-// Set the MIME type for JavaScript files
-app.use('/server.js', (req, res, next) => {
-  res.setHeader('Content-Type', 'application/javascript');
-  next();
+  res.sendFile(__dirname + '/admin.html');
 });
 
 // Handle POST request for creating a new car
-app.post('/cars', upload.array('image'), function (req, res) {
-  const { maker, model, year, price, shape, description, engine, category, mileage } = req.body;
-  const imagePaths = req.files.map(file => file.path);
-  
-  // Create a new car object
-  const car = new Car({
-    maker,
-    model,
-    year,
-    price,
-    shape,
-    description,
-    engine,
-    category,
-    mileage,
-    image: imagePaths
-  });
+// Handle POST request for creating a new car
+app.post('/cars', function (req, res) {
+  upload.array('images')(req, res, function (error) {
+    if (error) {
+      console.error('Error uploading images:', error);
+      return res.status(500).send('Error uploading images');
+    }
 
-  // Save the car object to the database
-  car.save()
-    .then(() => {
-      console.log('Car saved:', car);
-      res.redirect('/');
-    })
-    .catch(error => console.error('Error saving car:', error));
+    const { maker, model, year, price, category, shape, mileage, engine,description } = req.body;
+    const imagePaths = req.files.map(file => file.path);
+
+    // Create a new car object
+    const car = new Car({
+      maker,
+      model,
+      year,
+      images: imagePaths,
+      price,
+      category,
+      shape,
+      mileage,
+      engine,
+      description,
+    });
+
+    // Save the car object to the database
+    car.save()
+      .then(() => {
+        console.log('Car saved:', car);
+        res.redirect('/');
+      })
+      .catch(error => console.error('Error saving car:', error));
+  });
 });
+
+
+// Start the server
+
 
 // Handle DELETE request for deleting a car
 app.delete('/cars/:id', function (req, res) {
@@ -118,10 +126,11 @@ app.delete('/cars/:id', function (req, res) {
 
 // Handle PUT request for updating a car
 // Handle PUT request for updating a car
-app.put('/cars/:id', upload.single('image'), function (req, res) {
+// Handle PUT request for updating a car
+app.put('/cars/:id', upload.array('images'), function (req, res) {
   const carId = req.params.id;
   const { maker, model, year, price, shape, description, engine, category, mileage } = req.body;
-  const imagePath = req.file ? req.file.path : '';
+  const imagePaths = req.files.map(file => file.path);
 
   // Find the car by its ID and update the fields
   Car.findByIdAndUpdate(carId, {
@@ -134,7 +143,7 @@ app.put('/cars/:id', upload.single('image'), function (req, res) {
     engine,
     category,
     mileage,
-    image: imagePath
+    images: imagePaths
   }, { new: true })
     .then(updatedCar => {
       if (updatedCar) {
@@ -211,4 +220,6 @@ app.put('/reviews/:id', function (req, res) {
       res.status(500).json({ error: 'Error updating rating' });
     });
 });
+
+
 

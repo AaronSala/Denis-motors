@@ -7,7 +7,7 @@
 
     <title>Denis motors</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="../index.css">
+    <link rel="stylesheet" href="index.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src=" https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -181,7 +181,7 @@
 
  <div class="border-2 border-grey bg-slate-200 p-4">
   <form action="/cars" method="POST" id="carForm" enctype="multipart/form-data">
-  <select class="w-full p-2 bg-white border-2" name="maker">
+  <select class="w-full p-2 bg-white border-2" name="maker" id="maker">
     <option>Maker </option>
     <option> NISSAN</option>
     <option>TOYOTA</option>
@@ -193,7 +193,7 @@
     <option> SUZUKI</option>
     <option> OTHERS</option>
   </select>
-  <select class="w-full p-2 bg-white border-2" name="shape">
+  <select class="w-full p-2 bg-white border-2" name="shape" id="shape">
     <option>Shape </option>
     <option> COUPE</option>
     <option>SEDAN</option>
@@ -206,7 +206,7 @@
     <option> TRUCK</option>
   </select>
 
-  <select class="w-full p-2 bg-white border-2" name="category">
+  <select class="w-full p-2 bg-white border-2" name="category" id="category">
     <option>Vehicle Category</option>
     <option>newArrivals</option>
     <option> bestDeals</option>
@@ -217,16 +217,16 @@
   
 
   <h3 class="mt-3 font-semibold text-red-500 uppercase">Model</h3>
-  <input type="text" name="model" placeholder="eg land cruiser-TX, TZG" class="p-2">
+  <input type="text" id="model" name="model" placeholder="eg land cruiser-TX, TZG" class="p-2">
 
   <h3 class="mt-3 font-semibold text-red-500 uppercase">Vehicle Description</h3>
-  <textarea type="text" name="Description" class="w-full p-1 border-2" placeholder="Description"></textarea>
+  <textarea type="text" id="description" name="description" class="w-full p-1 border-2" placeholder="Description"></textarea>
  
    
   <div class="select flex items-center h-auto">
     <div class="left w-1/2">
         <h3 class="mt-3 font-semibold text-red-500 uppercase">year of manufacture</h3>
-        <select name="year" class=" p-1 w-4/5 bg-white border-2 " >
+        <select name="year" id="year" class=" p-1 w-4/5 bg-white border-2 " >
             <option>Year </option>
             <option>2022 </option>
             <option>2021</option>
@@ -239,7 +239,7 @@
             <option>2014</option>
           </select>
           <h3 class="mt-3 font-semibold text-red-500 uppercase">mileage</h3>
-          <select name="mileage" class=" p-1 w-4/5 bg-white border-2 ">
+          <select name="mileage" id="mileage" class=" p-1 w-4/5 bg-white border-2 ">
             <option>mileage</option>
             <option>50 000 </option>
             <option>80 000</option>
@@ -250,7 +250,7 @@
             
           </select>  
           <h3 class="mt-3 font-semibold text-red-500 uppercase">engine size(--cc)</h3>
-          <select name="engineSize" class=" p-1 w-4/5 bg-white border-2 ">
+          <select name="engine" id="engine" class=" p-1 w-4/5 bg-white border-2 ">
             <option>engine capacity</option>
             <option> 700 </option>
             <option>1500</option>
@@ -266,7 +266,7 @@
     </div>
     <div class="div-right w-1/2 h-full flex-col">
         <h3 class="mt-3 font-semibold text-red-500 uppercase w-full">Vehicle images</h3>
-<input type="file" id="image" name="image" accept="image/jpeg, image/png" multiple required>
+<input type="file" id="image" name="images"  multiple required>
 
        
          <!-- add vehicle ends here -->
@@ -327,7 +327,7 @@
       </div>
       
       <h3 class="mt-3 font-semibold text-red-500 uppercase w-full">Vehicle images</h3>
-<input type="file" id="editImage" name="editImage" accept="image/jpeg, image/png" multiple required>
+<input type="file" id="image" name="images" accept="image/jpeg, image/png" multiple >
 
   
       <!-- Submit button -->
@@ -353,7 +353,13 @@
     <img src="/images/quatation.jpeg">
     <div  id="reviewList" class="p-4 flex w-full  gap-2">
      
-            
+          </div>  
+          <h3 class=" w-full h-8 text-white bg-blue-900 p-2 "> inquiries</h3>
+    
+    <div  id="inquireies" class="p-4 flex w-full  gap-2">
+     <img src="images/alphard.jpg">
+          </div>  
+          
     </div>
 </section>
 
