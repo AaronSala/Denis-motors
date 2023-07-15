@@ -321,6 +321,35 @@ z-index: 1;
         text-align: center;
          margin-top: 1rem;
     }
+    #reviewList btn{
+        background: var(--red);
+        text-align: center;
+         width: 100%;
+        margin-top: 1rem;
+        color: aliceblue;
+        font-weight:bolder;
+    }
+    #inquiryList div{
+        background: beige;
+        padding-left: .5rem;
+    }
+    #inquiryList button{
+        background: var(--red);
+        text-align: center;
+        width: 90%;
+        margin-top: 1rem;
+        color: aliceblue;
+        font-weight:bolder;
+    }
+    #inquiryList p{
+        font-weight: bold;
+        font-size: large;
+    }
+    #inquiryList span{
+        color: blue;
+        font-weight: 700;
+        font-style:italic ;
+    }
 
 
 
@@ -365,7 +394,7 @@ z-index: 1;
     }
     .containers .slider{
         width: 100%;
-        z-index: -2;
+        
         
         
     }

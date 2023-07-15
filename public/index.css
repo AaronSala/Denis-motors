@@ -34,7 +34,8 @@ h2{
 
 
 .header .top{
-    
+    width: 100%;
+    position: fixed;
     background: var(--black);
     height: 1rem;
     text-align: center;
@@ -43,9 +44,9 @@ h2{
 }
 .header2{
    
-  
+ 
     background: var(--red);
-  
+  width: 100%;
    
     display: flex;
     justify-content: space-between;
@@ -260,14 +261,12 @@ z-index: 1;
 .registerForm.active{
     display: block;
 }
-#carList a {
-width: 12rem;
 
-
+#carList div{
+    width: 10rem;
 }
-#carList img{
-    width: 12rem;
-    height: 10vh;
+#carList div img{
+height: 10rem;
 }
 #carList p{
     color: rgb(51, 51, 181);
@@ -336,6 +335,72 @@ width: 12rem;
         }
 
 
+  
+        .alCars .swiper-container {
+            width: 100%;
+            /* Adjust the height as needed */
+          }
+          
+          .alCars .swiper-wrapper {
+            display: flex;
+          }
+        
+          .alCars .swiper-slide {
+            width: 10rem;
+            
+
+          }
+          
+          .alCars .swiper-pagination {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+          }
+          
+          .alCars .swiper-pagination-bullet {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #ED2323;
+            margin: 0 5px;
+            cursor: pointer;
+          }
+          
+          .alCars .swiper-pagination-bullet-active {
+            background-color: #333;
+          }
+          .alCars .swiper-slide img{
+            
+            height: 20vh;  
+           
+          }
+          .swiper .swiper-button-prev, 
+          .swiper .swiper-button-next{
+           color: #fff;
+          }
+          .swiper .swiper-pagination-bullet-active{
+              background: #fff;
+          }
+          .floating-button {
+            position: fixed;
+            bottom: 3rem;
+            right: 20px;
+            width: 5rem;
+            height: 60px;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 60px;
+            font-size: 20px;
+            z-index: 9999;
+          }
+          
+          
+
 
 
 
@@ -376,7 +441,7 @@ width: 12rem;
     }
     .containers .slider{
         width: 100%;
-        z-index: -2;
+       
         
         
     }

@@ -164,7 +164,10 @@ app.post("/inquiries", (req, res) => {
       console.error("Error saving inquiry:", error);
       res.status(500).json({ error: "Error saving inquiry" });
     });
+    
 });
+
+
 
 
 // Start the server

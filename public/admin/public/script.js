@@ -284,3 +284,61 @@ function updateRating(reviewId) {
 
 // Call the fetchAndDisplayReviews function to load and display the customer reviews
 fetchAndDisplayReviews();
+
+//fetching inquiries
+fetchAndDisplayInquiries();
+
+// Fetching inquiries
+function fetchAndDisplayInquiries() {
+  // Send a GET request to the server to retrieve the inquiries
+  fetch('/inquiries')
+    .then(response => response.json())
+    .then(inquiryList => {
+      const inquiryListElement = document.getElementById('inquiryList');
+      inquiryListElement.innerHTML = '';
+
+      // Iterate over the inquiry list and create HTML elements to display each inquiry
+      inquiryList.forEach(inquiry => {
+        const inquiryElement = document.createElement('div');
+        inquiryElement.classList.add('inquiry');
+
+        // Populate the HTML elements with inquiry data
+        inquiryElement.innerHTML = `
+          <p>Maker: <span>${inquiry.maker}</span><p>
+          <p>Model: <span>${inquiry.model}</span></p>
+          <p>Contacts: <span>${inquiry.contacts}</span></p>
+          <p>MinEngineSize: <span>${inquiry.minengine}</span></p>
+          <p>MaxYear: <span>${inquiry.maxyear}</span></p>
+          <p>MaxDistance: <span>${inquiry.maxdistance}</span></p>
+          <p>MaxEngineSize: <span>${inquiry.maxengine}</span></p>
+          <p>Comments: <span>${inquiry.comments}</span></p>
+        `;
+
+        // Create the delete button
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.addEventListener('click', () => deleteInquiry(inquiry._id));
+        inquiryElement.appendChild(deleteButton);
+
+        inquiryListElement.appendChild(inquiryElement);
+      });
+    })
+    .catch(error => {
+      console.error('Error fetching inquiries:', error);
+    });
+}
+
+// Function for deleting an inquiry
+function deleteInquiry(inquiryId) {
+  // Send a DELETE request to the server to delete the inquiry
+  fetch(`/inquiries/${inquiryId}`, {
+    method: 'DELETE'
+  })
+    .then(() => {
+      console.log('Inquiry deleted:', inquiryId);
+      fetchAndDisplayInquiries(); // Fetch and display the updated inquiries
+    })
+    .catch(error => {
+      console.error('Error deleting inquiry:', error);
+    });
+}
