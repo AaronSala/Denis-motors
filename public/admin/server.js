@@ -234,6 +234,86 @@ app.delete('/reviews/:id', function(req, res) {
       res.status(500).json({ error: 'Error deleting review' });
     });
 });
+const inquirySchema = new mongoose.Schema({
+  maker: String,
+  model: String,
+  contacts: String,
+  minengine: String,
+  maxyear: String,
+  maxdistance: String,
+  maxengine: String,
+  comments: String,
+});
+//fetching enquireies
+const Inquiries = mongoose.model('Inquiries', inquirySchema);
+
+app.get('/inquiries', function (req, res) {
+  Inquiries.find()
+    .then(inquiries => {
+      res.json(inquiries);
+    })
+    .catch(error => {
+      console.error('Error fetching inquiries:', error);
+      res.status(500).json({ error: 'Error fetching inquiries' });
+    });
+});
+// Delete an inquiry by ID
+app.delete('/inquiries/:inquiryId', function(req, res) {
+  const inquiryId = req.params.inquiryId;
+
+  Inquiries.findByIdAndRemove(inquiryId)
+    .then(deletedInquiry => {
+      if (!deletedInquiry) {
+        // Inquiry not found
+        res.status(404).json({ error: 'Inquiry not found' });
+      } else {
+        console.log('Inquiry deleted:', deletedInquiry);
+        res.json({ message: 'Inquiry deleted successfully' });
+      }
+    })
+    .catch(error => {
+      console.error('Error deleting inquiry:', error);
+      res.status(500).json({ error: 'Error deleting inquiry' });
+    });
+});
+
+app.get('/cars', async (req, res) => {
+  let client; // Declare the client variable outside the try block
+
+  app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', 'https://dennis-motors.vercel.app');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+  });
+
+  try {
+    // Connect to MongoDB
+    client = new MongoClient(mongoURL);
+    await client.connect();
+    const db = client.db(dbName);
+    const collection = db.collection(collectionName);
+
+    // Fetch car data from MongoDB
+    const cars = await collection.find().toArray();
+
+    // Send car data as JSON response
+    res.json(cars);
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send('Internal Server Error');
+  } finally {
+    // Close the MongoDB connection if it exists
+    if (client) {
+      client.close();
+    }
+  }
+});
+
+// Serve the cars.html file for the root URL
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/public/index.html');
+});
 
 
 // Start the server

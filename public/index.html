@@ -5,13 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Denis motors</title>
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
 </head>
 <script>
+
 
 
       fetch('http://localhost:3000/cars')
@@ -24,7 +26,7 @@
       toyotaCars.forEach(car => {
         const listItem = document.createElement('a');
         listItem.innerHTML = `
-        <img src="/admin/public/${car.image}" alt="${car.maker} ${car.model}">
+       <img src=admin/public/${car.images[0]}>
           <h2>${car.maker} ${car.model}</h2>
           
           <p>Engine:${car.engine}</p>
@@ -52,7 +54,7 @@
         const listItem = document.createElement('div');
         listItem.innerHTML = `
           
-          <img src="/admin/public${car.image}" alt="${car.maker} ${car.model}">
+          <img src="admin/public/${car.images[0]}" alt="${car.maker} ${car.model}">
           <h2>${car.maker} ${car.model}</h2>
           <p>engine:${car.engine}</p>
           <p>Price: ${car.price}</p>
@@ -76,6 +78,7 @@
 
   </script>
 <body class="m-0 p-0">
+    <a class="floating-button" href="https://wa.me/+254700914360"><img src="admin/images/whatsup.jpeg"></a>
     <!-- header section -->
     <section class="header ">
 <!-- header top -->
@@ -314,134 +317,88 @@ loginForms.classList.toggle("active")
         </div> 
         <div class="search  mt-3"> <input type="search" placeholder="make, year, maker, model"> <i class="fas fa-magnifying-glass"></i>
              </div>
-             <div class="inquiry nav-small p-4 lg:hidden ">
-    
-                <div class="bar"></div>
-                <h2 class="inquire">Inquire Cars</h2>
-                 <div class="form border-2 border-grey bg-slate-200">
-                  
-                  <select name="maker" class="w-full p-1 bg-white border-2 ">
-                    <option> Maker (All)</option>
-                    <option> NISSAN(12)</option>
-                    <option> TOYOTA(12)</option>
-                    <option> MAZDA(12)</option>
-                    <option> MITSUBISHI(12)</option>
-                    <option> HONDA(12)</option>
-                    <option> BENZ(12)</option>
-                    <option> BMW(12)</option>
-                    <option> SUZUKI(12)</option>
-                    <option> OTHERS(12)</option>
-                  </select>
-                  <select name="shape" class="w-full p-1 bg-white border-2">
-                    <option>Shape (all)</option>
-                    <option> COUPE(12)</option>
-                    <option>SEDAN(12)</option>
-                    <option> HATCHBACK(12)</option>
-                    <option> WAGON(12)</option>
-                    <option> SUV(12)</option>
-                    <option> BUS(12)</option>
-                    <option> VAN(12)</option>
-                    <option> LORRY</option>
-                    <option> TRUCK</option>
-                  </select>
-                  <input type="text" class="w-full p-1 border-2" placeholder="your Email"></input>
-                 
-                   
-                  <div class="select flex items-center h-56">
-                    <div class="left w-1/2">
-                        <select name="minyear" class=" p-1 w-4/5 bg-white border-2 ">
-                            <option>Year (min)</option>
-                            <option>2022 </option>
-                            <option>2021</option>
-                            <option>2020</option>
-                            <option>2019</option>
-                            <option>2018</option>
-                            <option>2017 </option>
-                            <option>2016</option>
-                            <option>2015 </option>
-                            <option>2014</option>
-                          </select>
-                          
-                          <select name="mindistance" class=" p-1 w-4/5 bg-white border-2 ">
-                            <option>km (min)</option>
-                            <option>50 000 </option>
-                            <option>80 000</option>
-                            <option>100 000</option>
-                            <option>150 000</option>
-                            <option>170 000</option>
-                            <option>2017 </option>
-                            
-                          </select>  
+             <!-- <div class="bar"></div>
+             <h2 class="inquire">Inquire Cars</h2>
+             
+              <div class="form border-2 border-grey bg-slate-200">
+                 <form action="/inquiries" method="POST" id="inquiryForm">
+               <select name="maker" id="maker" class="w-full p-1 bg-white border-2 ">
+                 <option> Maker (All)</option>
+                 <option> NISSAN(12)</option>
+                 <option> TOYOTA(12)</option>
+                 <option> MAZDA(12)</option>
+                 <option> MITSUBISHI(12)</option>
+                 <option> HONDA(12)</option>
+                 <option> BENZ(12)</option>
+                 <option> BMW(12)</option>
+                 <option> SUZUKI(12)</option>
+                 <option> OTHERS(12)</option>
+               </select>
+               <label for="model">Model</label>
+               <input type="text" id="model" placeholder="eg, noah, extrail, C 200 etc" name="model" class="w-full p-1 bg-white border-2">
+               <label for="contacts">contacts/email</label>  
+               <input type="text" name="contacts" id="contacts" class="w-full p-1 border-2" placeholder="how to reach you"></input>
+              
                 
-                          <select name="mincc" class=" p-1 w-4/5 bg-white border-2 ">
-                            <option>cc (min)</option>
-                            <option> 700 </option>
-                            <option>1500</option>
-                            <option>2500</option>
-                            <option>3000</option>
-                            <option>3500</option>
-                            <option>4000 </option>
-                            
-                          </select>  
+               <div class="select flex items-center">
+                 <div class="left w-1/2">
+                       <select name="minengine" id="minengine" class=" p-1 w-4/5 bg-white border-2 ">
+                         <option>engine (min)</option>
+                         <option> 700 </option>
+                         <option>1500</option>
+                         <option>2500</option>
+                         <option>3000</option>
+                         <option>3500</option>
+                         <option>4000 </option>
                          
-                          <input type="text" class="w-1/2 p-1 border-2 w-" placeholder="price">$</input>
-                    </div>
-                         <div name="maxyear" class="right w-1/2">
-                            <select class=" p-1 w-full bg-white border-2 ">
-                                <option>Year (max)</option>
-                                <option>2022 </option>
-                                <option>2021</option>
-                                <option>2020</option>
-                                <option>2019</option>
-                                <option>2018</option>
-                                <option>2017 </option>
-                                <option>2016</option>
-                                <option>2015 </option>
-                                <option>2014</option>
-                              </select>
-                
-                              <select name="maxdistance" class=" p-1 w-full bg-white border-2 ">
-                                <option>km (max)</option>
-                                <option>50 000 </option>
-                                <option>80 000</option>
-                                <option>100 000</option>
-                                <option>150 000</option>
-                                <option>170 000</option>
-                                <option>2017 </option>
-                                
-                              </select>  
+                       </select>  
+                       <input type="text" name="maxyear" id="maxyear" class=" p-1  border-2 " placeholder="maxyear"></input>
+                       <input type="text" name="minprice" id="minprice" class=" p-1  border-2 " placeholder="min price"></input>
+                 </div>
+                      <div >
+                           <select name="maxdistance" id="maxdistance" class=" p-1 w-full bg-white border-2 ">
+                             <option>km (max)</option>
+                             <option>50 000 </option>
+                             <option>80 000</option>
+                             <option>100 000</option>
+                             <option>150 000</option>
+                             <option>170 000</option>
+                             <option>2017 </option>
                              
-                              <select name="maxcc" class=" p-1 w-full bg-white border-2 ">
-                                <option>cc (max)</option>
-                                <option> 700 </option>
-                                <option>1500</option>
-                                <option>2500</option>
-                                <option>3000</option>
-                                <option>3500</option>
-                                <option>4000 </option>
-                                
-                              </select>  
-                              <input type="text" class="w-1/2 p-1 border-2 " placeholder="price">$</input></br>
-                              <span>Price ($ ksh=120)</span>
-                         </div>
-                        
-                </div>
-                </div>
-                <h2>comments</h2>
-                <textarea name="comment" class=" p-1 w-full bg-white border-2 border-slate-800 "></textarea>
-                <button class="w-full bg-red-600 text-center m-1 mb-8  border rounded ">submit</button>
-             <!-- recomended cars -->
+                           </select>  
+                           <select name="maxengine" id="maxengine" class=" p-1 w-full bg-white border-2 ">
+                             <option>engine (max)</option>
+                             <option> 700 </option>
+                             <option>1500</option>
+                             <option>2500</option>
+                             <option>3000</option>
+                             <option>3500</option>
+                             <option>4000 </option>
+                             
+                           </select>  
+                           <input type="text" name="maxprice" id="maxprice" class="w-3/4 p-1 border-2 " placeholder="maxprice"></input></br>
+                      </div>
+                     
              </div>
+             <h2>comments</h2>
+             <textarea name="comment" id="comment" class=" p-1 w-full bg-white border-2 border-slate-800 "></textarea>
+              <button type="submit" class="w-full bg-red-600 text-center m-1 mb-8  border rounded ">submit</button>
+              </form>
+              </div> -->
+             
              <div  class="bar"></div>
                 <h2>Recomended Cars</h2>
-                
-                <div class="swiper-container">
+                <div class="alCars">
+                <div class="carList swiper-container">
                     <div class="swiper-wrapper">
-
-         <!-- Car items will be dynamically populated here -->
+                      <!-- Car items will be dynamically populated here -->
                     </div>
                     <div class="swiper-pagination"></div>
                   </div>
+                </div>
+                  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+                    
+                 
             
             <!-- new arrivals -->
             <div class="bar"></div>
