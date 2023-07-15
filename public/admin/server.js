@@ -4,12 +4,15 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 
+
 app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', 'https://dennis-motors.vercel.app');
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3002');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   next();
 });
+
+
 // Connect to MongoDB
 mongoose
   .connect('mongodb://localhost/denis', {
@@ -195,11 +198,6 @@ app.get('/reviews', function (req, res) {
     });
 });
 
-// Start the server
-app.listen(3002, function () {
-  console.log('Server listening on port 3002');
-});
-
 // Handle PUT request for updating a review rating
 app.put('/reviews/:id', function (req, res) {
   const reviewId = req.params.id;
@@ -221,6 +219,29 @@ app.put('/reviews/:id', function (req, res) {
       res.status(500).json({ error: 'Error updating rating' });
     });
 });
+
+app.delete('/reviews/:id', function(req, res) {
+  const reviewId = req.params.id;
+
+  // Find the review by ID and delete it
+  Review.findByIdAndRemove(reviewId)
+    .then(() => {
+      console.log('Review deleted:', reviewId);
+      res.sendStatus(204); // Send a success status without content
+    })
+    .catch(error => {
+      console.error('Error deleting review:', error);
+      res.status(500).json({ error: 'Error deleting review' });
+    });
+});
+
+
+// Start the server
+app.listen(3002, function () {
+  console.log('Server listening on port 3002');
+});
+
+
 
 
 
