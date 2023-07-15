@@ -39,38 +39,93 @@
 // Call the fetchAndDisplayCars function to load and display the initial car data
 
 // Function to fetch and display the customer reviews
+// Fetch and display reviews
 function fetchAndDisplayReviews() {
-  // Send a GET request to the server to retrieve the customer reviews
-  axios.get('/reviews')
-    .then(function(response) {
-      const reviewList = response.data;
-
-      // Clear previous review list
+  // Send a GET request to the server to retrieve the reviews
+  fetch('http://localhost:3000/reviews')
+    .then(response => response.json())
+    .then(reviews => {
       const reviewListElement = document.getElementById('reviewList');
-      reviewListElement.innerHTML = '';
+      reviewListElement.innerHTML = ''; // Clear previous reviews
 
-      // Iterate over the review list and create HTML elements to display each review
-      reviewList.forEach(function(review) {
+      reviews.forEach(review => {
+        if (review.rating === 'good'){
         const reviewElement = document.createElement('div');
         reviewElement.classList.add('review');
 
-        // Combine all items for the review in a single div
         reviewElement.innerHTML = `
-          <h2>${review.name}</h2>
-          <p>Location: ${review.location}</p>
-          <p>Rating: ${review.rating}</p>
-          <p>Comment: ${review.comment}</p>
+          
+          <div2>
+          <h2>${review.name} From:
+         ${review.location} ${review.country}
+         </h2>
+         <div3>
+         <img src="images/quote.png">
+          <p><span>${review.comments}</span></p>
+          </div3>
+          </div2>
         `;
-
+// {<p>Rating: <span>${review.rating}</span></p>}
         reviewListElement.appendChild(reviewElement);
+        }
       });
     })
-    console.log(reviewList.target)
-    .catch(function(error) {
+    .catch(error => {
       console.error('Error fetching reviews:', error);
     });
 }
 
-
-// Call the fetchAndDisplayReviews function to load and display the customer reviews
+// Call the fetchAndDisplayReviews function to load and display the reviews
 fetchAndDisplayReviews();
+
+
+// Function to add a new reviews to database
+function addReview() {
+  // Get the input values
+  const name = document.getElementById('nameInput').value;
+  const location = document.getElementById('locationInput').value;
+  const country = document.getElementById('countryInput').value;
+  const comments = document.getElementById('commentsInput').value;
+
+  // Create an object to hold the review data
+  const reviewData = {
+    name,
+    location,
+    country,
+    comments,
+    
+  };
+
+  // Send a POST request to the server to add the review
+  fetch('http://localhost:3000/reviews', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(reviewData)
+  })
+    .then(response => response.json())
+    .then(newReview => {
+      console.log('Review added:', newReview);
+      // Clear the input fields
+      document.getElementById('nameInput').value = '';
+      document.getElementById('locationInput').value = '';
+      document.getElementById('countryInput').value = '';
+      document.getElementById('commentsInput').value = '';
+      // Fetch and display the updated reviews
+      fetchAndDisplayReviews();
+    })
+    .catch(error => {
+      console.error('Error adding review:', error);
+    });
+}
+
+// Add event listener for the form submission
+document.getElementById('reviewForm').addEventListener('submit', function(event) {
+  event.preventDefault(); // Prevent form submission and page refresh
+  addReview(); // Call the addReview function to add a new review
+});
+
+// Call the fetchAndDisplayReviews function to load and display the reviews
+fetchAndDisplayReviews();
+

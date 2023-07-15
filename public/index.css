@@ -299,6 +299,41 @@ width: 12rem;
             color: rgb(51, 51, 181);
             
         }
+        #reviewList p{
+            font-weight: bold;
+            font-size: large;
+        }
+        #reviewList span{
+            color: blue;
+            font-weight: 700;
+            font-style:italic ;
+        }
+    
+    
+        #reviewList div{
+           
+           width: 18rem;
+           align-items: top;
+           
+    
+        }
+       
+        #reviewList div{
+            display: flex;
+        }
+        #reviewList div img{
+            width: 4rem;
+            height: 10vh;
+        }
+        #reviewList h2{
+            font-size: 1.1rem;
+            background: #eee;
+            color:var(--black);
+            font-weight: 900;
+        }
+        #reviewList div3{
+            display: flex;
+        }
 
 
 

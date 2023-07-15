@@ -145,16 +145,16 @@ document.getElementById('editCarForm').addEventListener('submit', function(event
 
   // Create an object to hold the car data
   const carData = {
-    carId: formData.get('editCarId'), // Use "editCarId" instead of "carId"
-    maker: formData.get('editMaker'), // Use "editMaker" instead of "maker"
-    model: formData.get('editModel'), // Use "editModel" instead of "model"
-    year: formData.get('editYear'), // Use "editYear" instead of "year"
-    price: formData.get('editPrice'), // Use "editPrice" instead of "price"
-    shape: formData.get('editShape'), // Use "editShape" instead of "shape"
-    engine: formData.get('editEngine'), // Use "editEngine" instead of "engine"
-    category: formData.get('editCategory'), // Use "editCategory" instead of "category"
-    mileage: formData.get('editMileage'), // Use "editMileage" instead of "mileage"
-    description: formData.get('editDescription') // Use "editDescription" instead of "description"
+    carId: formData.get('editCarId'), 
+    maker: formData.get('editMaker'), 
+    model: formData.get('editModel'), 
+    year: formData.get('editYear'), 
+    price: formData.get('editPrice'), 
+    shape: formData.get('editShape'), 
+    engine: formData.get('editEngine'), 
+    category: formData.get('editCategory'), 
+    mileage: formData.get('editMileage'), 
+    description: formData.get('editDescription') 
   };
 
   const carId = formData.get('editCarId'); // Use "editCarId" instead of "carId"
@@ -232,13 +232,21 @@ function fetchAndDisplayReviews() {
           <p>Rating: <span>${review.rating}</span></p>
           <p>Comment: <span>${review.comments}</span></p>
         `;
-
+        // posting button to the user side
         const editButton = document.createElement('button');
         editButton.textContent = 'Post';
         editButton.addEventListener('click', function() {
           updateRating(review._id);
         });
         reviewElement.appendChild(editButton);
+
+        //delete button
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.addEventListener('click', function() {
+          deleteReview(review._id);
+        });
+        reviewElement.appendChild(deleteButton);
 
         reviewListElement.appendChild(reviewElement);
       });
@@ -247,7 +255,20 @@ function fetchAndDisplayReviews() {
       console.error('Error fetching reviews:', error);
     });
 }
-
+//function for deleting review
+function deleteReview(reviewId) {
+  // Send a DELETE request to the server to delete the review
+  fetch(`http://localhost:3002/reviews/${reviewId}`, {
+    method: 'DELETE'
+  })
+    .then(() => {
+      console.log('Review deleted:', reviewId);
+      fetchAndDisplayReviews(); // Fetch and display the updated reviews
+    })
+    .catch(error => {
+      console.error('Error deleting review:', error);
+    });
+}
 // Function to update the rating in the database
 function updateRating(reviewId) {
   // Send a PUT request to update the rating
