@@ -129,3 +129,59 @@ document.getElementById('reviewForm').addEventListener('submit', function(event)
 // Call the fetchAndDisplayReviews function to load and display the reviews
 fetchAndDisplayReviews();
 
+
+
+//posting inquiries
+// Event listener for form submission
+document.getElementById('inquiryForm').addEventListener('submit', function(event) {
+  event.preventDefault();
+
+  // Get the form data
+  const maker = document.getElementById('maker').value;
+  const model = document.getElementById('model').value;
+  const contacts = document.getElementById('contacts').value;
+  const minengine = document.getElementById('minengine').value;
+  const maxyear = document.getElementById('maxyear').value;
+  const maxdistance = document.getElementById('maxdistance').value;
+  const maxengine = document.getElementById('maxengine').value;
+  const comments = document.getElementById('comment').value;
+
+  // Create an inquiry object
+  const inquiryData = {
+    maker,
+    model,
+    contacts,
+    minengine,
+    maxyear,
+    maxdistance,
+    maxengine,
+    comments,
+  };
+
+  // Post the inquiry to the server
+  fetch('/inquiries', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(inquiryData)
+  })
+  .then(response => response.json())
+  .then(savedInquiry => {
+    console.log('Inquiry saved:', savedInquiry);
+    // Clear the input fields
+    document.getElementById('maker').value = '';
+    document.getElementById('model').value = '';
+    document.getElementById('contacts').value = '';
+    document.getElementById('minengine').value = '';
+    document.getElementById('maxyear').value = '';
+    document.getElementById('maxprice').value = '';
+    document.getElementById('maxdistance').value = '';
+    document.getElementById('maxengine').value = '';
+    document.getElementById('comment').value = '';
+  })
+  .catch(error => {
+    console.error('Error saving inquiry:', error);
+  });
+});
+
