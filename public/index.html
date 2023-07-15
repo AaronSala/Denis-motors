@@ -437,29 +437,26 @@ loginForms.classList.toggle("active")
                 
                 <div class="swiper-container">
                     <div class="swiper-wrapper">
-                      <!-- Car items will be dynamically populated here -->
+
+         <!-- Car items will be dynamically populated here -->
                     </div>
                     <div class="swiper-pagination"></div>
                   </div>
-                
-               
             
-        
-               
-                 
             <!-- new arrivals -->
             <div class="bar"></div>
                 <h2>New Arrivals</h2>
                 <div id="newArrivals" class="newcars p-4 flex gap-2 sm:gap-2 uppercase">
             </div>
         
-
+<!-- best deals cars -->
         <div class="bar"></div>
         <h2>Best Deals</h2>
 
         <div id="bestList" class="bestdeals p-4 flex gap-4 sm:gap-2 uppercase">
         </div>
 
+        <!-- question and answer section starts -->
         <div class="bar"></div>
         <h2>Q&A</h2>
         <div >
@@ -542,6 +539,8 @@ loginForms.classList.toggle("active")
                   </div>
             </div>
         </div>
+
+        <!-- cemmonts and feedback form -->
         <div class="bar"></div>
         <h2 class="">Comment/ give feedback </h2>
         <form action="/reviews" method="POST" id="reviewForm" class="comments mt-2 border border-stone-400 flex justify-center " ></br>
@@ -561,21 +560,16 @@ loginForms.classList.toggle("active")
         </div>
         </form>
 
+        <!-- reviews from customers -->
         <div class="bar"></div>
         <h2 class="">Reviews <button class="bg-red-600 text-white rounded-md p-1 ml-4 w-16">more</button></h2>
         <h4 class="font-semibold text-lg ml-3 mt-4">Voice from Denis Motors Customers</h4>
     <hr/>
-        
-        <div  id="reviewList" class="p-4 flex w-full gap-2 " name="reviewList">
-         
-              
+        <div  id="reviewList" class="p-4 flex w-full gap-2 " name="reviewList">      
         </div>
-       
-
-        
     </div>
     
-<!--  -->
+<!-- section center ends -->
 
 
 <!-- all section on the right -->
@@ -583,9 +577,10 @@ loginForms.classList.toggle("active")
 
 <div class="bar"></div>
 <h2 class="inquire">Inquire Cars</h2>
+
  <div class="form border-2 border-grey bg-slate-200">
-  
-  <select name="maker" class="w-full p-1 bg-white border-2 ">
+    <form action="/inquiries" method="POST" id="inquiryForm">
+  <select name="maker" id="maker" class="w-full p-1 bg-white border-2 ">
     <option> Maker (All)</option>
     <option> NISSAN(12)</option>
     <option> TOYOTA(12)</option>
@@ -597,49 +592,16 @@ loginForms.classList.toggle("active")
     <option> SUZUKI(12)</option>
     <option> OTHERS(12)</option>
   </select>
-  <select name="shape" class="w-full p-1 bg-white border-2">
-    <option>Shape (all)</option>
-    <option> COUPE(12)</option>
-    <option>SEDAN(12)</option>
-    <option> HATCHBACK(12)</option>
-    <option> WAGON(12)</option>
-    <option> SUV(12)</option>
-    <option> BUS(12)</option>
-    <option> VAN(12)</option>
-    <option> LORRY</option>
-    <option> TRUCK</option>
-  </select>
-  <input type="text" name="email" class="w-full p-1 border-2" placeholder="your Email"></input>
+  <label for="model">Model</label>
+  <input type="text" id="model" placeholder="eg, noah, extrail, C 200 etc" name="model" class="w-full p-1 bg-white border-2">
+  <label for="contacts">contacts/email</label>  
+  <input type="text" name="contacts" id="contacts" class="w-full p-1 border-2" placeholder="how to reach you"></input>
  
    
-  <div class="select flex items-center h-56">
+  <div class="select flex items-center">
     <div class="left w-1/2">
-        <select name="minyear" class=" p-1 w-4/5 bg-white border-2 ">
-            <option>Year (min)</option>
-            <option>2022 </option>
-            <option>2021</option>
-            <option>2020</option>
-            <option>2019</option>
-            <option>2018</option>
-            <option>2017 </option>
-            <option>2016</option>
-            <option>2015 </option>
-            <option>2014</option>
-          </select>
-          
-          <select name="mindistance" class=" p-1 w-4/5 bg-white border-2 ">
-            <option>km (min)</option>
-            <option>50 000 </option>
-            <option>80 000</option>
-            <option>100 000</option>
-            <option>150 000</option>
-            <option>170 000</option>
-            <option>2017 </option>
-            
-          </select>  
-
-          <select name="mincc" class=" p-1 w-4/5 bg-white border-2 ">
-            <option>cc (min)</option>
+          <select name="minengine" id="minengine" class=" p-1 w-4/5 bg-white border-2 ">
+            <option>engine (min)</option>
             <option> 700 </option>
             <option>1500</option>
             <option>2500</option>
@@ -648,24 +610,11 @@ loginForms.classList.toggle("active")
             <option>4000 </option>
             
           </select>  
-         
-          <input type="text" class="w-1/2 p-1 border-2 w-" placeholder="price">$</input>
+          <input type="text" name="maxyear" id="maxyear" class=" p-1  border-2 " placeholder="maxyear"></input>
+          <input type="text" name="minprice" id="minprice" class=" p-1  border-2 " placeholder="min price"></input>
     </div>
-         <div name="maxyear" class="right w-1/2">
-            <select class=" p-1 w-full bg-white border-2 ">
-                <option>Year (max)</option>
-                <option>2022 </option>
-                <option>2021</option>
-                <option>2020</option>
-                <option>2019</option>
-                <option>2018</option>
-                <option>2017 </option>
-                <option>2016</option>
-                <option>2015 </option>
-                <option>2014</option>
-              </select>
-
-              <select name="maxdistance" class=" p-1 w-full bg-white border-2 ">
+         <div >
+              <select name="maxdistance" id="maxdistance" class=" p-1 w-full bg-white border-2 ">
                 <option>km (max)</option>
                 <option>50 000 </option>
                 <option>80 000</option>
@@ -675,9 +624,8 @@ loginForms.classList.toggle("active")
                 <option>2017 </option>
                 
               </select>  
-             
-              <select name="maxcc" class=" p-1 w-full bg-white border-2 ">
-                <option>cc (max)</option>
+              <select name="maxengine" id="maxengine" class=" p-1 w-full bg-white border-2 ">
+                <option>engine (max)</option>
                 <option> 700 </option>
                 <option>1500</option>
                 <option>2500</option>
@@ -686,18 +634,17 @@ loginForms.classList.toggle("active")
                 <option>4000 </option>
                 
               </select>  
-              <input type="text" class="w-1/2 p-1 border-2 " placeholder="price">$</input></br>
-              <span>Price ($ ksh=120)</span>
+              <input type="text" name="maxprice" id="maxprice" class="w-3/4 p-1 border-2 " placeholder="maxprice"></input></br>
          </div>
         
 </div>
 <h2>comments</h2>
-<textarea name="comment" class=" p-1 w-full bg-white border-2 border-slate-800 "></textarea>
-    
-    
- <button class="w-full bg-red-600 text-center m-1 mb-8  border rounded ">submit</button>
-
+<textarea name="comment" id="comment" class=" p-1 w-full bg-white border-2 border-slate-800 "></textarea>
+ <button type="submit" class="w-full bg-red-600 text-center m-1 mb-8  border rounded ">submit</button>
+ </form>
  </div>
+
+
     <div class="countries columns-3 mt-4">
        <ul>
         <li class="m-2">
