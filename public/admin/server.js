@@ -50,7 +50,7 @@ const Car = mongoose.model('Car', carSchema);
 // Create a storage configuration for multer
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads'); // Specify the destination folder for uploaded files
+    cb(null, 'public/uploads'); // Specify the destination folder for uploaded files
   },
   filename: function (req, file, cb) {
     // Generate a unique filename for the uploaded file
