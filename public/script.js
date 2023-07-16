@@ -1,3 +1,5 @@
+const { redirect } = require("react-router-dom");
+
 fetch('http://localhost:3000/cars')
   .then(response => response.json())
   .then(cars => {
@@ -9,7 +11,7 @@ fetch('http://localhost:3000/cars')
         slide.classList.add('swiper-slide');
 
         slide.innerHTML = `
-          <img src="admin/public/${car.images}" alt="${car.maker} ${car.model}">
+          <img src="admin/public/${car.images[0]}" alt="${car.maker} ${car.model}">
           <h1>${car.maker} ${car.model}</h1>
           <p>Engine: ${car.engine}</p>
           <p>Mileage: ${car.mileage}</p>
@@ -175,4 +177,6 @@ document.getElementById('inquiryForm').addEventListener('submit', function(event
     console.error('Error saving inquiry:', error);
   });
 });
+
+// script.js
 

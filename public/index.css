@@ -35,7 +35,7 @@ h2{
 
 .header .top{
     width: 100%;
-    position: fixed;
+    
     background: var(--black);
     height: 1rem;
     text-align: center;
