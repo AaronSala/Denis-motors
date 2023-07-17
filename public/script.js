@@ -148,6 +148,222 @@ document.getElementById('inquiryForm').addEventListener('submit', function(event
 });
 
 
-
+   // tooggle the login and register form
+   const memb =document.getElementById('memb')
+   const members = document.querySelector('.members')
+   const register = document.querySelector('.register')
+   const login = document.querySelector('.login2')
+   const registerForm = document.querySelector('.registerForm')
+   const loginForms = document.querySelector('.loginForms')
+   
+   memb.addEventListener('mouseenter', ()=>{
+       members.style.display='block'
+   })
+   register.addEventListener('click', ()=>{
+       registerForm.classList.toggle("active")
+       members.style.display='none'
+   })
+   
+   login.addEventListener('click', ()=>{
+       members.style.display='none'
+   loginForms.classList.toggle("active")
+   })
+   
 // script.js
+
+//fetching and displaying cars
+//displaying alll cars
+    fetch('http://localhost:3000/cars')
+  .then(response => response.json())
+  .then(cars => {
+    const carList = document.getElementById('carList');
+
+    if (cars.length > 0) {
+      cars.forEach(car => {
+        const listItem = document.createElement('a');
+        const mainImage = car.images[0]; // Store the main image URL
+        car.images.splice(0, 1); // Remove the main image from the array
+
+        listItem.innerHTML = `
+          <img src="admin/${mainImage}" class="car-image">
+          <h2>${car.maker} ${car.model}</h2>
+          <p>Engine: ${car.engine}</p>
+          <p>Price: ${car.price}</p>
+          <p>Mileage: ${car.mileage}</p>
+        `;
+        carList.appendChild(listItem);
+
+        // Attach an event listener to each car <a> element
+        listItem.addEventListener('click', () => {
+          const mainImageContainer = document.getElementById('mainImageContainer');
+          mainImageContainer.innerHTML = ''; // Clear previous main image
+
+          // Display the main image
+          const mainImg = document.createElement('img');
+          mainImg.src = `admin/${mainImage}`;
+          mainImg.classList.add('car-image');
+          mainImageContainer.appendChild(mainImg);
+
+          // Display the other images
+          const additionalImageContainer = document.getElementById('additionalImageContainer');
+          additionalImageContainer.innerHTML = ''; // Clear previous additional images
+
+          car.images.forEach(image => {
+            const img = document.createElement('img');
+            img.src = `admin/${image}`;
+            img.classList.add('additional-image');
+            img.addEventListener('click', () => {
+              // Replace the main image when an additional image is clicked
+              mainImg.src = `admin/${image}`;
+            });
+            additionalImageContainer.appendChild(img);
+          });
+          window.scrollTo({
+            top: mainImageContainer.offsetTop,
+            behavior: 'smooth'
+          });
+        });
+      });
+    } else {
+      carList.innerHTML = '<p>No Toyota cars found.</p>';
+    }
+  })
+  .catch(error => {
+    console.error('Error fetching car data:', error);
+  });
+
+//displaying cars under the best deals section
+        
+  fetch('http://localhost:3000/cars')
+  .then(response => response.json())
+  .then(cars => {
+    const carList = document.getElementById('bestList');
+    const toyotaCars = cars.filter(car => car.category === 'bestDeals');
+
+    if (toyotaCars.length > 0) {
+      toyotaCars.forEach((car, index) => {
+        const listItem = document.createElement('a');
+        const mainImage = car.images[0]; // Store the main image URL
+        car.images.splice(0, 1); // Remove the main image from the array
+
+        listItem.innerHTML = `
+          <img src="admin/${mainImage}" class="car-image">
+          <h2>${car.maker} ${car.model}</h2>
+          <p>Engine: ${car.engine}</p>
+          <p>Price: ${car.price}</p>
+          <p>Mileage: ${car.mileage}</p>
+        `;
+        carList.appendChild(listItem);
+
+        // Attach an event listener to each car <a> element
+        listItem.addEventListener('click', () => {
+          const mainImageContainer = document.getElementById('mainImageContainer');
+          mainImageContainer.innerHTML = ''; // Clear previous main image
+
+          // Display the main image
+          const mainImg = document.createElement('img');
+          mainImg.src = `admin/${mainImage}`;
+          mainImg.classList.add('car-image');
+          mainImageContainer.appendChild(mainImg);
+
+          // Display the other images
+          const additionalImageContainer = document.getElementById('additionalImageContainer');
+          additionalImageContainer.innerHTML = ''; // Clear previous additional images
+
+          car.images.forEach(image => {
+            const img = document.createElement('img');
+            img.src = `admin/${image}`;
+            img.classList.add('additional-image');
+            img.addEventListener('click', () => {
+              // Replace the main image when an additional image is clicked
+              mainImg.src = `admin/${image}`;
+            });
+            additionalImageContainer.appendChild(img);
+          });
+          window.scrollTo({
+            top: mainImageContainer.offsetTop,
+            behavior: 'smooth'
+          });
+        });
+      });
+    } else {
+      carList.innerHTML = '<p>No Toyota cars found.</p>';
+    }
+  })
+  .catch(error => {
+    console.error('Error fetching car data:', error);
+  });
+
+
+
+//displaying cars undernewarrivals
+     
+  fetch('http://localhost:3000/cars')
+  .then(response => response.json())
+  .then(cars => {
+    const carList = document.getElementById('newArrivals');
+    const toyotaCars = cars.filter(car => car.category === 'newArrivals');
+
+    if (toyotaCars.length > 0) {
+      toyotaCars.forEach((car, index) => {
+        const listItem = document.createElement('a');
+        const mainImage = car.images[0]; // Store the main image URL
+        car.images.splice(0, 1); // Remove the main image from the array
+
+        listItem.innerHTML = `
+          <img src="admin/${mainImage}" class="car-image">
+          <h2>${car.maker} ${car.model}</h2>
+          <p>Engine: ${car.engine}</p>
+          <p>Price: ${car.price}</p>
+          <p>Mileage: ${car.mileage}</p>
+        `;
+        carList.appendChild(listItem);
+
+        // Attach an event listener to each car <a> element
+        listItem.addEventListener('click', () => {
+          const mainImageContainer = document.getElementById('mainImageContainer');
+          mainImageContainer.innerHTML = ''; // Clear previous main image
+
+          // Display the main image
+          const mainImg = document.createElement('img');
+          mainImg.src = `admin/${mainImage}`;
+          mainImg.classList.add('car-image');
+          mainImageContainer.appendChild(mainImg);
+
+          // Display the other images
+          const additionalImageContainer = document.getElementById('additionalImageContainer');
+          additionalImageContainer.innerHTML = ''; // Clear previous additional images
+
+          car.images.forEach(image => {
+            const img = document.createElement('img');
+            img.src = `admin/${image}`;
+            img.classList.add('additional-image');
+            img.addEventListener('click', () => {
+              // Replace the main image when an additional image is clicked
+              mainImg.src = `admin/${image}`;
+            });
+            additionalImageContainer.appendChild(img);
+          });
+          window.scrollTo({
+            top: mainImageContainer.offsetTop,
+            behavior: 'smooth'
+          });
+        });
+      });
+    } else {
+      carList.innerHTML = '<p>No Toyota cars found.</p>';
+    }
+  })
+  .catch(error => {
+    console.error('Error fetching car data:', error);
+  });
+
+
+
+  //fetching reviews
+ 
+
+
+
+
 
