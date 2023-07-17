@@ -263,13 +263,14 @@ z-index: 1;
 }
 
 
-#carList a img{
+#carList img{
 height: 10rem;
-width: 180px;
-
+width: 14rem;
 }
+
 #carList p{
     color: rgb(51, 51, 181);
+    width: 14rem;
     
 }
 #bestList a {
@@ -283,20 +284,20 @@ width: 180px;
     }
     #bestList p{
         color: rgb(51, 51, 181);
-        
+        width: 14rem;
     }
     #newArrivals a {
-        width: 12rem;
+        width: 14rem;
         
         
         }
         #newArrivals img{
-           width: 12rem;
+           width: 14rem;
             height: 15vh;
         }
         #newArrivals p{
             color: rgb(51, 51, 181);
-            
+            width: 14rem;
         }
         #reviewList p{
             font-weight: bold;
@@ -403,6 +404,9 @@ width: 180px;
             height: 10vh;
             width: 8rem;
           }
+          #additionalImageContainer{
+            overflow: scroll;
+          }
           #mainImageContainer img{
             width: 90%;
             height: 40vh;
@@ -421,8 +425,12 @@ width: 180px;
 
 
 @media (max-width:991px){
-   
-    .header .bars{
+   body{
+    margin: 0;
+    padding: 0;
+    overflow-x:hidden;
+   }
+     .header .bars{
         margin-left: rem;
         display: flex;
         flex-direction: column;
@@ -503,13 +511,9 @@ width: 180px;
         margin: 0;
         padding: .5rem;
        }
-       .right-1 .member{
-        position: relative;
-    
-         display: inline-block;
-       }
+       
        .right-1 .member :hover .members{
-        display: block;
+        
          background: black;
      }
      .header-right .loginForms{
@@ -556,6 +560,7 @@ width: 180px;
     
     body{
         width: 100%;
+        margin: 0;
     }
     .favourite{
         display: flex;
@@ -584,8 +589,17 @@ width: 180px;
         width: 40%;
         
     }
-    
-    
+    .member{
+        width: 5rem;
+        display: flex;
+    }
+    .right-1{
+       
+       display: flex;
+       height: 4vh;
+       
+
+    }
 
        .header-right .right-1{
         display: block;
