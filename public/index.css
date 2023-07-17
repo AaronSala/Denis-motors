@@ -317,9 +317,13 @@ width: 14rem;
            
     
         }
+        #reviewList div2{
+            width: 18rem;
+        }
        
         #reviewList div{
             display: flex;
+            width: 10rem;
         }
         #reviewList div img{
             width: 4rem;
@@ -387,7 +391,7 @@ width: 14rem;
           }
           .floating-button {
             position: fixed;
-            bottom: 3rem;
+            bottom: 18rem;
             right: 20px;
             width: 5rem;
             height: 60px;
@@ -426,6 +430,7 @@ width: 14rem;
 
 @media (max-width:991px){
    body{
+    transition: smooth;
     margin: 0;
     padding: 0;
     overflow-x:hidden;
@@ -449,23 +454,24 @@ width: 14rem;
          padding: 1rem;
          margin-top: rem;
          clip-path: polygon(0 0, 100% 0, 100% 0%, 0% 0%);
+         transition: .5s;
        }
        .header .links.active{
         clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
         overflow-y: scroll;
-  transition: 1s;
+  transition: .5s;
   overflow: hidden;
        
     }
     .containers .slider{
         width: 100%;
-       
+        transition: .5s;
         
         
     }
     .containers .slider.active{
-        margin-top: 14rem;
-        
+        margin-top: 16rem;
+        transition: .5s;
     }
    
     .containers .nav-right{
@@ -552,6 +558,15 @@ width: 14rem;
     }
     .containers .slider .search:hover{
         box-shadow:1rem 1.5rem 1.5rem rgba(0,0,0,.1)
+    }
+    #searchInput{
+        width: 85%;
+    }
+    #searchButton{
+        color: #fff;
+        font-weight: 700;
+        text-align: center;
+        padding-left: 1rem;
     }
 }
 
@@ -644,5 +659,31 @@ width: 14rem;
     .registerForm.active{
         display: block;
     }
+
+#reviewList div2{
+    width: 90%;
+}
+
+#reviewList div{
+    display: flex;
+    width: 90%;
+}
+#reviewList div img{
+    width: 4rem;
+    height: 10vh;
+}
+#reviewList h2{
+    font-size: 1.1rem;
+    background: #eee;
+    color:var(--black);
+    font-weight: 900;
+}
+#reviewList div3{
+    display: flex;
+    width: 18rem;
+}
+#reviewList{
+    overflow:scroll ;
+}
 
 }
