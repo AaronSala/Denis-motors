@@ -520,13 +520,7 @@ width: 180px;
         display: block;
        }
        
-       .containers .slider .detailz{
-        display: none;
-     }
-     .containers .slider .detailz.active{
-        display: block;
-        
-     }
+       
      .registerForm{
         display: none;
     }
@@ -629,13 +623,7 @@ width: 180px;
         display: block;
        }
        
-       .containers .slider .detailz{
-        display: none;
-     }
-     .containers .slider .detailz.active{
-        display: block;
-        
-     }
+       
      .registerForm{
         display: none;
     }

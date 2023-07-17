@@ -1,4 +1,4 @@
-const { redirect } = require("react-router-dom");
+//const { redirect } = require("react-router-dom");
 
 
 
@@ -146,6 +146,8 @@ document.getElementById('inquiryForm').addEventListener('submit', function(event
     console.error('Error saving inquiry:', error);
   });
 });
+
+
 
 // script.js
 
