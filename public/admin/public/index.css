@@ -138,31 +138,14 @@ nav{
 }
 
 
-.containers .slider{
-    padding-top: 1rem;
-    margin-left: .5rem;
-    width:48% ;
-    
-   
-    
-}
+
 .swiper{
 width: 100%;
 height: fit-content;
 
 }
-.swiper-slide img{
-  width: 100%;
-  height: 40vh;  
- 
-}
-.swiper .swiper-button-prev, 
-.swiper .swiper-button-next{
- color: #fff;
-}
-.swiper .swiper-pagination-bullet-active{
-    background: #fff;
-}
+
+
 .containers .slider .search {
 width: 100%;
 background:blue;
@@ -223,13 +206,7 @@ align-items: center;
 
 
 /* nav right */
-.containers .nav-right{
-    width: 25%;
-    margin: 1rem;
-    margin-top:-2rem ;
-   
-   
-}
+
 
 .containers .slider .detailz{
    display: none;
@@ -254,12 +231,7 @@ position: absolute;
 display: none;
 z-index: 1;
 }
- .registerForm{
-    display: none;
-}
-.registerForm.active{
-    display: block;
-}
+
 
 #editCarForm label{
     margin-top: .5rem;

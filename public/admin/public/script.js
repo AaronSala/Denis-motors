@@ -77,7 +77,7 @@ function fetchAndDisplayCars() {
         carElement.classList.add('car');
 
         const carImageElement = document.createElement('img');
-        carImageElement.src =`public/uploads/${car.images[0]}`; // Display the first image
+        carImageElement.src =`${car.images[0]}`; // Display the first image
         carElement.appendChild(carImageElement);
 
         const carInfoElement = document.createElement('div');

@@ -12,29 +12,58 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
 </head>
+
 <script>
-
-
-
-      fetch('http://localhost:3000/cars')
+    fetch('http://localhost:3000/cars')
   .then(response => response.json())
   .then(cars => {
-    const carList = document.getElementById('bestList');
-    const toyotaCars = cars.filter(car => car.category === 'bestDeals');
+    const carList = document.getElementById('carList');
 
-    if (toyotaCars.length > 0) {
-      toyotaCars.forEach(car => {
+    if (cars.length > 0) {
+      cars.forEach(car => {
         const listItem = document.createElement('a');
+        const mainImage = car.images[0]; // Store the main image URL
+        car.images.splice(0, 1); // Remove the main image from the array
+
         listItem.innerHTML = `
-       <img src=admin/public/${car.images[0]}>
+          <img src="admin/${mainImage}" class="car-image">
           <h2>${car.maker} ${car.model}</h2>
-          
-          <p>Engine:${car.engine}</p>
-          <p>Price: ${car.price}</p>s
+          <p>Engine: ${car.engine}</p>
+          <p>Price: ${car.price}</p>
           <p>Mileage: ${car.mileage}</p>
         `;
-    
         carList.appendChild(listItem);
+
+        // Attach an event listener to each car <a> element
+        listItem.addEventListener('click', () => {
+          const mainImageContainer = document.getElementById('mainImageContainer');
+          mainImageContainer.innerHTML = ''; // Clear previous main image
+
+          // Display the main image
+          const mainImg = document.createElement('img');
+          mainImg.src = `admin/${mainImage}`;
+          mainImg.classList.add('car-image');
+          mainImageContainer.appendChild(mainImg);
+
+          // Display the other images
+          const additionalImageContainer = document.getElementById('additionalImageContainer');
+          additionalImageContainer.innerHTML = ''; // Clear previous additional images
+
+          car.images.forEach(image => {
+            const img = document.createElement('img');
+            img.src = `admin/${image}`;
+            img.classList.add('additional-image');
+            img.addEventListener('click', () => {
+              // Replace the main image when an additional image is clicked
+              mainImg.src = `admin/${image}`;
+            });
+            additionalImageContainer.appendChild(img);
+          });
+          window.scrollTo({
+            top: mainImageContainer.offsetTop,
+            behavior: 'smooth'
+          });
+        });
       });
     } else {
       carList.innerHTML = '<p>No Toyota cars found.</p>';
@@ -43,6 +72,73 @@
   .catch(error => {
     console.error('Error fetching car data:', error);
   });
+
+
+        
+  fetch('http://localhost:3000/cars')
+  .then(response => response.json())
+  .then(cars => {
+    const carList = document.getElementById('bestList');
+    const toyotaCars = cars.filter(car => car.category === 'bestDeals');
+
+    if (toyotaCars.length > 0) {
+      toyotaCars.forEach((car, index) => {
+        const listItem = document.createElement('a');
+        const mainImage = car.images[0]; // Store the main image URL
+        car.images.splice(0, 1); // Remove the main image from the array
+
+        listItem.innerHTML = `
+          <img src="admin/${mainImage}" class="car-image">
+          <h2>${car.maker} ${car.model}</h2>
+          <p>Engine: ${car.engine}</p>
+          <p>Price: ${car.price}</p>
+          <p>Mileage: ${car.mileage}</p>
+        `;
+        carList.appendChild(listItem);
+
+        // Attach an event listener to each car <a> element
+        listItem.addEventListener('click', () => {
+          const mainImageContainer = document.getElementById('mainImageContainer');
+          mainImageContainer.innerHTML = ''; // Clear previous main image
+
+          // Display the main image
+          const mainImg = document.createElement('img');
+          mainImg.src = `admin/${mainImage}`;
+          mainImg.classList.add('car-image');
+          mainImageContainer.appendChild(mainImg);
+
+          // Display the other images
+          const additionalImageContainer = document.getElementById('additionalImageContainer');
+          additionalImageContainer.innerHTML = ''; // Clear previous additional images
+
+          car.images.forEach(image => {
+            const img = document.createElement('img');
+            img.src = `admin/${image}`;
+            img.classList.add('additional-image');
+            img.addEventListener('click', () => {
+              // Replace the main image when an additional image is clicked
+              mainImg.src = `admin/${image}`;
+            });
+            additionalImageContainer.appendChild(img);
+          });
+          window.scrollTo({
+            top: mainImageContainer.offsetTop,
+            behavior: 'smooth'
+          });
+        });
+      });
+    } else {
+      carList.innerHTML = '<p>No Toyota cars found.</p>';
+    }
+  })
+  .catch(error => {
+    console.error('Error fetching car data:', error);
+  });
+
+
+
+
+     
   fetch('http://localhost:3000/cars')
   .then(response => response.json())
   .then(cars => {
@@ -50,17 +146,50 @@
     const toyotaCars = cars.filter(car => car.category === 'newArrivals');
 
     if (toyotaCars.length > 0) {
-      toyotaCars.forEach(car => {
-        const listItem = document.createElement('div');
+      toyotaCars.forEach((car, index) => {
+        const listItem = document.createElement('a');
+        const mainImage = car.images[0]; // Store the main image URL
+        car.images.splice(0, 1); // Remove the main image from the array
+
         listItem.innerHTML = `
-          
-          <img src="admin/public/${car.images[0]}" alt="${car.maker} ${car.model}">
+          <img src="admin/${mainImage}" class="car-image">
           <h2>${car.maker} ${car.model}</h2>
-          <p>engine:${car.engine}</p>
+          <p>Engine: ${car.engine}</p>
           <p>Price: ${car.price}</p>
-          <p>mileage: ${car.mileage}</p>
+          <p>Mileage: ${car.mileage}</p>
         `;
         carList.appendChild(listItem);
+
+        // Attach an event listener to each car <a> element
+        listItem.addEventListener('click', () => {
+          const mainImageContainer = document.getElementById('mainImageContainer');
+          mainImageContainer.innerHTML = ''; // Clear previous main image
+
+          // Display the main image
+          const mainImg = document.createElement('img');
+          mainImg.src = `admin/${mainImage}`;
+          mainImg.classList.add('car-image');
+          mainImageContainer.appendChild(mainImg);
+
+          // Display the other images
+          const additionalImageContainer = document.getElementById('additionalImageContainer');
+          additionalImageContainer.innerHTML = ''; // Clear previous additional images
+
+          car.images.forEach(image => {
+            const img = document.createElement('img');
+            img.src = `admin/${image}`;
+            img.classList.add('additional-image');
+            img.addEventListener('click', () => {
+              // Replace the main image when an additional image is clicked
+              mainImg.src = `admin/${image}`;
+            });
+            additionalImageContainer.appendChild(img);
+          });
+          window.scrollTo({
+            top: mainImageContainer.offsetTop,
+            behavior: 'smooth'
+          });
+        });
       });
     } else {
       carList.innerHTML = '<p>No Toyota cars found.</p>';
@@ -69,6 +198,7 @@
   .catch(error => {
     console.error('Error fetching car data:', error);
   });
+
 
 
   //fetching reviews
@@ -77,6 +207,9 @@
 
 
   </script>
+  
+
+  </style>
 <body class="m-0 p-0">
     <a class="floating-button" href="https://wa.me/+254700914360"><img src="images/whatsup.jpeg"></a>
     <!-- header section -->
@@ -104,7 +237,7 @@
        </div>
     <!-- header right -->
     
-    <div class="header-right bg-green-200">
+    <div class="header-right">
   
             <form class="loginForms" id="loginForms" action="" method="" >
             <div id="" class="login flex sm:block 2xl:flex">
@@ -320,6 +453,66 @@ loginForms.classList.toggle("active")
         </div> 
         <div class="search  mt-3"> <input type="search" placeholder="make, year, maker, model"> <i class="fas fa-magnifying-glass"></i>
              </div>
+             
+            <div class="viewCar  " id="viewCar">
+                <div class="px-5 hidden">
+                <img class="mainImg border align-middle h-48" src="images/cars/benz.jpeg">
+            
+                <div class="flex w-full gap-2 mt-4 overflow-scroll">
+                    <img class="w-16 smallImg" src="images/cars/th (1).jpeg">
+                    <img class="w-16 smallImg"src="images/cars/th (2).jpeg">
+                    <img class="w-16 smallImg"src="images/cars/th (3).jpeg">
+                    <img class="w-16 smallImg"src="images/cars/th (4).jpeg">
+                    <img class="w-16 smallImg"src="images/cars/th (5).jpeg">
+                    <img class="w-16 smallImg"src="images/cars/th (6).jpeg">
+                    <img class="w-16 smallImg"src="images/cars/th (2).jpeg">
+                    <img class="w-16 smallImg"src="images/cars/th (2).jpeg">
+                    <img class="w-16 smallImg"src="images/cars/th (2).jpeg">
+                    <img class="w-16 smallImg"src="images/cars/th (2).jpeg">
+                    <img class="w-16 smallImg"src="images/cars/th (2).jpeg">
+                </div>
+
+        </div>
+    </div>
+
+        <script>
+            const mainImg = document.querySelector('.mainImg')
+            const smallImg = document.querySelectorAll('.smallImg')
+
+            smallImg[0].onclick=function() {
+        mainImg.src=smallImg[0].src;    
+        }
+        smallImg[1].onclick=function() {
+        mainImg.src=smallImg[1].src;    
+        }
+        smallImg[2].onclick=function() {
+        mainImg.src=smallImg[2].src;    
+        }
+        smallImg[3].onclick=function() {
+        mainImg.src=smallImg[3].src;    
+        }
+        smallImg[4].onclick=function() {
+        mainImg.src=smallImg[4].src;    
+        }
+        smallImg[5].onclick=function() {
+        mainImg.src=smallImg[5].src;    
+        }
+        smallImg[6].onclick=function() {
+        mainImg.src=smallImg[6].src;    
+        }
+        smallImg[7].onclick=function() {
+        mainImg.src=smallImg[7].src;    
+        }
+        smallImg[8].onclick=function() {
+        mainImg.src=smallImg[8].src;    
+        }
+        smallImg[9].onclick=function() {
+        mainImg.src=smallImg[9].src;    
+        }
+        smallImg[10].onclick=function() {
+        mainImg.src=smallImg[10].src;    
+        }
+        </script>
              <!-- <div class="bar"></div>
              <h2 class="inquire">Inquire Cars</h2>
              
@@ -389,31 +582,24 @@ loginForms.classList.toggle("active")
               </form>
               </div> -->
              
-             <div  class="bar"></div>
-                <h2>Recomended Cars</h2>
-                <div class="alCars">
-                <div class="carList swiper-container">
-                    <div class="swiper-wrapper">
-                      <!-- Car items will be dynamically populated here -->
-                    </div>
-                    <div class="swiper-pagination"></div>
-                  </div>
-                </div>
-                  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-                    
-                 
-            
+              <div class="bar"></div>
+              <h2>All Cars</h2>
+              <div id="carList" class=" newcars  overflow-scroll p-4 flex gap-2 sm:gap-2 uppercase">
+          </div>
+          <div id="mainImageContainer" class="bg-slate-300"></div>
+          <div id="additionalImageContainer" class="bg-slate-500 flex"></div>
+                
             <!-- new arrivals -->
             <div class="bar"></div>
                 <h2>New Arrivals</h2>
-                <div id="newArrivals" class="newcars p-4 flex gap-2 sm:gap-2 uppercase">
+                <div id="newArrivals" class="overflow-scroll newcars p-4 flex gap-2 sm:gap-2 uppercase">
             </div>
         
 <!-- best deals cars -->
         <div class="bar"></div>
         <h2>Best Deals</h2>
 
-        <div id="bestList" class="bestdeals p-4 flex gap-4 sm:gap-2 uppercase">
+        <div id="bestList" class="overflow-scroll bestdeals p-4 flex gap-4 sm:gap-2 uppercase">
         </div>
 
         <!-- question and answer section starts -->
