@@ -1,36 +1,5 @@
 const { redirect } = require("react-router-dom");
 
-fetch('http://localhost:3000/cars')
-  .then(response => response.json())
-  .then(cars => {
-    const swiperWrapper = document.querySelector('.carList .swiper-wrapper');
-
-    if (cars.length > 0) {
-      cars.forEach(car => {
-        const slide = document.createElement('div');
-        slide.classList.add('swiper-slide');
-
-        slide.innerHTML = `
-          <img src="admin/public/${car.images[0]}" alt="${car.maker} ${car.model}">
-          <h1>${car.maker} ${car.model}</h1>
-          <p>Engine: ${car.engine}</p>
-          <p>Mileage: ${car.mileage}</p>
-          <p>Price: ${car.price}</p>
-        `;
-        swiperWrapper.appendChild(slide);
-      });
-    }
-
-    const swiper = new Swiper('carList .swiper-container', {
-      slidesPerView: 9,
-      spaceBetween: 10,
-      loop: true,
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
-      },
-    });
-  });
 
 
 

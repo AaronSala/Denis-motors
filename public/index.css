@@ -262,11 +262,11 @@ z-index: 1;
     display: block;
 }
 
-#carList div{
-    width: 10rem;
-}
-#carList div img{
+
+#carList a img{
 height: 10rem;
+width: 180px;
+
 }
 #carList p{
     color: rgb(51, 51, 181);
@@ -397,6 +397,16 @@ height: 10rem;
             line-height: 60px;
             font-size: 20px;
             z-index: 9999;
+          }
+
+          #additionalImageContainer img {
+            height: 10vh;
+            width: 8rem;
+          }
+          #mainImageContainer img{
+            width: 90%;
+            height: 40vh;
+            margin-left: 5%;
           }
           
           

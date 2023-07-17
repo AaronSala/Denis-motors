@@ -1,4 +1,19 @@
 
+
+const carsdisp = document.querySelectorAll('.carsdisp')
+const cars = document.querySelectorAll('.newcars ')
+const carsz = document.querySelectorAll('.newcars a')
+carsz[0].onclick=function(){
+cars.style.background='black'
+console.log('clicked')
+}
+carsdisp.onclick=function(){
+  cars.style.background='green'
+  console.log('clicked')
+  }
+
+
+
 const bars = document.querySelector(".bars");
 const links = document.querySelector(".links");
 const slider = document.querySelector(".slider");
