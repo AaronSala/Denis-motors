@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const multer = require("multer");
 const { MongoClient } = require('mongodb');
 const path = require('path');
+const session = require('express-session');
 
 
 app.use((req, res, next) => {
@@ -170,54 +171,11 @@ app.post("/inquiries", (req, res) => {
     
 });
 
-// for login
-// Define a route for the login page
 
-// const url = 'mongodb://localhost:27017'; // Replace with your MongoDB connection URL
-// const dbName = 'denis'; 
+// Configure the session middleware
 
 
-// app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(bodyParser.json());
-// app.use(express.static('public'));
-
-// app.post('/users', (req, res) => {
-//   const username = req.body.username;
-//   const password = req.body.password;
-
-//   MongoClient.connect(url, (err, client) => {
-//     if (err) {
-//       console.error('Failed to connect to the database:', err);
-//       return res.redirect('/?error=1');
-//     }
-
-//     const db = client.db(dbName);
-//     const collection = db.collection('users');
-
-//     collection.findOne({ username, password }, (err, user) => {
-//       if (err) {
-//         console.error('Failed to query the database:', err);
-//         client.close();
-//         return res.redirect('/?error=1');
-//       }
-
-//       if (user) {
-//         // Redirect to the admin page if login is successful
-//         return res.redirect('/admin.html');
-//       } else {
-//         // Redirect back to the login page with an error message
-//         return res.redirect('/?error=1');
-//       }
-//     });
-//   });
-// });
-
-// app.get('/', (req, res) => {
-//   const error = req.query.error ? true : false;
-//   res.sendFile(path.join(__dirname, 'public', 'index.html'));
-// });
-
-
+// Configure the session middleware
 
 // Start the server
 app.listen(3000, () => {

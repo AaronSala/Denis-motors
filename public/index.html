@@ -16,7 +16,7 @@
 
   
 
-  </style>
+ 
 <body class="m-0 p-0">
     <a class="floating-button" href="https://wa.me/+254700914360"><img src="images/whatsup.jpeg"></a>
     <!-- header section -->
@@ -37,9 +37,9 @@
             <a href="#home" class="hover: hover:bg-black"><i class="fas fa-home "></i>Home</a>
             <a href="#contacts" class="hover: hover:bg-black"><i class="fas fa-envelope"></i>Contacts</a>
             <a href="#about" class="hover: hover:bg-black"><i class="fas fa-info"></i>About Us</a>
-            <a href="#testimanials" class="hover: hover:bg-black"><i class="fas fa-thumbs-up"></i>Testmonials</a>
+            <a href="#reviewList" class="hover: hover:bg-black"><i class="fas fa-thumbs-up"></i>Testmonials</a>
             <a href="#location" class="hover: hover:bg-black"><i class="fas fa-location"></i>Location</a>
-            
+            <a href="#q&a" class="hover: hover:bg-black"><i class="fas fa-location"></i>Q&A</a>
         </div>
        </div>
     <!-- header right -->
@@ -237,9 +237,14 @@
           
            
         </div> 
-        <div class="search  mt-3"> <input type="search" placeholder="make, year, maker, model"> <i class="fas fa-magnifying-glass"></i>
+        <div class="search  mt-3"> <input id="searchInput" type="search" placeholder="make, year, maker, model" required> <button id="searchButton">Search</button>
              </div>
           
+             <div class="bar"></div>
+          <h2>your Cars</h2>
+          <div id="mainImageContainer" class="bg-slate-300"></div>
+          <div id="additionalImageContainer" class="bg-slate-300 gap-3 flex overflow-scroll p-2"></div>
+                
              <!-- <div class="bar"></div>
              <h2 class="inquire">Inquire Cars</h2>
              
@@ -313,9 +318,7 @@
               <h2>All Cars</h2>
               <div id="carList" class=" newcars  overflow-scroll p-4 flex gap-2 uppercase">
           </div>
-          <div id="mainImageContainer" class="bg-slate-300"></div>
-          <div id="additionalImageContainer" class="bg-slate-500 flex overflow-scroll"></div>
-                
+          
             <!-- new arrivals -->
             <div class="bar"></div>
                 <h2>New Arrivals</h2>
@@ -330,9 +333,10 @@
         </div>
 
         <!-- question and answer section starts -->
+        <div id="q&a" >
         <div class="bar"></div>
         <h2>Q&A</h2>
-        <div >
+        
             <ul >
                 <li  class="quiz border-2 border-red-600 mt-2 py-2 px-4 ">
                     <a class=" question cursor-pointer text-red-600 w-full flex justify-between ">
@@ -429,7 +433,22 @@
         <h2 class="">Reviews <button class="bg-red-600 text-white rounded-md p-1 ml-4 w-16">more</button></h2>
         <h4 class="font-semibold text-lg ml-3 mt-4">Voice from Denis Motors Customers</h4>
     <hr/>
-        <div  id="reviewList" class="p-4 flex w-full gap-2 " name="reviewList">      
+        <div  id="reviewList" class="p-4 flex w-full gap-4 overflow-scroll " name="reviewList">      
+        </div>
+
+        <div class="bar"></div>
+        <h2 class="">Contacts</h2>
+        <div class="contacts" id="contacts">
+            
+                
+                <div class="smallfooter ml-4 font-semibold text-lg">
+                <h4 class="text-2xl font-bold "> Denis Motors Imports Ltd</h4>
+                <h1 class="font-semibold text-orange-700">Nairobi Headquaters</h1>
+                <span><i class="fa-solid fa-tty mr-2"></i>TEL: +254700914360</span></br>
+                <span><i class="fa-sharp fa-solid fa-phone mr-2"></i>PHONE: +254700914360</span></br>
+                <span><i class="fa-solid fa-envelope mr-2"></i>EMAIL: deniscarimports@gmail.com</span>
+            </div>
+            
         </div>
     </div>
     
@@ -571,9 +590,9 @@
      <!-- footer starts -->
     <div class="footer bg-slate-900">
         <div class=" text-white flex justify-center">
-            <div class=" flex p-4">
+            <div class=" flex p-2">
                 <img src="images/logo3.png" class="w-100% h-32">
-                <div class="smallfooter ml-12 hidden">
+                <div class="smallfooter ml-4 hidden">
                 <h4 class="text-xl font-bold"> Denis Motors Imports Ltd</h4>
                 <h1 class="font-semibold ">Nairobi Headquaters</h1>
                 <span>TEL:+254700914360</span></br>
