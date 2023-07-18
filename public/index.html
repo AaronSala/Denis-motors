@@ -46,35 +46,17 @@
     
     <div class="header-right">
   
-            <form class="loginForms" id="loginForms" action="" method="" >
-            <div id="" class="login flex sm:block 2xl:flex">
-                <input id="username" class=" user p-1 h-6" type="text" placeholder="User Name" name="username">
-                <input id="password" class=" pass p-1 h-6 ml-2" type="password" placeholder="Passwordss" name="password">
-            </div
-            <div>
-                <div class=" buttons flex mt-1 ">
-                <button type="" id="login" class= "login bg-green-600 rounded-sm px-2 ml-1" >Login</button>
-                <button onclick="register()" class="registerb bg-green-500 rounded-sm px-2 ml-1">Register</button>
-               </div>
-                <a href="admin/admin.html" class="text-red-600 align-middle hover:cursor-pointer disabled:">Forgot password?</a>
-            </div>
-        </form>
+           
         
-
 
                <div class=" right-1 text-white text-lg ">
                 <a href="#inquiry"><i class="memb fas fa-envelope "></i>&nbsp; Inquiry</a>
                 
-                    <div  class="member mt-1">
+                    <div  class="member mt-1" id="membs">
                         <i class="fas fa-user text-white">
 
                         </i><button id="memb" class="memb ">Member</button>
-                        
-
-                        <div class="members bg-red-600 ">
-                        <a href="#" class="register disabled:">Register</a>
-                        <a href="#" class="login2">LogIn</a>
-                    </div>
+                    
                    
                 </div>
                 </div>
@@ -83,21 +65,7 @@
 
      </div>
     </section>
-    <div class="registerForm p-8 text-zinc-900 bg-red-600 ">
-<form  class=" d">
-    <div class="p-1 cols w-1/2 flex-col  ">
-  <label for="username">Username</label></br>
-  <input class="p-2" type="text" placeholder="username" name="user"></br>
-  <label class="mt-2" for="email">Email</label></br>
-  <input class="p-2" type="email" placeholder="Email" name="email"></br>
-  <label for="password">Password</label></br>
-  <input class="p-2" type="password" placeholder="password" name="pass"></br>
-  <label  class="mt-6" for="password">Location</label></br>
-  <input class="p-2" type="location" placeholder="location" name="location"></br>
-  <button class="bg-green-700 p-2 rounded-md w-1/2 mt-2 font-bold text-white text-lg">Register</button>
-</div>
-</form>
-</div>
+   
 <section>
 
 
@@ -245,74 +213,7 @@
           <div id="mainImageContainer" class="bg-slate-300"></div>
           <div id="additionalImageContainer" class="bg-slate-300 gap-3 flex overflow-scroll p-2"></div>
                 
-             <!-- <div class="bar"></div>
-             <h2 class="inquire">Inquire Cars</h2>
              
-              <div class="form border-2 border-grey bg-slate-200">
-                 <form action="/inquiries" method="POST" id="inquiryForm">
-               <select name="maker" id="maker" class="w-full p-1 bg-white border-2 ">
-                 <option> Maker (All)</option>
-                 <option> NISSAN(12)</option>
-                 <option> TOYOTA(12)</option>
-                 <option> MAZDA(12)</option>
-                 <option> MITSUBISHI(12)</option>
-                 <option> HONDA(12)</option>
-                 <option> BENZ(12)</option>
-                 <option> BMW(12)</option>
-                 <option> SUZUKI(12)</option>
-                 <option> OTHERS(12)</option>
-               </select>
-               <label for="model">Model</label>
-               <input type="text" id="model" placeholder="eg, noah, extrail, C 200 etc" name="model" class="w-full p-1 bg-white border-2">
-               <label for="contacts">contacts/email</label>  
-               <input type="text" name="contacts" id="contacts" class="w-full p-1 border-2" placeholder="how to reach you"></input>
-              
-                
-               <div class="select flex items-center">
-                 <div class="left w-1/2">
-                       <select name="minengine" id="minengine" class=" p-1 w-4/5 bg-white border-2 ">
-                         <option>engine (min)</option>
-                         <option> 700 </option>
-                         <option>1500</option>
-                         <option>2500</option>
-                         <option>3000</option>
-                         <option>3500</option>
-                         <option>4000 </option>
-                         
-                       </select>  
-                       <input type="text" name="maxyear" id="maxyear" class=" p-1  border-2 " placeholder="maxyear"></input>
-                       <input type="text" name="minprice" id="minprice" class=" p-1  border-2 " placeholder="min price"></input>
-                 </div>
-                      <div >
-                           <select name="maxdistance" id="maxdistance" class=" p-1 w-full bg-white border-2 ">
-                             <option>km (max)</option>
-                             <option>50 000 </option>
-                             <option>80 000</option>
-                             <option>100 000</option>
-                             <option>150 000</option>
-                             <option>170 000</option>
-                             <option>2017 </option>
-                             
-                           </select>  
-                           <select name="maxengine" id="maxengine" class=" p-1 w-full bg-white border-2 ">
-                             <option>engine (max)</option>
-                             <option> 700 </option>
-                             <option>1500</option>
-                             <option>2500</option>
-                             <option>3000</option>
-                             <option>3500</option>
-                             <option>4000 </option>
-                             
-                           </select>  
-                           <input type="text" name="maxprice" id="maxprice" class="w-3/4 p-1 border-2 " placeholder="maxprice"></input></br>
-                      </div>
-                     
-             </div>
-             <h2>comments</h2>
-             <textarea name="comment" id="comment" class=" p-1 w-full bg-white border-2 border-slate-800 "></textarea>
-              <button type="submit" class="w-full bg-red-600 text-center m-1 mb-8  border rounded ">submit</button>
-              </form>
-              </div> -->
              
               <div class="bar"></div>
               <h2>All Cars</h2>

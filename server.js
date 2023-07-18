@@ -2,11 +2,8 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-const multer = require("multer");
 const { MongoClient } = require('mongodb');
-const path = require('path');
 const session = require('express-session');
-
 
 app.use((req, res, next) => {
   res.setHeader(
@@ -109,25 +106,6 @@ app.post("/reviews", function (req, res) {
       res.status(500).json({ error: "Error saving review" });
     });
 });
-// posting enquiries
-const inquirySchema = new mongoose.Schema({
-  maker: String,
-  model: String,
-  contacts: String,
-  minengine: String,
-  maxyear: String,
-  maxdistance: String,
-  maxengine: String,
-  comments: String,
-});
-
-// Create an Inquiry model
-const Inquiry = mongoose.model("Inquiry", inquirySchema);
-
-// Middleware
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(express.static("public"));
 
 // Route to handle form submission
 app.post("/inquiries", (req, res) => {
@@ -168,14 +146,7 @@ app.post("/inquiries", (req, res) => {
       console.error("Error saving inquiry:", error);
       res.status(500).json({ error: "Error saving inquiry" });
     });
-    
 });
-
-
-// Configure the session middleware
-
-
-// Configure the session middleware
 
 // Start the server
 app.listen(3000, () => {

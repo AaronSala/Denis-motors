@@ -157,7 +157,7 @@ document.getElementById('inquiryForm').addEventListener('submit', function(event
    const loginForms = document.querySelector('.loginForms')
    
    memb.addEventListener('mouseenter', ()=>{
-       members.style.display='block'
+       memb.style.background="black"
    })
    register.addEventListener('click', ()=>{
        registerForm.classList.toggle("active")
