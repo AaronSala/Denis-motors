@@ -5,12 +5,12 @@ const bodyParser = require('body-parser');
 const multer = require('multer');
 
 
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3002');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  next();
-});
+// app.use((req, res, next) => {
+//   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3002');
+//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+//   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+//   next();
+// });
 
 
 // Connect to MongoDB
@@ -24,10 +24,10 @@ mongoose
     console.error('Error connecting to MongoDB:', error)
   );
 
-  app.use('/server.js', (req, res, next) => {
-    res.setHeader('Content-Type', 'application/javascript');
-    next();
-  });
+  // app.use('/server.js', (req, res, next) => {
+  //   res.setHeader('Content-Type', 'application/javascript');
+  //   next();
+  // });
   
   
 // Create a car schema
@@ -68,11 +68,17 @@ app.use(bodyParser.json());
 app.use(express.static('public'));
 
 // Serve the HTML file for the root path
-app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/admin.html');
+// app.get('/', function (req, res) {
+//   res.sendFile(__dirname + '/public/admin.html');
+// });
+// CORS Headers
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3002');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  next();
 });
 
-// Handle POST request for creating a new car
 // Handle POST request for creating a new car
 app.post('/cars', function (req, res) {
   upload.array('images')(req, res, function (error) {
@@ -128,8 +134,7 @@ app.delete('/cars/:id', function (req, res) {
     });
 });
 
-// Handle PUT request for updating a car
-// Handle PUT request for updating a car
+
 // Handle PUT request for updating a car
 app.put('/cars/:id', upload.array('images'), function (req, res) {
   const carId = req.params.id;
@@ -219,7 +224,7 @@ app.put('/reviews/:id', function (req, res) {
       res.status(500).json({ error: 'Error updating rating' });
     });
 });
-
+// Handle DELETE request for deleting a review
 app.delete('/reviews/:id', function(req, res) {
   const reviewId = req.params.id;
 
@@ -277,42 +282,42 @@ app.delete('/inquiries/:inquiryId', function(req, res) {
     });
 });
 
-app.get('/cars', async (req, res) => {
-  let client; // Declare the client variable outside the try block
+// app.get('/cars', async (req, res) => {
+//   let client; // Declare the client variable outside the try block
 
-  app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', 'https://dennis-motors.vercel.app');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    next();
-  });
+//   app.use((req, res, next) => {
+//     res.setHeader('Access-Control-Allow-Origin', 'https://dennis-motors.vercel.app');
+//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+//     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+//     next();
+//   });
 
-  try {
-    // Connect to MongoDB
-    client = new MongoClient(mongoURL);
-    await client.connect();
-    const db = client.db(dbName);
-    const collection = db.collection(collectionName);
+//   try {
+//     // Connect to MongoDB
+//     client = new MongoClient(mongoURL);
+//     await client.connect();
+//     const db = client.db(dbName);
+//     const collection = db.collection(collectionName);
 
-    // Fetch car data from MongoDB
-    const cars = await collection.find().toArray();
+//     // Fetch car data from MongoDB
+//     const cars = await collection.find().toArray();
 
-    // Send car data as JSON response
-    res.json(cars);
-  } catch (error) {
-    console.error('Error:', error);
-    res.status(500).send('Internal Server Error');
-  } finally {
-    // Close the MongoDB connection if it exists
-    if (client) {
-      client.close();
-    }
-  }
-});
+//     // Send car data as JSON response
+//     res.json(cars);
+//   } catch (error) {
+//     console.error('Error:', error);
+//     res.status(500).send('Internal Server Error');
+//   } finally {
+//     // Close the MongoDB connection if it exists
+//     if (client) {
+//       client.close();
+//     }
+//   }
+// });
 
 // Serve the cars.html file for the root URL
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/public/index.html');
+  res.sendFile(__dirname + '/admin.html');
 });
 
 

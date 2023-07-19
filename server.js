@@ -2,8 +2,11 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const multer = require("multer");
 const { MongoClient } = require('mongodb');
+const path = require('path');
 const session = require('express-session');
+
 
 app.use((req, res, next) => {
   res.setHeader(
@@ -106,6 +109,25 @@ app.post("/reviews", function (req, res) {
       res.status(500).json({ error: "Error saving review" });
     });
 });
+// posting enquiries
+const inquirySchema = new mongoose.Schema({
+  maker: String,
+  model: String,
+  contacts: String,
+  minengine: String,
+  maxyear: String,
+  maxdistance: String,
+  maxengine: String,
+  comments: String,
+});
+
+// Create an Inquiry model
+const Inquiry = mongoose.model("Inquiry", inquirySchema);
+
+// Middleware
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(express.static("public"));
 
 // Route to handle form submission
 app.post("/inquiries", (req, res) => {
@@ -146,7 +168,50 @@ app.post("/inquiries", (req, res) => {
       console.error("Error saving inquiry:", error);
       res.status(500).json({ error: "Error saving inquiry" });
     });
+    
 });
+
+// mongoose.connect('mongodb://localhost/denis', {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+// })
+//   .then(() => console.log("Connected to MongoDB"))
+//   .catch((error) => console.error("Error connecting to MongoDB:", error));
+
+// // Create a user schema
+// const userSchema = new mongoose.Schema({
+//   email: String,
+//   username: String,
+//   password: String,
+// });
+
+// // Create a User model
+// const User = mongoose.model('User', userSchema);
+
+// // Middleware
+// app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
+
+// // Handle registration form submission
+// app.post('/', (req, res) => {
+//   const { email, username, password } = req.body;
+
+//   const newUser = new User({
+//     email,
+//     username,
+//     password,
+//   });
+
+//   newUser.save()
+   
+//   .then(() => {
+//       res.json({ message: 'User registered successfully!' });
+//     })
+//     .catch((error) => {
+//       console.error('Error registering user:', error);
+//       res.status(500).json({ error: 'Error registering user' });
+//     });
+// });
 
 // Start the server
 app.listen(3000, () => {

@@ -1,4 +1,3 @@
-
 // Add event listener for form submission
 // Function to handle form submission for adding a new car
 // Prevent form from submitting and page refresh
@@ -210,6 +209,8 @@ function deleteCar(carId) {
       console.error('Error deleting car:', error);
     });
 }
+
+// Function to fetch and display customer reviews
 function fetchAndDisplayReviews() {
   // Send a GET request to the server to retrieve the customer reviews
   axios.get('/reviews')
@@ -219,6 +220,7 @@ function fetchAndDisplayReviews() {
       // Clear previous review list
       const reviewListElement = document.getElementById('reviewList');
       reviewListElement.innerHTML = '';
+
       // Iterate over the review list and create HTML elements to display each review
       reviewList.forEach(function(review) {
         const reviewElement = document.createElement('div');
@@ -255,20 +257,23 @@ function fetchAndDisplayReviews() {
       console.error('Error fetching reviews:', error);
     });
 }
-//function for deleting review
+
+// Call the fetchAndDisplayReviews function to load and display the customer reviews
+fetchAndDisplayReviews();
+
+// Function for deleting a review
 function deleteReview(reviewId) {
   // Send a DELETE request to the server to delete the review
-  fetch(`http://localhost:3002/reviews/${reviewId}`, {
-    method: 'DELETE'
-  })
-    .then(() => {
+  axios.delete(`/reviews/${reviewId}`)
+    .then(function() {
       console.log('Review deleted:', reviewId);
       fetchAndDisplayReviews(); // Fetch and display the updated reviews
     })
-    .catch(error => {
+    .catch(function(error) {
       console.error('Error deleting review:', error);
     });
 }
+
 // Function to update the rating in the database
 function updateRating(reviewId) {
   // Send a PUT request to update the rating
@@ -282,13 +287,7 @@ function updateRating(reviewId) {
     });
 }
 
-// Call the fetchAndDisplayReviews function to load and display the customer reviews
-fetchAndDisplayReviews();
-
-//fetching inquiries
-fetchAndDisplayInquiries();
-
-// Fetching inquiries
+// Function for fetching and displaying inquiries
 function fetchAndDisplayInquiries() {
   // Send a GET request to the server to retrieve the inquiries
   fetch('/inquiries')

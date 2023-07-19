@@ -18,6 +18,7 @@
 
  
 <body class="m-0 p-0">
+ 
     <a class="floating-button" href="https://wa.me/+254700914360"><img src="images/whatsup.jpeg"></a>
     <!-- header section -->
     <section class="header ">
@@ -46,18 +47,18 @@
     
     <div class="header-right">
   
-           
         
+
 
                <div class=" right-1 text-white text-lg ">
                 <a href="#inquiry"><i class="memb fas fa-envelope "></i>&nbsp; Inquiry</a>
                 
-                    <div  class="member mt-1" id="membs">
+                    <div  class="member mt-1" id="member">
                         <i class="fas fa-user text-white">
 
                         </i><button id="memb" class="memb ">Member</button>
-                    
-                   
+                        
+
                 </div>
                 </div>
        </div>
@@ -65,7 +66,214 @@
 
      </div>
     </section>
-   
+    <!-- login register form -->
+    <style>
+       
+          .logs {
+            transition: 1s;
+            display: none;
+           margin-top: -60rem;
+           position: absolute;
+           top: 0;
+           left: 0;
+           width: 100%;
+           height: 100%;
+           display: flex;
+           justify-content: center;
+           align-items: center;
+            z-index: 999;
+         }
+         .logs.active{
+             margin-top: 0;
+             transition: 1s;
+         }
+         .messageContainer{
+            position: absolute;
+            width: 100%;
+            top: 0;
+            color: green;
+            font-size: 2rem;
+         }
+                 
+                 
+                .logs .container{
+                   
+                   width: 100%;
+                   height: 90vh;
+                   background-image: linear-gradient(rgba(0,0,50,0.8),rgba(0,0,50,0.8));
+                   background-position: center;
+                   position: relative;
+                   background-size: cover;
+                   
+                 }
+                 .logs .form-box{
+                   width: 100%;
+                   max-width: 450px;
+                   position: absolute;
+                   top: 50%;
+                   left: 50%;
+                   transform: translate(-50%,-50%);
+                   background: #fff;
+                   padding: 50px 60px 70px;
+                   text-align: center;
+                 }
+                 .logs .form-box h1{
+                   font-size: 30px;
+                   margin-bottom: 60px;
+                   color: #3c00a0;
+                   position: relative;
+                 }
+                 .logs .form-box h1::after{
+                   content: '';
+                   width: 30px;
+                   height: 4px;
+                   border-radius: 3px;
+                   background: #3c00a0;
+                   position: absolute;
+                   bottom: -12px;
+                   left: 50%;
+                   transform: translate(-50%);
+                 }
+                 .logs .input-field{
+                   background: #eaeaea;
+                   margin: 15px 0;
+                   border-radius: 3px;
+                   display: flex;
+                   align-items: center;
+                   max-height: 65px;
+                   transition: max-height 0.5s;
+                   overflow: hidden;
+                 }
+                 .logs input{
+                   padding: .8rem;
+                   width: 100%;
+                   background: transparent;
+                   border: 0;
+                   outline: 0;
+                   
+                 }
+                 .logs .input-field i{
+                   margin-left: 15px;
+                   color: #999;
+                 }
+                 .logs form p{
+                   text-align: left;
+                   font-size: 13px;
+                 }
+                 .logs form p a{
+                   text-decoration: none;
+                   color: #3c00a0;
+                 }
+                 .logs .btn-field{
+                   width: 100%;
+                   display: flex;
+                   justify-content: space-between;
+                 }
+                 .logs .btn-field button{
+                   flex-basis: 48%;
+                   background: #3c00a0;
+                   color: #fff;
+                   height: 40px;
+                   border-radius: 20px;
+                   border:0;
+                   outline: 0;
+                   cursor: pointer;
+                   transition: background 1s;
+                 }
+                 .logs .input-group{
+                   height: 280px;
+               
+                 }
+                 .logs .btn-field button.disabled{
+                   background: #eaeaea;
+                   color:#555 ;
+                 }
+                 .close{
+                    background: #eaeaea;
+                    font-size: 2.4rem;
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                    color: red;
+                    cursor: pointer;
+                 }
+               
+                </style>
+               
+               
+               <div class="logs hidden" id="logs">
+               
+               <div class="container ">
+                <i class="close fa-solid fa-xmark" id="close"></i>
+                
+                 <div class="form-box">
+                    <div class="messageContainer" id="messageContainer">djwgdyq</div>
+                   <h1 id="title">Sign Up</h1>
+                       <form action="" method="POST" id="login-form" class="transparent-form" >
+                        <div class="input-group">
+                          <div class="input-field" id="nameField">
+                           <i class="fa-solid fa-user"></i>
+                           <input name="username" id="username" type="text" placeholder="name" required>
+                          </div>
+                          <div class="input-field">
+                           <i class="fa-solid fa-envelope"></i>
+                           <input name="email" id="email" type="text" placeholder="email" required>
+                          </div>
+                          <div class="input-field">
+                           <i class="fa-solid fa-user"></i>
+                           <input name="password" id="password" type="password" placeholder="password" required>
+                          </div>
+                          <p>Forgot Password<a href="#">click here</a></p>
+                        </div>
+                        <div class="btn-field">
+                         <button type="submit" id="signupBtn">Sign Up</button>
+                         <button type="submit" class="disabled" id="signinBtn">Sign In</button>
+                        </div>
+                        </form>
+                  </div>
+                 </div>
+               </div>
+               <script>
+                
+                 let longs = document.getElementById('logs');
+                 let signupBtn = document.getElementById('signupBtn');
+                 let signinBtn = document.getElementById('signinBtn');
+                 let nameField = document.getElementById('nameField');
+                 let title = document.getElementById('title');
+                 let close = document.getElementById('close');
+                 let member = document.getElementById('member');
+                 
+               
+                 signinBtn.onclick = function(){
+                   nameField.style.maxHeight="0";
+                   title.innerHTML="sign In";
+                   signupBtn.classList.add("disabled")
+                   signinBtn.classList.remove("disabled")
+                 }
+                 signupBtn.onclick = function(){
+                   nameField.style.maxHeight="60px";
+                   title.innerHTML="sign Up";
+                   signupBtn.classList.remove("disabled")
+                   signinBtn.classList.add("disabled")
+                 }
+                 member.onclick = function(){
+                     longs.classList.toggle("active")
+                     
+                     
+                 }
+                 close.onclick = function (){
+                    longs.classList.toggle("active")
+                 }
+                
+//displaying cars under the best deals section
+        
+ 
+
+
+//displaying cars undernewarrivals
+
+
+               </script>
 <section>
 
 
@@ -213,7 +421,74 @@
           <div id="mainImageContainer" class="bg-slate-300"></div>
           <div id="additionalImageContainer" class="bg-slate-300 gap-3 flex overflow-scroll p-2"></div>
                 
+              <!-- <div class="bar"></div>
+             <h2 class="inquire">Inquire Cars</h2>
              
+              <div class="form border-2 border-grey bg-slate-200">
+                 <form action="/inquiries" method="POST" id="inquiryForm">
+               <select name="maker" id="maker" class="w-full p-1 bg-white border-2 ">
+                 <option> Maker (All)</option>
+                 <option> NISSAN(12)</option>
+                 <option> TOYOTA(12)</option>
+                 <option> MAZDA(12)</option>
+                 <option> MITSUBISHI(12)</option>
+                 <option> HONDA(12)</option>
+                 <option> BENZ(12)</option>
+                 <option> BMW(12)</option>
+                 <option> SUZUKI(12)</option>
+                 <option> OTHERS(12)</option>
+               </select>
+               <label for="model">Model</label>
+               <input type="text" id="model" placeholder="eg, noah, extrail, C 200 etc" name="model" class="w-full p-1 bg-white border-2">
+               <label for="contacts">contacts/email</label>  
+               <input type="text" name="contacts" id="contacts" class="w-full p-1 border-2" placeholder="how to reach you"></input>
+              
+                
+               <div class="select flex items-center">
+                 <div class="left w-1/2">
+                       <select name="minengine" id="minengine" class=" p-1 w-4/5 bg-white border-2 ">
+                         <option>engine (min)</option>
+                         <option> 700 </option>
+                         <option>1500</option>
+                         <option>2500</option>
+                         <option>3000</option>
+                         <option>3500</option>
+                         <option>4000 </option>
+                         
+                       </select>  
+                       <input type="text" name="maxyear" id="maxyear" class=" p-1  border-2 " placeholder="maxyear"></input>
+                       <input type="text" name="minprice" id="minprice" class=" p-1  border-2 " placeholder="min price"></input>
+                 </div>
+                      <div >
+                           <select name="maxdistance" id="maxdistance" class=" p-1 w-full bg-white border-2 ">
+                             <option>km (max)</option>
+                             <option>50 000 </option>
+                             <option>80 000</option>
+                             <option>100 000</option>
+                             <option>150 000</option>
+                             <option>170 000</option>
+                             <option>2017 </option>
+                             
+                           </select>  
+                           <select name="maxengine" id="maxengine" class=" p-1 w-full bg-white border-2 ">
+                             <option>engine (max)</option>
+                             <option> 700 </option>
+                             <option>1500</option>
+                             <option>2500</option>
+                             <option>3000</option>
+                             <option>3500</option>
+                             <option>4000 </option>
+                             
+                           </select>  
+                           <input type="text" name="maxprice" id="maxprice" class="w-3/4 p-1 border-2 " placeholder="maxprice"></input></br>
+                      </div>
+                     
+             </div>
+             <h2>comments</h2>
+             <textarea name="comment" id="comment" class=" p-1 w-full bg-white border-2 border-slate-800 "></textarea>
+              <button type="submit" class="w-full bg-red-600 text-center m-1 mb-8  border rounded ">submit</button>
+              </form>
+              </div>  -->
              
               <div class="bar"></div>
               <h2>All Cars</h2>

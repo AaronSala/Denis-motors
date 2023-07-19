@@ -148,30 +148,7 @@ document.getElementById('inquiryForm').addEventListener('submit', function(event
 });
 
 
-   // tooggle the login and register form
-   const memb =document.getElementById('memb')
-   const members = document.querySelector('.members')
-   const register = document.querySelector('.register')
-   const login = document.querySelector('.login2')
-   const registerForm = document.querySelector('.registerForm')
-   const loginForms = document.querySelector('.loginForms')
-   
-   memb.addEventListener('mouseenter', ()=>{
-       memb.style.background="black"
-   })
-   register.addEventListener('click', ()=>{
-       registerForm.classList.toggle("active")
-       members.style.display='none'
-   })
-   
-   login.addEventListener('click', ()=>{
-       members.style.display='none'
-   loginForms.classList.toggle("active")
-   })
-   
-// script.js
-
-//fetching and displaying cars
+  
 //displaying alll cars
     fetch('http://localhost:3000/cars')
   .then(response => response.json())
@@ -454,4 +431,39 @@ document.getElementById('inquiryForm').addEventListener('submit', function(event
  }
  
  clearSearchResults();
- 
+
+//  user register
+
+const form = document.getElementById('login-Form');
+const messageContainer = document.getElementById('messageContainer');
+
+form.addEventListener('submit', (event) => {
+  event.preventDefault();
+
+  const email = document.getElementById('email').value;
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+
+  const userData = {
+    email,
+    username,
+    password,
+  };
+
+  fetch('/users', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(userData),
+  })
+    .then((response) => response.text())
+    .then((data) => {
+      messageContainer.textContent = data; // Display the message on the form
+      form.reset(); // Clear the input fields
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+});
+
