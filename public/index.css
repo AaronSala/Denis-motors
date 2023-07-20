@@ -403,19 +403,54 @@ width: 14rem;
             font-size: 20px;
             z-index: 9999;
           }
+          #additionalImageContainer {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 10px;
+            height: 15vh;
+            overflow-x: auto;
+            padding: 10px;
+            background-color: #2ee8f0;
+          }
+          
+          .additional-image {
+            max-width: 100px;
+            max-height: 80px;
+            cursor: pointer;
+          }
+          
+          /* Style for the reserve button */
+          .reserve-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+          }
 
-          #additionalImageContainer img {
-            height: 10vh;
-            width: 8rem;
-          }
-          #additionalImageContainer{
-            overflow: scroll;
-          }
           #mainImageContainer img{
             width: 90%;
             height: 40vh;
             margin-left: 5%;
           }
+          #reserveFormContainer{
+            background: beige;
+            display: block;
+            font-size: 2rem;
+            border: 1px solid black;
+            padding: 1rem;
+          }
+          #reserveFormContainer button{
+            width: 50%;
+            background: green;
+            color: white;
+            align-items: center;
+            margin-left: 2rem;
+            margin-top: 1rem;
+          }
+          
           
           
 

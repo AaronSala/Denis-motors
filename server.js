@@ -171,47 +171,52 @@ app.post("/inquiries", (req, res) => {
     
 });
 
-// mongoose.connect('mongodb://localhost/denis', {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-// })
-//   .then(() => console.log("Connected to MongoDB"))
-//   .catch((error) => console.error("Error connecting to MongoDB:", error));
+mongoose.connect('mongodb://localhost/denis', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((error) => console.error("Error connecting to MongoDB:", error));
 
-// // Create a user schema
-// const userSchema = new mongoose.Schema({
-//   email: String,
-//   username: String,
-//   password: String,
-// });
+// Create a user schema
+const userSchema = new mongoose.Schema({
+  email: String,
+  username: String,
+  password: String,
+});
 
-// // Create a User model
-// const User = mongoose.model('User', userSchema);
+// Create a User model
+const User = mongoose.model('User', userSchema);
 
-// // Middleware
-// app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(bodyParser.json());
+// Middleware
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-// // Handle registration form submission
-// app.post('/', (req, res) => {
-//   const { email, username, password } = req.body;
+// Handle registration form submission
+app.post('/', (req, res) => {
+  const { email, username, password } = req.body;
 
-//   const newUser = new User({
-//     email,
-//     username,
-//     password,
-//   });
+  const newUser = new User({
+    email,
+    username,
+    password,
+  });
 
-//   newUser.save()
+  newUser.save()
    
-//   .then(() => {
-//       res.json({ message: 'User registered successfully!' });
-//     })
-//     .catch((error) => {
-//       console.error('Error registering user:', error);
-//       res.status(500).json({ error: 'Error registering user' });
-//     });
-// });
+  .then(() => {
+      res.json({ message: 'User registered successfully!' });
+    })
+    .catch((error) => {
+      console.error('Error registering user:', error);
+      res.status(500).json({ error: 'Error registering user' });
+    });
+});
+
+app.get("/admin/:imageName", function (req, res) {
+  const imageName = req.params.imageName;
+  res.sendFile(path.join(__dirname, "public/uploads", imageName));
+});
 
 // Start the server
 app.listen(3000, () => {
