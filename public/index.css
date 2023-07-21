@@ -471,10 +471,11 @@ width: 14rem;
   
   #additionalImageContainer img:hover {
     border-color: #007bff;
-    transform: scale(2rem);
+    transform: scale3d(5);
+    transform: scale3d(1.2, 1.2, 1.2);
   }
   #additionalImageContainer img{
-    width: 15%;
+    width: 8rem;
     height: 6rem; /* Adjust the height as needed */
     object-fit: cover;
     display: block;
@@ -484,7 +485,12 @@ width: 14rem;
     transition: border-color 0.2s;
     
   }
-  
+  #reservationForm button{
+     background: forestgreen;
+     color: #fff;
+     text-align: center;
+     width: 6rem;
+  }
           
 
 

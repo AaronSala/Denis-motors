@@ -164,8 +164,13 @@ function fetchAndDisplayCars() {
         cars.forEach(car => {
           const listItem = createCarListItem(car);
 
+          // Add click event listener to each car item
           listItem.addEventListener('click', () => {
             displayCarImages(car.images[0], car.images.slice(1));
+            window.scrollTo({
+              top: mainImageContainer.offsetTop,
+              behavior: 'smooth'
+            });// Call the function to scroll to the main image container
           });
 
           allCarsContainer.appendChild(listItem);
@@ -174,12 +179,20 @@ function fetchAndDisplayCars() {
             const bestDealsItem = listItem.cloneNode(true);
             bestDealsItem.addEventListener('click', () => {
               displayCarImages(car.images[0], car.images.slice(1));
+              window.scrollTo({
+                top: mainImageContainer.offsetTop,
+                behavior: 'smooth'
+              }); // Call the function to scroll to the main image container
             });
             bestDealsContainer.appendChild(bestDealsItem);
           } else if (car.category === 'newArrivals') {
             const newArrivalsItem = listItem.cloneNode(true);
             newArrivalsItem.addEventListener('click', () => {
               displayCarImages(car.images[0], car.images.slice(1));
+              window.scrollTo({
+                top: mainImageContainer.offsetTop,
+                behavior: 'smooth'
+              });// Call the function to scroll to the main image container
             });
             newArrivalsContainer.appendChild(newArrivalsItem);
           }
@@ -208,31 +221,67 @@ function createCarListItem(car) {
   return listItem;
 }
 
+//reserve info
+let currentDisplayedImage = null;
+
 function displayCarImages(mainImage, otherImages) {
   const mainImageContainer = document.getElementById('mainImageContainer');
   mainImageContainer.innerHTML = `<img src="admin/${mainImage}" class="car-image">`;
 
   const additionalImageContainer = document.getElementById('additionalImageContainer');
   additionalImageContainer.innerHTML = '';
-  otherImages.forEach(image => {
+
+  // Add the reservation button for the main image immediately
+  addReserveButtonToMainImage();
+
+  otherImages.forEach((image, index) => {
     const additionalImage = document.createElement('img');
     additionalImage.src = `admin/${image}`;
     additionalImage.addEventListener('click', () => {
       mainImageContainer.innerHTML = `<img src="admin/${image}" class="car-image">`;
+      currentDisplayedImage = image; // Store the currently displayed image URL
+      addReserveButtonToMainImage();
     });
     additionalImageContainer.appendChild(additionalImage);
   });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  // Fetch and display cars immediately on page load
-  fetchAndDisplayCars();
+function addReserveButtonToMainImage() {
+  const mainImageContainer = document.getElementById('mainImageContainer');
+  const reserveButton = mainImageContainer.querySelector('button');
+  
+  if (!reserveButton && currentDisplayedImage) {
+    // Create the reserve button and add it to the main image container if it doesn't exist
+    const newReserveButton = document.createElement('button');
+    newReserveButton.innerText = 'Reserve';
+    newReserveButton.addEventListener('click', () => {
+      showReservationForm(currentDisplayedImage); // Pass the mainImage URL to the reservation form function
+    });
+    mainImageContainer.appendChild(newReserveButton);
+  } else if (reserveButton && !currentDisplayedImage) {
+    // Remove the reserve button if it exists but there is no current displayed image
+    reserveButton.remove();
+  }
+}
 
-  // Add event listener to the search button
-  document.getElementById('searchButton').addEventListener('click', searchCars);
-  document.getElementById('searchForm').addEventListener('submit', handleFormSubmit);
-  document.getElementById('additionalImageContainer').addEventListener('click', clearSearchResults);
-});
+
+    // ... Rest of your code remains the same ...
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Fetch and display cars immediately on page load
+      fetchAndDisplayCars();
+
+      // Add event listener to the search button
+     document.getElementById('searchButton').addEventListener('click', searchCars);
+      document.getElementById('searchForm').addEventListener('submit', handleFormSubmit);
+      document.getElementById('additionalImageContainer').addEventListener('click', clearSearchResults);
+      document.addEventListener('click', (event) => {
+        // Check if the clicked element is an image
+        if (event.target.tagName === 'IMG' && event.target.parentElement.id === 'additionalImageContainer') {
+          scrollToMainImageContainer(); // Scroll to the main image container
+        }
+      });
+    });
 
 function searchCars() {
   const search = document.getElementById('searchInput').value.toLowerCase();
@@ -284,6 +333,70 @@ function clearSearchResults(event) {
     mainImageContainer.innerHTML = `<img src="${targetElement.src}" class="car-image">`;
   }
 }
+let model=car.model; let maker=car.maker;
+function showReservationForm(imageUrl, maker, model){
+ 
+  const reservationFormContainer = document.getElementById('reservationFormContainer');
+  reservationFormContainer.innerHTML = `
+    <form id=reservationForm method="POST">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required><br>
+      <label for="phone">Phone:</label>
+      <input type="number" id="phone" name="phone" required><br>
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required><br>
+      <input type="hidden" id="carImageUrl" name="carImageUrl" value="${imageUrl}">
+      <input type="hidden" id="maker" name="model" value="${maker}">
+      <input type="hidden" id="model" name="model" value="${model}">
+      <button type="submit">Reserve</button>
+    </form>
+  `;
+
+  const reservationForm = document.getElementById('reservationForm');
+  reservationForm.addEventListener('submit', handleReservationFormSubmit);
+}
+
+function handleReservationFormSubmit(event) {
+  event.preventDefault();
+  const phone = document.getElementById('phone').value;
+  const name = document.getElementById('name').value;
+  const email = document.getElementById('email').value;
+  const maker = document.getElementById('maker').value;
+  const model = document.getElementById('model').value;
+
+  // Create an object to hold the reservation data
+  const reservationData = {
+    phone,
+    name,
+    email,
+    maker,
+    model,
+  };
+
+  // Send a POST request to the server to add the reservation
+  fetch('http://localhost:3000/reserves', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(reservationData)
+  })
+  .then(response => response.json())
+  .then(newReservation => {
+    console.log('Reservation added:', newReservation);
+    // Clear the reservation form
+    const reservationForm = document.getElementById('reservationForm');
+    reservationForm.reset();
+  })
+  .catch(error => {
+    console.error('Error adding reservation:', error);
+  });
+}
+
+
+
+
+
 
 
 // for loginfrom

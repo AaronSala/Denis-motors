@@ -218,6 +218,46 @@ app.get("/admin/:imageName", function (req, res) {
   res.sendFile(path.join(__dirname, "public/uploads", imageName));
 });
 
+//car reserves
+const reserveSchema = new mongoose.Schema({
+  email: String,
+  name: String,
+  phone: String,
+  maker:String,
+  model:String,
+});
+
+// Create a User model
+const Reserve = mongoose.model('Reserve', reserveSchema);
+
+// Middleware
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+// Handle registration form submission
+app.post('/reserves', (req, res) => {
+  const { name, phone, email, model, maker } = req.body;
+
+  const newReserve = new Reserve({
+    name,
+    phone,
+    email,
+    model,
+    maker,
+  });
+
+  newReserve.save()
+   
+  .then(() => {
+      res.json({ message: 'Reserve registered successfully!' });
+    })
+    .catch((error) => {
+      console.error('Error registering user:', error);
+      res.status(500).json({ error: 'Error registering user' });
+    });
+});
+
+  
 // Start the server
 app.listen(3000, () => {
   console.log("Server listening on port 3000");
