@@ -403,16 +403,7 @@ width: 14rem;
             font-size: 20px;
             z-index: 9999;
           }
-          #additionalImageContainer {
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            gap: 10px;
-            height: 15vh;
-            overflow-x: auto;
-            padding: 10px;
-            background-color: #2ee8f0;
-          }
+         
           
           .additional-image {
             max-width: 100px;
@@ -451,7 +442,49 @@ width: 14rem;
             margin-top: 1rem;
           }
           
-          
+          /* Flex container for additionalImageContainer */
+#additionalImageContainer {
+    columns: 6;
+    display: flex;
+    flex-wrap: wrap;
+   
+  }
+  
+  /* Additional car images (items) */
+  .additional-car-image {
+    width: calc(16.666% - 20px); /* Adjust width to fit 6 items per row with some spacing */
+    margin-bottom: 10px; /* Spacing between rows */
+    box-sizing: border-box;
+    padding: 5px;
+  }
+  
+  .additional-car-image img {
+    width: 20%;
+    height: 150px; /* Adjust the height as needed */
+    object-fit: cover;
+    display: block;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  
+  #additionalImageContainer img:hover {
+    border-color: #007bff;
+    transform: scale(2rem);
+  }
+  #additionalImageContainer img{
+    width: 15%;
+    height: 6rem; /* Adjust the height as needed */
+    object-fit: cover;
+    display: block;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    
+  }
+  
           
 
 

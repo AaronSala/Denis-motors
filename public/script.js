@@ -146,15 +146,7 @@ document.getElementById('inquiryForm').addEventListener('submit', function(event
     console.error('Error saving inquiry:', error);
   });
 });
-
-
-  
-//displaying alll cars
-
-
-
-//displaying cars under the best deals section
-        
+//for displaying all cars
 
 function fetchAndDisplayCars() {
   fetch('http://localhost:3000/cars')
@@ -170,29 +162,25 @@ function fetchAndDisplayCars() {
 
       if (cars.length > 0) {
         cars.forEach(car => {
-          const listItem = document.createElement('a');
-          const mainImage = car.images[0]; // Store the main image URL
-          const otherImages = car.images.slice(1);
-
-          listItem.innerHTML = `
-            <img src="admin/${mainImage}" class="car-image">
-            <h2>${car.maker} ${car.model}</h2>
-            <p>Engine: ${car.engine}</p>
-            <p>Price: ${car.price}</p>
-            <p>Mileage: ${car.mileage}</p>
-          `;
+          const listItem = createCarListItem(car);
 
           listItem.addEventListener('click', () => {
-            // ... Your existing code to display the car details when clicked ...
+            displayCarImages(car.images[0], car.images.slice(1));
           });
 
           allCarsContainer.appendChild(listItem);
 
           if (car.category === 'bestDeals') {
             const bestDealsItem = listItem.cloneNode(true);
+            bestDealsItem.addEventListener('click', () => {
+              displayCarImages(car.images[0], car.images.slice(1));
+            });
             bestDealsContainer.appendChild(bestDealsItem);
           } else if (car.category === 'newArrivals') {
             const newArrivalsItem = listItem.cloneNode(true);
+            newArrivalsItem.addEventListener('click', () => {
+              displayCarImages(car.images[0], car.images.slice(1));
+            });
             newArrivalsContainer.appendChild(newArrivalsItem);
           }
         });
@@ -205,108 +193,100 @@ function fetchAndDisplayCars() {
     });
 }
 
-// Fetch and display cars immediately on page load
-fetchAndDisplayCars();
+function createCarListItem(car) {
+  const listItem = document.createElement('div');
+  const mainImage = car.images[0];
+
+  listItem.innerHTML = `
+    <img src="admin/${mainImage}" class="car-image">
+    <h2>${car.maker} ${car.model}</h2>
+    <p>Engine: ${car.engine}</p>
+    <p>Price: ${car.price}</p>
+    <p>Mileage: ${car.mileage}</p>
+  `;
+
+  return listItem;
+}
+
+function displayCarImages(mainImage, otherImages) {
+  const mainImageContainer = document.getElementById('mainImageContainer');
+  mainImageContainer.innerHTML = `<img src="admin/${mainImage}" class="car-image">`;
+
+  const additionalImageContainer = document.getElementById('additionalImageContainer');
+  additionalImageContainer.innerHTML = '';
+  otherImages.forEach(image => {
+    const additionalImage = document.createElement('img');
+    additionalImage.src = `admin/${image}`;
+    additionalImage.addEventListener('click', () => {
+      mainImageContainer.innerHTML = `<img src="admin/${image}" class="car-image">`;
+    });
+    additionalImageContainer.appendChild(additionalImage);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Fetch and display cars immediately on page load
+  fetchAndDisplayCars();
+
+  // Add event listener to the search button
+  document.getElementById('searchButton').addEventListener('click', searchCars);
+  document.getElementById('searchForm').addEventListener('submit', handleFormSubmit);
+  document.getElementById('additionalImageContainer').addEventListener('click', clearSearchResults);
+});
+
+function searchCars() {
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  fetch('http://localhost:3000/cars')
+    .then(response => response.json())
+    .then(cars => {
+      const allCarsContainer = document.getElementById('additionalImageContainer');
+      allCarsContainer.innerHTML = ''; // Clear allCarsContainer before displaying filtered cars
+
+      const filteredCars = cars.filter(car =>
+        car.category.toLowerCase().includes(search) ||
+        car.maker.toLowerCase().includes(search) ||
+        car.year.toString().toLowerCase().includes(search) ||
+        car.model.toLowerCase().includes(search) ||
+        car.shape.toLowerCase().includes(search)
+      );
+
+      if (filteredCars.length > 0) {
+        filteredCars.forEach((car, index) => {
+          const listItem = createCarListItem(car);
+
+          listItem.addEventListener('click', () => {
+            displayCarImages(car.images[0], car.images.slice(1));
+          });
+
+          allCarsContainer.appendChild(listItem);
+        });
+      } else {
+        allCarsContainer.innerHTML = '<p>No cars found.</p>';
+      }
+      document.getElementById('searchInput').value = '';
+    })
+    .catch(error => {
+      console.error('Error fetching car data:', error);
+    });
+}
+
+function handleFormSubmit(event) {
+  event.preventDefault(); // Prevent the form from submitting
+  searchCars();
+}
+
+function clearSearchResults(event) {
+  const targetElement = event.target;
+
+  // Check if the clicked element is an image inside the additionalImageContainer
+  if (targetElement.tagName === 'IMG' && targetElement.parentElement.id === 'additionalImageContainer') {
+    const mainImageContainer = document.getElementById('mainImageContainer');
+    mainImageContainer.innerHTML = `<img src="${targetElement.src}" class="car-image">`;
+  }
+}
 
 
-
- // search and display car function
- // Add event listener to the search button
- document.getElementById("searchButton").addEventListener("click", searchCars);
- document.getElementById("searchButton").addEventListener("submit", handleFormSubmit);
- document.body.addEventListener("click", clearSearchResults);
- 
- function searchCars() {
-   const search = document.getElementById('searchInput').value.toLowerCase(); // Convert search input to lowercase
-   const additionalImageContainer = document.getElementById('additionalImageContainer');
-   fetch('http://localhost:3000/cars')
-     .then(response => response.json())
-     .then(cars => {
-       const carList = document.getElementById('additionalImageContainer');
-       const filteredCars = cars.filter(car => 
-         car.category.toLowerCase().includes(search) || // Convert car properties to lowercase
-         car.maker.toLowerCase().includes(search) ||
-         car.year.toString().toLowerCase().includes(search) ||
-         car.model.toLowerCase().includes(search) ||
-         car.shape.toLowerCase().includes(search)
-       );
- 
-       if (filteredCars.length > 0) {
-         filteredCars.forEach((car, index) => {
-           const listItem = document.createElement('a');
-           const mainImage = car.images[0]; // Store the main image URL
-           car.images.splice(0, 1); // Remove the main image from the array
- 
-           listItem.innerHTML = `
-             <img src="admin/${mainImage}" class="car-image">
-             <h2>${car.maker} ${car.model}</h2>
-             <p>Engine: ${car.engine}</p>
-             <p>Price: ${car.price}</p>
-             <p>Mileage: ${car.mileage}</p>
-           `;
-           carList.appendChild(listItem);
- 
-           // Attach an event listener to each car <a> element
-           listItem.addEventListener('click', () => {
-             const mainImageContainer = document.getElementById('mainImageContainer');
-             mainImageContainer.innerHTML = ''; // Clear previous main image
- 
-             // Display the main image
-             const mainImg = document.createElement('img');
-             mainImg.src = `admin/${mainImage}`;
-             mainImg.classList.add('car-image');
-             mainImageContainer.appendChild(mainImg);
- 
-             // Display the other images
-             additionalImageContainer.innerHTML = ''; // Clear previous additional images
- 
-             car.images.forEach(image => {
-               const img = document.createElement('img');
-               img.src = `admin/${image}`;
-               img.classList.add('additional-image');
-               img.addEventListener('click', () => {
-                 // Replace the main image when an additional image is clicked
-                 mainImg.src = `admin/${image}`;
-               });
-               additionalImageContainer.appendChild(img);
-             });
-             window.scrollTo({
-               top: mainImageContainer.offsetTop,
-               behavior: 'smooth'
-             });
-            
-           });
-         });
-       } else {
-         carList.innerHTML = '<p>No cars found.</p>';
-       }
-       document.getElementById('searchInput').value = '';
-     })
-     .catch(error => {
-       console.error('Error fetching car data:', error);
-     });
- }
- 
- function handleFormSubmit(event) {
-   event.preventDefault(); // Prevent the form from submitting
-   searchCars();
- }
- 
- function clearSearchResults(event) {
-   const searchContainer = document.getElementById('searchInput');
-   const targetElement = event.target;
- 
-   // Check if the clicked element is outside the search area
-   if (!searchContainer.contains(targetElement)) {
-     const carList = document.getElementById('additionalImageContainer');
-     carList.innerHTML = ''; // Clear search results
-   }
- }
- 
- clearSearchResults();
-
-//  user register
-
+// for loginfrom
 const form = document.getElementById('login-Form');
 const messageContainer = document.getElementById('messageContainer');
 
