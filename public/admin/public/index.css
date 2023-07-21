@@ -45,7 +45,7 @@ h2{
    
   
     background: var(--red);
-  
+  padding: 2rem;
    
     display: flex;
     justify-content: space-between;
@@ -366,7 +366,7 @@ z-index: 1;
     }
     .containers .slider{
         width: 100%;
-        
+        padding-right: 5px;
         
         
     }
@@ -475,9 +475,7 @@ z-index: 1;
 
 @media (max-width:768px) {
     
-    body{
-        width: 100%;
-    }
+   
     .favourite{
         display: flex;
         justify-content: center;
@@ -556,6 +554,45 @@ z-index: 1;
     }
     .registerForm.active{
         display: block;
+    }
+    #reviewList p{
+        font-weight: bold;
+        font-size: large;
+    }
+    #reviewList h2{
+        width: 13rem;
+    }
+    #reviewList span{
+        color: blue;
+        font-weight: 700;
+        font-style:italic ;
+    }
+
+
+    #reviewList div{
+       background: beige;
+       align-items: center;
+       
+
+    }
+    #reviewList button{
+        background: green;
+        color: antiquewhite;
+        font-weight: 900;
+        width: 90%;
+        text-align: center;
+         margin-top: 1rem;
+    }
+    #reviewList btn{
+        background: var(--red);
+        text-align: center;
+         width: 100%;
+        margin-top: 1rem;
+        color: aliceblue;
+        font-weight:bolder;
+    }
+    .footers{
+        display: none;
     }
 
 }

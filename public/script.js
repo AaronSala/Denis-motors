@@ -148,6 +148,8 @@ document.getElementById('inquiryForm').addEventListener('submit', function(event
 });
 //for displaying all cars
 
+// ... Rest of your code ...
+
 function fetchAndDisplayCars() {
   fetch('http://localhost:3000/cars')
     .then(response => response.json())
@@ -166,11 +168,11 @@ function fetchAndDisplayCars() {
 
           // Add click event listener to each car item
           listItem.addEventListener('click', () => {
-            displayCarImages(car.images[0], car.images.slice(1));
+            displayCarImages(car.images[0], car.images.slice(1), car.maker, car.model);
             window.scrollTo({
               top: mainImageContainer.offsetTop,
               behavior: 'smooth'
-            });// Call the function to scroll to the main image container
+            }); // Call the function to scroll to the main image container
           });
 
           allCarsContainer.appendChild(listItem);
@@ -178,7 +180,7 @@ function fetchAndDisplayCars() {
           if (car.category === 'bestDeals') {
             const bestDealsItem = listItem.cloneNode(true);
             bestDealsItem.addEventListener('click', () => {
-              displayCarImages(car.images[0], car.images.slice(1));
+              displayCarImages(car.images[0], car.images.slice(1), car.maker, car.model);
               window.scrollTo({
                 top: mainImageContainer.offsetTop,
                 behavior: 'smooth'
@@ -188,11 +190,11 @@ function fetchAndDisplayCars() {
           } else if (car.category === 'newArrivals') {
             const newArrivalsItem = listItem.cloneNode(true);
             newArrivalsItem.addEventListener('click', () => {
-              displayCarImages(car.images[0], car.images.slice(1));
+              displayCarImages(car.images[0], car.images.slice(1), car.maker, car.model);
               window.scrollTo({
                 top: mainImageContainer.offsetTop,
                 behavior: 'smooth'
-              });// Call the function to scroll to the main image container
+              }); // Call the function to scroll to the main image container
             });
             newArrivalsContainer.appendChild(newArrivalsItem);
           }
@@ -205,6 +207,9 @@ function fetchAndDisplayCars() {
       console.error('Error fetching car data:', error);
     });
 }
+
+// ... Rest of your code ...
+
 
 function createCarListItem(car) {
   const listItem = document.createElement('div');
@@ -223,8 +228,13 @@ function createCarListItem(car) {
 
 //reserve info
 let currentDisplayedImage = null;
+let currentCarModel = null;
+let currentCarMaker = null;
 
-function displayCarImages(mainImage, otherImages) {
+function displayCarImages(mainImage, otherImages, maker, model) {
+  currentCarMaker = maker; // Assign the maker to the global variable
+  currentCarModel = model; // Assign the model to the global variable
+
   const mainImageContainer = document.getElementById('mainImageContainer');
   mainImageContainer.innerHTML = `<img src="admin/${mainImage}" class="car-image">`;
 
@@ -255,7 +265,7 @@ function addReserveButtonToMainImage() {
     const newReserveButton = document.createElement('button');
     newReserveButton.innerText = 'Reserve';
     newReserveButton.addEventListener('click', () => {
-      showReservationForm(currentDisplayedImage); // Pass the mainImage URL to the reservation form function
+      showReservationForm(currentDisplayedImage, currentCarMaker, currentCarModel);
     });
     mainImageContainer.appendChild(newReserveButton);
   } else if (reserveButton && !currentDisplayedImage) {
@@ -333,7 +343,7 @@ function clearSearchResults(event) {
     mainImageContainer.innerHTML = `<img src="${targetElement.src}" class="car-image">`;
   }
 }
-let model=car.model; let maker=car.maker;
+//let model=car.model; let maker=car.maker;
 function showReservationForm(imageUrl, maker, model){
  
   const reservationFormContainer = document.getElementById('reservationFormContainer');

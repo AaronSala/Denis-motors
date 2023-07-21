@@ -289,7 +289,6 @@ function updateRating(reviewId) {
 
 // Function for fetching and displaying inquiries
 function fetchAndDisplayInquiries() {
-  // Send a GET request to the server to retrieve the inquiries
   fetch('/inquiries')
     .then(response => response.json())
     .then(inquiryList => {
@@ -329,7 +328,6 @@ function fetchAndDisplayInquiries() {
 
 // Function for deleting an inquiry
 function deleteInquiry(inquiryId) {
-  // Send a DELETE request to the server to delete the inquiry
   fetch(`/inquiries/${inquiryId}`, {
     method: 'DELETE'
   })
@@ -341,3 +339,6 @@ function deleteInquiry(inquiryId) {
       console.error('Error deleting inquiry:', error);
     });
 }
+
+// Fetch and display inquiries immediately on page load
+fetchAndDisplayInquiries();

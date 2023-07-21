@@ -250,6 +250,8 @@ const inquirySchema = new mongoose.Schema({
   maxengine: String,
   comments: String,
 });
+
+
 //fetching enquireies
 const Inquiries = mongoose.model('Inquiries', inquirySchema);
 
