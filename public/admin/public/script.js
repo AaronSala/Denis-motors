@@ -342,3 +342,69 @@ function deleteInquiry(inquiryId) {
 
 // Fetch and display inquiries immediately on page load
 fetchAndDisplayInquiries();
+
+//fetching reservations
+
+function fetchAndDisplayReservations() {
+  fetch('/reserves')
+    .then(response => response.json()) // Parse the response as JSON
+    .then(reservations => {
+      const reservationListElement = document.getElementById('reservations');
+      reservationListElement.innerHTML = '';
+
+      // Iterate over the reservation list and create HTML elements to display each reservation
+      reservations.forEach(reservation => {
+        const reservationElement = document.createElement('div');
+        reservationElement.classList.add('reservation');
+
+        // Populate the HTML elements with reservation data
+        reservationElement.innerHTML = `
+          <p>Name: <span>${reservation.name}</span></p>
+          <p>Phone: <span>${reservation.phone}</span></p>
+          <p>Email: <span>${reservation.email}</span></p>
+          <p>Maker: <span>${reservation.maker}</span></p>
+          <p>Model: <span>${reservation.model}</span></p>
+        `;
+
+        // Create the delete button
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.addEventListener('click', () => deleteReservation(reservation._id));
+        reservationElement.appendChild(deleteButton);
+
+        reservationListElement.appendChild(reservationElement);
+      });
+    })
+    .catch(error => {
+      console.error('Error fetching reservations:', error);
+    });
+}
+
+// The rest of your code remains the same...
+
+
+  // Function for deleting a reservation
+  function deleteReservation(reservationId) {
+    fetch(`/reservations/${reservationId}`, {
+      method: 'DELETE'
+    })
+      .then(() => {
+        console.log('Reservation deleted:', reservationId);
+        fetchAndDisplayReservations(); // Fetch and display the updated reservations
+      })
+      .catch(error => {
+        console.error('Error deleting reservation:', error);
+      });
+  }
+
+  // Fetch and display reservations immediately on page load
+  fetchAndDisplayReservations();
+  document.getElementById('logoutButton').addEventListener('click', handleLogout);
+function handleLogout() {
+  // Remove the token from Local Storage
+  localStorage.removeItem('token');
+
+  // Redirect the user to the login page or any other desired page
+  window.location.href = '/index.html'; // Replace 'login.html' with the desired URL
+}
+

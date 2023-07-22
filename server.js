@@ -6,6 +6,7 @@ const multer = require("multer");
 const { MongoClient } = require('mongodb');
 const path = require('path');
 const session = require('express-session');
+const bcrypt = require('bcrypt');
 
 
 app.use((req, res, next) => {
@@ -178,6 +179,8 @@ mongoose.connect('mongodb://localhost/denis', {
   .then(() => console.log("Connected to MongoDB"))
   .catch((error) => console.error("Error connecting to MongoDB:", error));
 
+
+  //register
 // Create a user schema
 const userSchema = new mongoose.Schema({
   email: String,
@@ -193,24 +196,26 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // Handle registration form submission
-app.post('/', (req, res) => {
+app.post('/', async (req, res) => {
   const { email, username, password } = req.body;
 
-  const newUser = new User({
-    email,
-    username,
-    password,
-  });
+  try {
+    // Generate a salt to use for hashing (the higher the rounds, the more secure but slower)
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-  newUser.save()
-   
-  .then(() => {
-      res.json({ message: 'User registered successfully!' });
-    })
-    .catch((error) => {
-      console.error('Error registering user:', error);
-      res.status(500).json({ error: 'Error registering user' });
+    const newUser = new User({
+      email,
+      username,
+      password: hashedPassword,
     });
+
+    await newUser.save();
+    res.json({ message: 'User registered successfully!' });
+  } catch (error) {
+    console.error('Error registering user:', error);
+    res.status(500).json({ error: 'Error registering user' });
+  }
 });
 
 app.get("/admin/:imageName", function (req, res) {
@@ -257,6 +262,40 @@ app.post('/reserves', (req, res) => {
     });
 });
 
+
+//login
+
+//Middleware to parse JSON in the request body
+app.use(express.json());
+
+// Login route
+app.post('/users', async (req, res) => {
+  const { email, password } = req.body;
+  console.log('Login request received:', req.body);
+  try {
+    // Find the user by email in the database
+    const user = await User.findOne({ email });
+
+    // If the user does not exist, return an error
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Compare the password with the stored hashed password using bcrypt
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    // If the passwords don't match, return an error
+    if (!isPasswordValid) {
+      return res.status(401).json({ error: 'Invalid password' });
+    }
+    console.log('Login response sent:', { message: 'Login successful' });
+    // If the password is correct, send a success message indicating successful login
+    res.json({ message: 'Login successful' });
+  } catch (error) {
+    console.error('Error during login:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
   
 // Start the server
 app.listen(3000, () => {

@@ -405,41 +405,44 @@ function handleReservationFormSubmit(event) {
 
 
 
+//login
+document.getElementById('login-form').addEventListener('submit', handleLogin);
 
-
-
-
-// for loginfrom
-const form = document.getElementById('login-Form');
-const messageContainer = document.getElementById('messageContainer');
-
-form.addEventListener('submit', (event) => {
+async function handleLogin(event) {
   event.preventDefault();
 
   const email = document.getElementById('email').value;
-  const username = document.getElementById('username').value;
   const password = document.getElementById('password').value;
 
-  const userData = {
+  const loginData = {
     email,
-    username,
-    password,
+    password
   };
 
-  fetch('/users', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(userData),
-  })
-    .then((response) => response.text())
-    .then((data) => {
-      messageContainer.textContent = data; // Display the message on the form
-      form.reset(); // Clear the input fields
-    })
-    .catch((error) => {
-      console.error('Error:', error);
+  try {
+    const response = await fetch('/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(loginData)
     });
-});
 
+    if (response.ok) {
+      // Login successful
+      console.log('Login response:', response);
+      const data = await response.json();
+      console.log('Login data received:', data);
+      // Redirect to admin.html
+      window.location.href = '/admin/admin.html';
+    } else {
+      // If login failed, show an error message
+      console.log('Login failed: Invalid credentials');
+    }
+  } catch (error) {
+    console.error('Error during login:', error);
+  }
+}
+
+  
+      

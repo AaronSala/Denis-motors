@@ -285,38 +285,54 @@ app.delete('/inquiries/:inquiryId', function(req, res) {
     });
 });
 
-// app.get('/cars', async (req, res) => {
-//   let client; // Declare the client variable outside the try block
+//fetching and displaying reservations
 
-//   app.use((req, res, next) => {
-//     res.setHeader('Access-Control-Allow-Origin', 'https://dennis-motors.vercel.app');
-//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-//     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-//     next();
-//   });
+//const Reservation = mongoose.model('Reservation', reservationSchema);
 
-//   try {
-//     // Connect to MongoDB
-//     client = new MongoClient(mongoURL);
-//     await client.connect();
-//     const db = client.db(dbName);
-//     const collection = db.collection(collectionName);
+// Assuming you have the 'reserves' model defined and imported
+const reservationSchema = new mongoose.Schema({
+  phone: String,
+  name: String,
+  email: String,
+  maker: String,
+  model: String,
+});
 
-//     // Fetch car data from MongoDB
-//     const cars = await collection.find().toArray();
+const Reserve = mongoose.model('Reserve', reservationSchema);
 
-//     // Send car data as JSON response
-//     res.json(cars);
-//   } catch (error) {
-//     console.error('Error:', error);
-//     res.status(500).send('Internal Server Error');
-//   } finally {
-//     // Close the MongoDB connection if it exists
-//     if (client) {
-//       client.close();
-//     }
-//   }
-// });
+// Route to fetch and display reservations
+app.get('/reserves', function (req, res) {
+  Reserve.find()
+    .then(reservations => {
+      res.json(reservations);
+    })
+    .catch(error => {
+      console.error('Error fetching reservations:', error);
+      res.status(500).json({ error: 'Error fetching reservations' });
+    });
+});
+
+// Route to delete a reservation by ID
+app.delete('/reserves/:reservationId', function (req, res) {
+  const reservationId = req.params.reservationId;
+
+  Reserve.findByIdAndRemove(reservationId)
+    .then(deletedReservation => {
+      if (!deletedReservation) {
+        // Reservation not found
+        res.status(404).json({ error: 'Reservation not found' });
+      } else {
+        console.log('Reservation deleted:', deletedReservation);
+        res.json({ message: 'Reservation deleted successfully' });
+      }
+    })
+    .catch(error => {
+      console.error('Error deleting reservation:', error);
+      res.status(500).json({ error: 'Error deleting reservation' });
+    });
+});
+
+
 
 // Serve the cars.html file for the root URL
 app.get('/', (req, res) => {
