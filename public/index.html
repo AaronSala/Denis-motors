@@ -20,7 +20,7 @@
     <section class="header ">
 <!-- header top -->
      <div class="top font-semibold" id="head">
-        <h3>High Quality used and new japan cars - Denis Motors Imports limited</h3>
+        <span>D</span>enis <span>M</span>otors <span>I</span>mports <span>L</span>imited
      </div>
 <!-- main header -->
      <div class="header2 p-3">
@@ -405,94 +405,98 @@
           <div id="additionalImageContainer" class="mt-4 bg-slate-300 p-2 gap-2"></div>
                 
           <div id="reservationFormContainer"></div>
+
           
-              <!-- <div class="bar"></div>
-             <h2 class="inquire">Inquire Cars</h2>
-             
-              <div class="form border-2 border-grey bg-slate-200">
-                 <form action="/inquiries" method="POST" id="inquiryForm">
-               <select name="maker" id="maker" class="w-full p-1 bg-white border-2 ">
-                 <option> Maker (All)</option>
-                 <option> NISSAN(12)</option>
-                 <option> TOYOTA(12)</option>
-                 <option> MAZDA(12)</option>
-                 <option> MITSUBISHI(12)</option>
-                 <option> HONDA(12)</option>
-                 <option> BENZ(12)</option>
-                 <option> BMW(12)</option>
-                 <option> SUZUKI(12)</option>
-                 <option> OTHERS(12)</option>
-               </select>
-               <label for="model">Model</label>
-               <input type="text" id="model" placeholder="eg, noah, extrail, C 200 etc" name="model" class="w-full p-1 bg-white border-2">
-               <label for="contacts">contacts/email</label>  
-               <input type="text" name="contacts" id="contacts" class="w-full p-1 border-2" placeholder="how to reach you"></input>
-              
-                
-               <div class="select flex items-center">
-                 <div class="left w-1/2">
-                       <select name="minengine" id="minengine" class=" p-1 w-4/5 bg-white border-2 ">
-                         <option>engine (min)</option>
-                         <option> 700 </option>
-                         <option>1500</option>
-                         <option>2500</option>
-                         <option>3000</option>
-                         <option>3500</option>
-                         <option>4000 </option>
-                         
-                       </select>  
-                       <input type="text" name="maxyear" id="maxyear" class=" p-1  border-2 " placeholder="maxyear"></input>
-                       <input type="text" name="minprice" id="minprice" class=" p-1  border-2 " placeholder="min price"></input>
-                 </div>
-                      <div >
-                           <select name="maxdistance" id="maxdistance" class=" p-1 w-full bg-white border-2 ">
-                             <option>km (max)</option>
-                             <option>50 000 </option>
-                             <option>80 000</option>
-                             <option>100 000</option>
-                             <option>150 000</option>
-                             <option>170 000</option>
-                             <option>2017 </option>
-                             
-                           </select>  
-                           <select name="maxengine" id="maxengine" class=" p-1 w-full bg-white border-2 ">
-                             <option>engine (max)</option>
-                             <option> 700 </option>
-                             <option>1500</option>
-                             <option>2500</option>
-                             <option>3000</option>
-                             <option>3500</option>
-                             <option>4000 </option>
-                             
-                           </select>  
-                           <input type="text" name="maxprice" id="maxprice" class="w-3/4 p-1 border-2 " placeholder="maxprice"></input></br>
-                      </div>
-                     
-             </div>
-             <h2>comments</h2>
-             <textarea name="comment" id="comment" class=" p-1 w-full bg-white border-2 border-slate-800 "></textarea>
-              <button type="submit" class="w-full bg-red-600 text-center m-1 mb-8  border rounded ">submit</button>
-              </form>
-              </div>  -->
-             
               <div class="bar"></div>
               <h2>All Cars</h2>
-              <div id="carList" class=" newcars  overflow-scroll p-4 flex gap-2 uppercase">
+              <div id="carList" class=" newcars   p-4 flex gap-2 uppercase overflow-scroll ">
           </div>
           
             <!-- new arrivals -->
             <div class="bar"></div>
                 <h2>New Arrivals</h2>
-                <div id="newArrivals" class=" w-full overflow-scroll newcars p-4 flex gap-2 uppercase">
+                <div id="newArrivals" class=" w-full  newcars p-4 flex gap-2 uppercase ">
             </div>
         
 <!-- best deals cars -->
         <div class="bar"></div>
         <h2>Best Deals</h2>
 
-        <div id="bestList" class="overflow-scroll bestdeals p-4 flex gap-4 sm:gap-2 uppercase">
+        <div id="bestList" class="bestdeals p-4 flex gap-4 sm:gap-2 uppercase overflow-scroll ">
         </div>
 
+
+    <!-- inquiry -->
+        <div class="lg:hidden">
+            <div class="bar"></div>
+           <h2 class="inquire">Inquire Cars</h2>
+           
+            <div class="form border-2 border-grey bg-slate-200">
+               <form action="/inquiries" method="POST" id="inquiryForm">
+             <select name="maker" id="maker" class="w-full p-1 bg-white border-2 ">
+               <option> Maker (All)</option>
+               <option> NISSAN(12)</option>
+               <option> TOYOTA(12)</option>
+               <option> MAZDA(12)</option>
+               <option> MITSUBISHI(12)</option>
+               <option> HONDA(12)</option>
+               <option> BENZ(12)</option>
+               <option> BMW(12)</option>
+               <option> SUZUKI(12)</option>
+               <option> OTHERS(12)</option>
+             </select>
+             <label for="model">Model</label>
+             <input type="text" id="model" placeholder="eg, noah, extrail, C 200 etc" name="model" class="w-full p-1 bg-white border-2">
+             <label for="contacts">contacts/email</label>  
+             <input type="text" name="contacts" id="contacts" class="w-full p-1 border-2" placeholder="how to reach you"></input>
+            
+              
+             <div class="select flex items-center">
+               <div class="left w-1/2">
+                     <select name="minengine" id="minengine" class=" p-1 w-4/5 bg-white border-2 ">
+                       <option>engine (min)</option>
+                       <option> 700 </option>
+                       <option>1500</option>
+                       <option>2500</option>
+                       <option>3000</option>
+                       <option>3500</option>
+                       <option>4000 </option>
+                       
+                     </select>  
+                     <input type="text" name="maxyear" id="maxyear" class=" p-1  border-2 " placeholder="maxyear"></input>
+                     <input type="text" name="minprice" id="minprice" class=" p-1  border-2 " placeholder="min price"></input>
+               </div>
+                    <div >
+                         <select name="maxdistance" id="maxdistance" class=" p-1 w-full bg-white border-2 ">
+                           <option>km (max)</option>
+                           <option>50 000 </option>
+                           <option>80 000</option>
+                           <option>100 000</option>
+                           <option>150 000</option>
+                           <option>170 000</option>
+                           <option>2017 </option>
+                           
+                         </select>  
+                         <select name="maxengine" id="maxengine" class=" p-1 w-full bg-white border-2 ">
+                           <option>engine (max)</option>
+                           <option> 700 </option>
+                           <option>1500</option>
+                           <option>2500</option>
+                           <option>3000</option>
+                           <option>3500</option>
+                           <option>4000 </option>
+                           
+                         </select>  
+                         <input type="text" name="maxprice" id="maxprice" class="w-3/4 p-1 border-2 " placeholder="maxprice"></input></br>
+                    </div>
+                   
+           </div>
+           <h2>comments</h2>
+           <textarea name="comment" id="comment" class=" p-1 w-full bg-white border-2 border-slate-800 "></textarea>
+            <button type="submit" class="w-full bg-red-600 text-center m-1 mb-8  border rounded ">submit</button>
+            </form>
+            </div>  
+           </div>
         <!-- question and answer section starts -->
         <div id="q&a" >
         <div class="bar"></div>

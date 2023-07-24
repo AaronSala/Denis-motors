@@ -16,7 +16,7 @@
     <section class="header ">
         <!-- header top -->
              <div class="top font-semibold" id="head">
-                <h3>High Quality used and new japan cars - Denis Motors Imports limited</h3>
+                <h3> Denis Motors Imports limited</h3>
              </div>
         <!-- main header -->
              <div class="header2 p-3">
@@ -273,8 +273,10 @@
     if (toyotaCars.length > 0) {
       toyotaCars.forEach(car => {
         const listItem = document.createElement('a');
+        
         listItem.innerHTML = `
-        <img src="/admin/public${car.image}" alt="${car.maker} ${car.model}">
+        
+        <img src="/admin/public/${car.images[0]}" alt="${car.maker} ${car.model}">
           <h2>${car.maker} ${car.model}</h2>
           
           <p>Engine:${car.engine}</p>
@@ -305,7 +307,7 @@
       toyotaCars.forEach(car => {
         const listItem = document.createElement('a');
         listItem.innerHTML = `
-        <img src="/admin/public${car.image}" alt="${car.maker} ${car.model}">
+        <img src="/admin/public/public${car.image}" alt="${car.maker} ${car.model}">
           <h2>${car.maker} ${car.model}</h2>
           
           <p>Engine:${car.engine}</p>
@@ -333,7 +335,7 @@
       toyotaCars.forEach(car => {
         const listItem = document.createElement('a');
         listItem.innerHTML = `
-        <img src="/admin/public${car.image}" alt="${car.maker} ${car.model}">
+        <img src="/admin/public/public${car.image}" alt="${car.maker} ${car.model}">
           <h2>${car.maker} ${car.model}</h2>
           
           <p>Engine:${car.engine}</p>
@@ -361,7 +363,7 @@
       toyotaCars.forEach(car => {
         const listItem = document.createElement('a');
         listItem.innerHTML = `
-        <img src="/admin/public${car.image}" alt="${car.maker} ${car.model}">
+        <img src="/admin/public/public${car.image}" alt="${car.maker} ${car.model}">
           <h2>${car.maker} ${car.model}</h2>
           
           <p>Engine:${car.engine}</p>
@@ -383,29 +385,33 @@
   .then(response => response.json())
   .then(cars => {
     const carList = document.getElementById('subaru');
-    const toyotaCars = cars.filter(car => car.maker === 'SUBARU');
+    const subaruCars = cars.filter(car => car.maker === 'SUBARU');
 
-    if (toyotaCars.length > 0) {
-      toyotaCars.forEach(car => {
+    if (subaruCars.length > 0) {
+      subaruCars.forEach(car => {
         const listItem = document.createElement('a');
+
+        // Make sure the image URL is constructed properly
+        const imageSrc = `/admin/public/public/uploads/${car.image[0]}`;
+
         listItem.innerHTML = `
-        <img src="/admin/public${car.image}" alt="${car.maker} ${car.model}">
+          <img src="${imageSrc}" alt="${car.maker} ${car.model}">
           <h2>${car.maker} ${car.model}</h2>
-          
-          <p>Engine:${car.engine}</p>
+          <p>Engine: ${car.engine}</p>
           <p>Price: ${car.price}</p>
           <p>Mileage: ${car.mileage}</p>
         `;
-    
+
         carList.appendChild(listItem);
       });
     } else {
-      carList.innerHTML = '<p>No Toyota cars found.</p>';
+      carList.innerHTML = '<p>No Subaru cars found.</p>';
     }
   })
   .catch(error => {
     console.error('Error fetching car data:', error);
   });
+
   fetch('http://localhost:3000/cars')
   .then(response => response.json())
   .then(cars => {
@@ -416,7 +422,7 @@
       toyotaCars.forEach(car => {
         const listItem = document.createElement('a');
         listItem.innerHTML = `
-        <img src="/admin/public${car.image}" alt="${car.maker} ${car.model}">
+        <img src="/admin/public/public/${car.image[0]}" alt="${car.maker} ${car.model}">
           <h2>${car.maker} ${car.model}</h2>
           
           <p>Engine:${car.engine}</p>

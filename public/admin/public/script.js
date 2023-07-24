@@ -130,54 +130,56 @@ function openEditForm(carId, maker, model, year, price, shape, engine, category,
   document.getElementById('editEngine').value = engine;
   document.getElementById('editCategory').value = category;
   document.getElementById('editDescription').value = description;
-  
+
   // Show the edit form
   document.getElementById('editFormContainer').style.display = 'block';
 }
 
-// Function to handle form submission for updating a car
-document.getElementById('editCarForm').addEventListener('submit', function(event) {
+document.getElementById('editCarForm').addEventListener('submit', function (event) {
   event.preventDefault(); // Prevent form from submitting and page refresh
 
   // Get the form data
-  const formData = new FormData(this); // Use "new FormData(this)" instead of "new FormData(event.target)"
-
-  // Create an object to hold the car data
-  const carData = {
-    carId: formData.get('editCarId'), 
-    maker: formData.get('editMaker'), 
-    model: formData.get('editModel'), 
-    year: formData.get('editYear'), 
-    price: formData.get('editPrice'), 
-    shape: formData.get('editShape'), 
-    engine: formData.get('editEngine'), 
-    category: formData.get('editCategory'), 
-    mileage: formData.get('editMileage'), 
-    description: formData.get('editDescription') 
-  };
-
-  const carId = formData.get('editCarId'); // Use "editCarId" instead of "carId"
-  const imageFile = formData.get('images');
+  const formData = new FormData(this);
 
   // Create a new FormData object
   const updatedFormData = new FormData();
+
   // Append the car data to the updated form data
-  Object.entries(carData).forEach(([key, value]) => {
-    updatedFormData.append(key, value);
-  });
-  // Append the image file to the updated form data
-  updatedFormData.append('image', imageFile);
+  updatedFormData.append('carId', formData.get('editCarId'));
+  updatedFormData.append('maker', formData.get('editMaker'));
+  updatedFormData.append('model', formData.get('editModel'));
+  updatedFormData.append('year', parseInt(formData.get('editYear'), 10)); // Convert the year to a number
+  updatedFormData.append('price', formData.get('editPrice'));
+  updatedFormData.append('shape', formData.get('editShape'));
+  updatedFormData.append('engine', formData.get('editEngine'));
+  updatedFormData.append('category', formData.get('editCategory'));
+  updatedFormData.append('mileage', formData.get('editMileage'));
+  updatedFormData.append('description', formData.get('editDescription'));
+
+  // Get the image file input
+  const imageFileInput = document.getElementById('editImages');
+  // Get the selected image files (if any)
+  const selectedImageFiles = imageFileInput.files;
+
+  for (let i = 0; i < selectedImageFiles.length; i++) {
+    updatedFormData.append('images', selectedImageFiles[i]); // Append each image file separately using the same key 'images'
+  }
+
+  // Get the car ID
+  const carId = formData.get('editCarId');
+
   // Send a PUT request to the server to update the car data
-  axios.put(`/cars/${carId}`,updatedFormData)
-    .then(function(response) {
+  axios.put(`/cars/${carId}`, updatedFormData)
+    .then(function (response) {
       console.log('Car updated:', response.data);
       closeEditForm(); // Close the edit form
       fetchAndDisplayCars(); // Fetch and display the updated car data
     })
-    .catch(function(error) {
+    .catch(function (error) {
       console.error('Error updating car:', error);
     });
 });
+
 
 // Function to close the edit form
 function closeEditForm() {

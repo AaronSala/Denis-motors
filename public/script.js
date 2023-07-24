@@ -95,7 +95,7 @@ fetchAndDisplayReviews();
 
 
 //posting inquiries
-// Event listener for form submission
+
 document.getElementById('inquiryForm').addEventListener('submit', function(event) {
   event.preventDefault();
 
@@ -216,7 +216,7 @@ function createCarListItem(car) {
   const mainImage = car.images[0];
 
   listItem.innerHTML = `
-    <img src="admin/${mainImage}" class="car-image">
+    <img src="admin/public/${mainImage}" class="car-image">
     <h2>${car.maker} ${car.model}</h2>
     <p>Engine: ${car.engine}</p>
     <p>Price: ${car.price}</p>
@@ -232,11 +232,11 @@ let currentCarModel = null;
 let currentCarMaker = null;
 
 function displayCarImages(mainImage, otherImages, maker, model) {
-  currentCarMaker = maker; // Assign the maker to the global variable
-  currentCarModel = model; // Assign the model to the global variable
+  currentCarMaker = maker; 
+  currentCarModel = model; 
 
   const mainImageContainer = document.getElementById('mainImageContainer');
-  mainImageContainer.innerHTML = `<img src="admin/${mainImage}" class="car-image">`;
+  mainImageContainer.innerHTML = `<img src="admin/public/${mainImage}" class="car-image">`;
 
   const additionalImageContainer = document.getElementById('additionalImageContainer');
   additionalImageContainer.innerHTML = '';
@@ -246,9 +246,9 @@ function displayCarImages(mainImage, otherImages, maker, model) {
 
   otherImages.forEach((image, index) => {
     const additionalImage = document.createElement('img');
-    additionalImage.src = `admin/${image}`;
+    additionalImage.src = `admin/public/${image}`;
     additionalImage.addEventListener('click', () => {
-      mainImageContainer.innerHTML = `<img src="admin/${image}" class="car-image">`;
+      mainImageContainer.innerHTML = `<img src="admin/public/${image}" class="car-image">`;
       currentDisplayedImage = image; // Store the currently displayed image URL
       addReserveButtonToMainImage();
     });
@@ -343,7 +343,7 @@ function clearSearchResults(event) {
     mainImageContainer.innerHTML = `<img src="${targetElement.src}" class="car-image">`;
   }
 }
-//let model=car.model; let maker=car.maker;
+//reservation section
 function showReservationForm(imageUrl, maker, model){
  
   const reservationFormContainer = document.getElementById('reservationFormContainer');
