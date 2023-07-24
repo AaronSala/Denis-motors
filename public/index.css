@@ -387,9 +387,9 @@ width: 14rem;
           }
           .floating-button {
             position: fixed;
-            bottom: 18rem;
-            right: 20px;
-            width: 5rem;
+            bottom: 2rem;
+            right: 10px;
+            width: 4rem;
             height: 60px;
             background-color: #007bff;
             color: #fff;
@@ -398,6 +398,7 @@ width: 14rem;
             line-height: 60px;
             font-size: 20px;
             z-index: 9999;
+            border-radius: 50%;
           }
          
           
