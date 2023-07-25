@@ -407,6 +407,6 @@ function handleLogout() {
   localStorage.removeItem('token');
 
   // Redirect the user to the login page or any other desired page
-  window.location.href = '../index.html'; 
+  window.location.href = './public/index.html'; 
 }
 

@@ -434,7 +434,7 @@ async function handleLogin(event) {
       const data = await response.json();
       console.log('Login data received:', data);
       // Redirect to admin.html
-      window.location.href = '/admin/admin.html';
+      window.location.href = '/admin/public/admin.html';
     } else {
       // If login failed, show an error message
       console.log('Login failed: Invalid credentials');

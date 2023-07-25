@@ -3,15 +3,33 @@ const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const multer = require('multer');
+const mime = require('mime');
 
 
-// app.use((req, res, next) => {
-//   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3002');
-//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-//   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-//   next();
-// });
 
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "https://dennis-motors.vercel.app");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  next();
+});
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(express.static('public'));
+
+
+// Middleware to set the correcst MIME type for static files
+app.use((req, res, next) => {
+  const filePath = req.url.split('?')[0]; // Remove query parameters from URL
+  const mimeType = mime.getType(filePath);
+
+  if (mimeType) {
+    res.set('Content-Type', mimeType);
+  }
+
+  next();
+});
 
 // Connect to MongoDB
 mongoose
@@ -23,12 +41,6 @@ mongoose
   .catch((error) =>
     console.error('Error connecting to MongoDB:', error)
   );
-
-  // app.use('/server.js', (req, res, next) => {
-  //   res.setHeader('Content-Type', 'application/javascript');
-  //   next();
-  // });
-  
   
 // Create a car schema
 const carSchema = new mongoose.Schema({
@@ -63,15 +75,12 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // Middleware
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(express.static('public'));
 
-// Serve the HTML file for the root path
-// app.get('/', function (req, res) {
-//   res.sendFile(__dirname + '/public/admin.html');
-// });
-// CORS Headers
+//Serve the HTML file for the root path
+app.get('/', function (req, res) {
+  res.sendFile(__dirname + '/public/admin.html');
+});
+//CORS Headers
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3002');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
@@ -335,14 +344,12 @@ app.delete('/reserves/:reservationId', function (req, res) {
 
 
 // Serve the cars.html file for the root URL
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/public/admin.html');
-});
+//
 
 
 // Start the server
-app.listen(3002, function () {
-  console.log('Server listening on port 3002');
+app.listen(3005, function () {
+  console.log('Server listening on port 3005');
 });
 
 

@@ -5,17 +5,30 @@ const bodyParser = require("body-parser");
 const multer = require("multer");
 const { MongoClient } = require('mongodb');
 const path = require('path');
-const session = require('express-session');
+const mime = require('mime');
 const bcrypt = require('bcrypt');
 
 
+
 app.use((req, res, next) => {
-  res.setHeader(
-    "Access-Control-Allow-Origin",
-    "https://dennis-motors.vercel.app"
-  );
+  res.setHeader("Access-Control-Allow-Origin", "https://dennis-motors.vercel.app");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  next();
+});
+
+// Serve static files from the 'public' directory
+app.use(express.static('public'));
+
+// Middleware to set the correct MIME type for static files
+app.use((req, res, next) => {
+  const filePath = req.url.split('?')[0]; // Remove query parameters from URL
+  const mimeType = mime.getType(filePath);
+
+  if (mimeType) {
+    res.set('Content-Type', mimeType);
+  }
+
   next();
 });
 
@@ -55,10 +68,7 @@ const reviewSchema = new mongoose.Schema({
 
 const Review = mongoose.model("Review", reviewSchema);
 
-// Middleware
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(express.static("public"));
+
 
 // Route to fetch car data
 app.get("/cars", function (req, res) {

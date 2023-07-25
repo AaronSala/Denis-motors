@@ -432,8 +432,8 @@
            <h2 class="inquire">Inquire Cars</h2>
            
             <div class="form border-2 border-grey bg-slate-200">
-               <form action="/inquiries" method="POST" id="inquiryForm">
-             <select name="maker" id="maker" class="w-full p-1 bg-white border-2 ">
+               <form action="/inquiries" method="POST" id="inquiry">
+             <select name="maker" id="makers" class="w-full p-1 bg-white border-2 ">
                <option> Maker (All)</option>
                <option> NISSAN(12)</option>
                <option> TOYOTA(12)</option>
@@ -445,15 +445,15 @@
                <option> SUZUKI(12)</option>
                <option> OTHERS(12)</option>
              </select>
-             <label for="model">Model</label>
+             <label for="models">Model</label>
              <input type="text" id="model" placeholder="eg, noah, extrail, C 200 etc" name="model" class="w-full p-1 bg-white border-2">
              <label for="contacts">contacts/email</label>  
-             <input type="text" name="contacts" id="contacts" class="w-full p-1 border-2" placeholder="how to reach you"></input>
+             <input type="text" name="contacts" id="contactss" class="w-full p-1 border-2" placeholder="how to reach you"></input>
             
               
              <div class="select flex items-center">
                <div class="left w-1/2">
-                     <select name="minengine" id="minengine" class=" p-1 w-4/5 bg-white border-2 ">
+                     <select name="minengine" id="minengines" class=" p-1 w-4/5 bg-white border-2 ">
                        <option>engine (min)</option>
                        <option> 700 </option>
                        <option>1500</option>
@@ -463,11 +463,11 @@
                        <option>4000 </option>
                        
                      </select>  
-                     <input type="text" name="maxyear" id="maxyear" class=" p-1  border-2 " placeholder="maxyear"></input>
-                     <input type="text" name="minprice" id="minprice" class=" p-1  border-2 " placeholder="min price"></input>
+                     <input type="text" name="maxyear" id="maxyears" class=" p-1  border-2 " placeholder="maxyear"></input>
+                     <input type="text" name="minprice" id="minprices" class=" p-1  border-2 " placeholder="min price"></input>
                </div>
                     <div >
-                         <select name="maxdistance" id="maxdistance" class=" p-1 w-full bg-white border-2 ">
+                         <select name="maxdistance" id="maxdistances" class=" p-1 w-full bg-white border-2 ">
                            <option>km (max)</option>
                            <option>50 000 </option>
                            <option>80 000</option>
@@ -477,7 +477,7 @@
                            <option>2017 </option>
                            
                          </select>  
-                         <select name="maxengine" id="maxengine" class=" p-1 w-full bg-white border-2 ">
+                         <select name="maxengine" id="maxengines" class=" p-1 w-full bg-white border-2 ">
                            <option>engine (max)</option>
                            <option> 700 </option>
                            <option>1500</option>
@@ -487,12 +487,12 @@
                            <option>4000 </option>
                            
                          </select>  
-                         <input type="text" name="maxprice" id="maxprice" class="w-3/4 p-1 border-2 " placeholder="maxprice"></input></br>
+                         <input type="text" name="maxprice" id="maxprices" class="w-3/4 p-1 border-2 " placeholder="maxprice"></input></br>
                     </div>
                    
            </div>
            <h2>comments</h2>
-           <textarea name="comment" id="comment" class=" p-1 w-full bg-white border-2 border-slate-800 "></textarea>
+           <textarea name="comment" id="comments" class=" p-1 w-full bg-white border-2 border-slate-800 "></textarea>
             <button type="submit" class="w-full bg-red-600 text-center m-1 mb-8  border rounded ">submit</button>
             </form>
             </div>  
