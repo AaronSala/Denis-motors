@@ -283,12 +283,12 @@ function addReserveButtonToMainImage() {
 
       // Add event listener to the search button
      document.getElementById('searchButton').addEventListener('click', searchCars);
-      document.getElementById('searchForm').addEventListener('submit', handleFormSubmit);
+      //document.getElementById('searchForm').addEventListener('submit', handleFormSubmit);
       document.getElementById('additionalImageContainer').addEventListener('click', clearSearchResults);
       document.addEventListener('click', (event) => {
         // Check if the clicked element is an image
         if (event.target.tagName === 'IMG' && event.target.parentElement.id === 'additionalImageContainer') {
-          scrollToMainImageContainer(); // Scroll to the main image container
+          // Scroll to the main image container
         }
       });
     });

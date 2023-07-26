@@ -21,16 +21,6 @@ app.use((req, res, next) => {
 app.use(express.static('public'));
 
 // Middleware to set the correct MIME type for static files
-app.use((req, res, next) => {
-  const filePath = req.url.split('?')[0]; // Remove query parameters from URL
-  const mimeType = mime.getType(filePath);
-
-  if (mimeType) {
-    res.set('Content-Type', mimeType);
-  }
-
-  next();
-});
 
 // Connect to MongoDB
 mongoose
@@ -48,7 +38,7 @@ const carSchema = new mongoose.Schema({
   year: Number,
   images: [String],
   price: Number,
-  category: String,
+  category: String,   
   shape: String,
   mileage: String,
   engine: String,

@@ -311,11 +311,12 @@ z-index: 1;
     #inquiryList div{
         background: beige;
         padding-left: .5rem;
+        width: 15rem;
     }
     #inquiryList button{
         background: var(--red);
         text-align: center;
-        width: 90%;
+        width: 100%;
         margin-top: 1rem;
         color: aliceblue;
         font-weight:bolder;

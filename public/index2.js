@@ -35,7 +35,7 @@ const question = document.querySelectorAll(".quiz");
 const add = document.querySelector(".plus1");
 const add1 = document.querySelector(".plus2");
 const add2 = document.querySelector(".plus3");
-const add3 = document.querySelector(".plus4");
+
 
 const detail = document.getElementById("quiz1");
 const detail1 = document.getElementById("quiz2");
@@ -57,29 +57,9 @@ add.addEventListener('click', ()=>{
       add2.classList.toggle('fa-times')
     })
     
-      add3.addEventListener('click', ()=>{
-        detail3.classList.toggle("active")
-        add3.classList.toggle('fa-times')
-      })
       
 // the change page of cars to redirect
 
-const toyota =document.querySelector('.toyota');
-const nissan =document.querySelector('.nissan');
-const benz =document.querySelector('.benz');
-const subaru =document.querySelector('.subaru');
-const mazda =document.querySelector('.mazda');
-
-const logo = document.querySelector('.logo-img');
-const headers = document.getElementsByClassName('.header-1');
-
-
-nissan.addEventListener('click', ()=>{
-//logo.src ="images/logos/nissan.jpeg";
-nissan.style.background='black'
-
-nissan.classList.toggle=("images/logos/nissan.jpeg");
-});
 
 // posting inquiry t database
 // Get the form element
