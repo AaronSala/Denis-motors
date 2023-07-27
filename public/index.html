@@ -404,27 +404,48 @@
           <div id="mainImageContainer" class="bg-slate-300"></div>
           <div id="additionalImageContainer" class="mt-4 bg-slate-300 p-2 gap-2"></div>
                 
-          <div id="reservationFormContainer"></div>
-
-          
+         
               <div class="bar"></div>
               <h2>All Cars</h2>
               <div id="carList" class=" newcars   p-4 flex gap-2 uppercase overflow-scroll ">
-          </div>
-          
+                
+            </div>
+            <div id="paginationButtonsCarList"></div>
             <!-- new arrivals -->
             <div class="bar"></div>
                 <h2>New Arrivals</h2>
                 <div id="newArrivals" class=" w-full  newcars p-4 flex gap-2 uppercase ">
-            </div>
-        
+                   
+                </div> <div id="paginationButtonsNewArrivals"></div>
+                
 <!-- best deals cars -->
         <div class="bar"></div>
         <h2>Best Deals</h2>
 
         <div id="bestList" class="bestdeals p-4 flex gap-4 sm:gap-2 uppercase overflow-scroll ">
-        </div>
 
+        </div>            <div id="paginationButtonsBestList"></div>
+        
+        <style>
+            .pagination-dot {
+           
+              width: 10px;
+              height: 10px;
+              background-color: #bd5656;
+              border-radius: 40%;
+              margin: 0 5px;
+              cursor: pointer;
+              margin-left: 50%;
+            }
+            #paginationButtons{
+                background-color: #bd5656;
+            }
+          
+            .pagination-dot.active {
+              background-color: #555;
+            }
+          </style>
+          
 
     <!-- inquiry -->
         <div class="lg:hidden">
@@ -579,16 +600,16 @@
         <form action="/reviews" method="POST" id="reviewForm" class="comments mt-2 border border-stone-400 flex justify-center " ></br>
             <div class="w-1/2">
           <label for="name">name</label></br>
-          <input id="nameInput" class="border-2 p-1 w-full border-slate-950" type="text" name="name" placeholder="your name" required></br>
+          <input id="nameInput" class="border-2 p-1 w-full border-slate-400" type="text" name="name" placeholder="your name" required></br>
           <label for="name">location</label></br>
-          <input id="locationInput" class="border-2 p-1 w-full border-slate-950" type="text" name="location" placeholder="city or town" required></br>
+          <input id="locationInput" class="border-2 p-1 w-full border-slate-400" type="text" name="location" placeholder="city or town" required></br>
           <label for="name">country</label></br>
           
-          <input id="countryInput" class="border-2 p-1 w-full border-slate-950" type="text" name="country" placeholder="your country"></br>
+          <input id="countryInput" class="border-2 p-1 w-full border-slate-400" type="text" name="country" placeholder="your country"></br>
         </div><div class="smright ml-8 w-1/2 ">
          
           <label for="name">comment</label></br>
-         <textarea id="commentsInput" class="border-2 p-2 w-full border-slate-950" name="comments" id="" cols="" rows=""></textarea>
+         <textarea id="commentsInput" class="border-2 p-2 w-full border-slate-400" name="comments" id="" cols="" rows=""></textarea>
          <button type="submit" class="p-2 w-full bg-emerald-600 rounded-md font-semibold text-white">Submit</button>
         </div>
         </form>
@@ -744,7 +765,7 @@
 <!-- links sections starts here -->
 <section class=" mt-3">
     <div class="bg-slate-200 h-16 mt-3" >
-        <div class="flex justify-center">
+        <div class="slinksflex justify-center">
           <a>  <img src="images/th (4).jpeg" class="h-12 m-2"></a>
            <a href="https://www.instagram.com/denismotorsimports/"> <img src="images/th (3).jpeg" class="h-12 m-2 ml-8"></a>
             <a href="https://www.facebook.com/profile.php?id=100065128466178"><img src="images/th (2).jpeg" class="h-12 m-2 ml-8"></a>

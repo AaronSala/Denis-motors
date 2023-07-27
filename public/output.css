@@ -1453,6 +1453,21 @@ nav{
   padding-left: .4rem;
 }
 
+.comments label{
+font-size: 1.2rem;
+font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.slinks img:hover{
+transform: rotateY('180');
+background: #ED2323;
+}
+
+
+
+
+
+
 @media (max-width:991px){
   body{
     transition: smooth;

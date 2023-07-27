@@ -188,7 +188,12 @@
     </nav>
 
     <div class="center w-full m-4">
-            
+     
+        <div id="mainImageContainer" class="bg-slate-300"></div>
+        <div id="additionalImageContainer" class="mt-4 bg-slate-300 p-2 gap-2"></div>
+              
+        <div id="reservationFormContainer"></div>
+  
         
         <h3 class=" w-full h-8 text-white bg-blue-900 p-2 "> COUPE</h3>
             <div class="shape flex gap-2  " id="coupe">
@@ -203,7 +208,7 @@
 </div>
 
 <h3 class=" w-full h-8 text-white bg-blue-900 p-2 "> PICKUPS</h3>
-<div class="shape flex gap-2  " id="pickup">
+<div class="shape flex gap-2  " id="pickups">
 </div>
 
 <h3 class=" w-full h-8 text-white bg-blue-900 p-2 "> MICRO</h3>
@@ -214,9 +219,9 @@
 <div class="shape flex gap-2  " id="van">
 </div>
 
-<h3 class=" w-full h-8 text-white bg-blue-900 p-2 "> TRACK</h3>
-<div class="shape flex gap-2  " id="track">
-
+<h3 class=" w-full h-8 text-white bg-blue-900 p-2 "> SUV</h3>
+<div class="shape flex gap-2  " id="suv">
+</div>
     <h3 class=" w-full h-8 text-white bg-blue-900 p-2 "> WAGON</h3>
 <div class="shape flex gap-2  " id="wagon">
 </div>
@@ -227,259 +232,148 @@
 </section>
 <script>
             
+            function createCarListItem(car) {
+    const listItem = document.createElement('div');
+    const mainImage = car.images[0];
+
+    listItem.innerHTML = `
+      <img src="admin/${mainImage}" class="car-image">
+      <h2>${car.maker} ${car.model}</h2>
+      <p>Engine: ${car.engine}</p>
+      <p>Price: ${car.price}</p>
+      <p>Mileage: ${car.mileage}</p>
+    `;
+
+    listItem.classList.add('car-list-item'); // Add a class to the list item for styling
+
+    return listItem;
+  }
+
+  // Function to fetch and display cars by shape
+  function fetchAndDisplayCars() {
     fetch('http://localhost:3000/cars')
-  .then(response => response.json())
-  .then(cars => {
-    const carList = document.getElementById('coupe');
-    const toyotaCars = cars.filter(car => car.shape === 'COUPE');
+      .then(response => response.json())
+      .then(cars => {
+        const shapes = ['coupe', 'hatchback', 'sedan', 'pickups', 'micro', 'van', 'suv', 'wagon'];
 
-    if (toyotaCars.length > 0) {
-      toyotaCars.forEach(car => {
-        const listItem = document.createElement('a');
-        listItem.innerHTML = `
-        <img src="/admin/public${car.image}" alt="${car.maker} ${car.model}">
-          <h2>${car.maker} ${car.model}</h2>
-          
-          <p>Engine:${car.engine}</p>
-          <p>Price: ${car.price}</p>
-          <p>Mileage: ${car.mileage}</p>
-        `;
-    
-        carList.appendChild(listItem);
+        shapes.forEach(shape => {
+          const container = document.getElementById(shape);
+          if (!container) {
+            console.error(`Container not found for shape: ${shape}`);
+            return; // Skip processing this shape
+          }
+
+          container.innerHTML = ''; // Clear previous content
+
+          const carsByShape = cars.filter(car => car.shape.toUpperCase() === shape.toUpperCase());
+
+          if (carsByShape.length > 0) {
+            carsByShape.forEach(car => {
+              const listItem = createCarListItem(car);
+              listItem.addEventListener('click', () => {
+                displayCarImages(car.images[0], car.images.slice(1), car.maker, car.model);
+                window.scrollTo({
+                  top: mainImageContainer.offsetTop,
+                  behavior: 'smooth'
+                });
+              });
+              container.appendChild(listItem);
+            });
+          } else {
+            container.innerHTML = `<p>No ${shape} cars found.</p>`;
+          }
+        });
+      })
+      .catch(error => {
+        console.error('Error fetching car data:', error);
       });
-    } else {
-      carList.innerHTML = '<p>No COUPE cars found.</p>';
-    }
-  })
-  .catch(error => {
-    console.error('Error fetching car data:', error);
-  });
-      
-  
+  }
 
-  
-  fetch('http://localhost:3000/cars')
-  .then(response => response.json())
-  .then(cars => {
-    const carList = document.getElementById(' hatchback');
-    const toyotaCars = cars.filter(car => car.shape === 'HATCHBACH');
 
-    if (toyotaCars.length > 0) {
-      toyotaCars.forEach(car => {
-        const listItem = document.createElement('a');
-        listItem.innerHTML = `
-        <img src="/admin/public${car.image}" alt="${car.maker} ${car.model}">
-          <h2>${car.maker} ${car.model}</h2>
-          
-          <p>Engine:${car.engine}</p>
-          <p>Price: ${car.price}</p>
-          <p>Mileage: ${car.mileage}</p>
-        `;
-    
-        carList.appendChild(listItem);
-      });
-    } else {
-      carList.innerHTML = '<p>No HATCHBACK cars found.</p>';
-    }
-  })
-  .catch(error => {
-    console.error('Error fetching car data:', error);
-  });
+function createCarListItem(car) {
+const listItem = document.createElement('div');
+const mainImage = car.images[0];
 
-  fetch('http://localhost:3000/cars')
-  .then(response => response.json())
-  .then(cars => {
-    const carList = document.getElementById('sedan');
-    const toyotaCars = cars.filter(car => car.shape === 'SEDAN');
+listItem.innerHTML = `
+<img src="admin/${mainImage}" class="car-image">
+<h2>${car.maker} ${car.model}</h2>
+<p>Engine: ${car.engine}</p>
+<p>Price: ${car.price}</p>
+<p>Mileage: ${car.mileage}</p>
+`;
 
-    if (toyotaCars.length > 0) {
-      toyotaCars.forEach(car => {
-        const listItem = document.createElement('a');
-        listItem.innerHTML = `
-        <img src="/admin/public${car.image}" alt="${car.maker} ${car.model}">
-          <h2>${car.maker} ${car.model}</h2>
-          
-          <p>Engine:${car.engine}</p>
-          <p>Price: ${car.price}</p>
-          <p>Mileage: ${car.mileage}</p>
-        `;
-    
-        carList.appendChild(listItem);
-      });
-    } else {
-      carList.innerHTML = '<p>No SEDAN cars found.</p>';
-    }
-  })
-  .catch(error => {
-    console.error('Error fetching car data:', error);
-  });
-    
-  fetch('http://localhost:3000/cars')
-  .then(response => response.json())
-  .then(cars => {
-    const carList = document.getElementById('pickup');
-    const toyotaCars = cars.filter(car => car.shape === 'pickup');
+return listItem;
+}
 
-    if (toyotaCars.length > 0) {
-      toyotaCars.forEach(car => {
-        const listItem = document.createElement('a');
-        listItem.innerHTML = `
-        <img src="/admin/public${car.image}" alt="${car.maker} ${car.model}">
-          <h2>${car.maker} ${car.model}</h2>
-          
-          <p>Engine:${car.engine}</p>
-          <p>Price: ${car.price}</p>
-          <p>Mileage: ${car.mileage}</p>
-        `;
-    
-        carList.appendChild(listItem);
-      });
-    } else {
-      carList.innerHTML = '<p>No pickups found.</p>';
-    }
-  })
-  .catch(error => {
-    console.error('Error fetching car data:', error);
-  });
+//reserve info
+let currentDisplayedImage = null;
+let currentCarModel = null;
+let currentCarMaker = null;
 
-  fetch('http://localhost:3000/cars')
-  .then(response => response.json())
-  .then(cars => {
-    const carList = document.getElementById('micro');
-    const toyotaCars = cars.filter(car => car.shape === 'MICRO');
+function displayCarImages(mainImage, otherImages, maker, model) {
+currentCarMaker = maker; 
+currentCarModel = model; 
 
-    if (toyotaCars.length > 0) {
-      toyotaCars.forEach(car => {
-        const listItem = document.createElement('a');
-        listItem.innerHTML = `
-        <img src="/admin/public${car.image}" alt="${car.maker} ${car.model}">
-          <h2>${car.maker} ${car.model}</h2>
-          
-          <p>Engine:${car.engine}</p>
-          <p>Price: ${car.price}</p>
-          <p>Mileage: ${car.mileage}</p>
-        `;
-    
-        carList.appendChild(listItem);
-      });
-    } else {
-      carList.innerHTML = '<p>No micro cars found.</p>';
-    }
-  })
-  .catch(error => {
-    console.error('Error fetching car data:', error);
-  });
-  fetch('http://localhost:3000/cars')
-  .then(response => response.json())
-  .then(cars => {
-    const carList = document.getElementById('van');
-    const toyotaCars = cars.filter(car => car.shape === 'VAN');
+const mainImageContainer = document.getElementById('mainImageContainer');
+mainImageContainer.innerHTML = `<img src="admin/${mainImage}" class="car-image">`;
 
-    if (toyotaCars.length > 0) {
-      toyotaCars.forEach(car => {
-        const listItem = document.createElement('a');
-        listItem.innerHTML = `
-        <img src="/admin/public${car.image}" alt="${car.maker} ${car.model}">
-          <h2>${car.maker} ${car.model}</h2>
-          
-          <p>Engine:${car.engine}</p>
-          <p>Price: ${car.price}</p>
-          <p>Mileage: ${car.mileage}</p>
-        `;
-    
-        carList.appendChild(listItem);
-      });
-    } else {
-      carList.innerHTML = '<p>No vans found.</p>';
-    }
-  })
-  .catch(error => {
-    console.error('Error fetching car data:', error);
-  });
+const additionalImageContainer = document.getElementById('additionalImageContainer');
+additionalImageContainer.innerHTML = '';
 
-  fetch('http://localhost:3000/cars')
-  .then(response => response.json())
-  .then(cars => {
-    const carList = document.getElementById('track');
-    const toyotaCars = cars.filter(car => car.shape === 'TRACK');
+// Add the reservation button for the main image immediately
+addReserveButtonToMainImage();
 
-    if (toyotaCars.length > 0) {
-      toyotaCars.forEach(car => {
-        const listItem = document.createElement('a');
-        listItem.innerHTML = `
-        <img src="/admin/public${car.image}" alt="${car.maker} ${car.model}">
-          <h2>${car.maker} ${car.model}</h2>
-          
-          <p>Engine:${car.engine}</p>
-          <p>Price: ${car.price}</p>
-          <p>Mileage: ${car.mileage}</p>
-        `;
-    
-        carList.appendChild(listItem);
-      });
-    } else {
-      carList.innerHTML = '<p>No Tracks found.</p>';
-    }
-  })
-  .catch(error => {
-    console.error('Error fetching car data:', error);
-  });
+otherImages.forEach((image, index) => {
+const additionalImage = document.createElement('img');
+additionalImage.src = `admin/${image}`;
+additionalImage.addEventListener('click', () => {
+mainImageContainer.innerHTML = `<img src="admin/${image}" class="car-image">`;
+currentDisplayedImage = image; // Store the currently displayed image URL
+addReserveButtonToMainImage();
+});
+additionalImageContainer.appendChild(additionalImage);
+});
+}
 
-  fetch('http://localhost:3000/cars')
-  .then(response => response.json())
-  .then(cars => {
-    const carList = document.getElementById('wagon');
-    const toyotaCars = cars.filter(car => car.shape === 'WAGON');
+function addReserveButtonToMainImage() {
+const mainImageContainer = document.getElementById('mainImageContainer');
+const reserveButton = mainImageContainer.querySelector('button');
 
-    if (toyotaCars.length > 0) {
-      toyotaCars.forEach(car => {
-        const listItem = document.createElement('a');
-        listItem.innerHTML = `
-        <img src="/admin/public${car.image}" alt="${car.maker} ${car.model}">
-          <h2>${car.maker} ${car.model}</h2>
-          
-          <p>Engine:${car.engine}</p>
-          <p>Price: ${car.price}</p>
-          <p>Mileage: ${car.mileage}</p>
-        `;
-    
-        carList.appendChild(listItem);
-      });
-    } else {
-      carList.innerHTML = '<p>No wagons cars found.</p>';
-    }
-  })
-  .catch(error => {
-    console.error('Error fetching car data:', error);
-  });
+if (!reserveButton && currentDisplayedImage) {
+// Create the reserve button and add it to the main image container if it doesn't exist
+const newReserveButton = document.createElement('button');
+newReserveButton.innerText = 'Reserve';
+newReserveButton.addEventListener('click', () => {
+showReservationForm(currentDisplayedImage, currentCarMaker, currentCarModel);
+});
+mainImageContainer.appendChild(newReserveButton);
+} else if (reserveButton && !currentDisplayedImage) {
+// Remove the reserve button if it exists but there is no current displayed image
+reserveButton.remove();
+}
+}
 
-  fetch('http://localhost:3000/cars')
-  .then(response => response.json())
-  .then(cars => {
-    const carList = document.getElementById('suvs');
-    const toyotaCars = cars.filter(car => car.shape === 'SUV');
 
-    if (toyotaCars.length > 0) {
-      toyotaCars.forEach(car => {
-        const listItem = document.createElement('a');
-        listItem.innerHTML = `
-        <img src="/admin/public${car.image}" alt="${car.maker} ${car.model}">
-          <h2>${car.maker} ${car.model}</h2>
-          
-          <p>Engine:${car.engine}</p>
-          <p>Price: ${car.price}</p>
-          <p>Mileage: ${car.mileage}</p>
-        `;
-    
-        carList.appendChild(listItem);
-      });
-    } else {
-      carList.innerHTML = '<p>No suv cars found.</p>';
-    }
-  })
-  .catch(error => {
-    console.error('Error fetching car data:', error);
-  });
+// ... Rest of your code remains the same ...
+
+document.addEventListener('DOMContentLoaded', () => {
+// Fetch and display cars immediately on page load
+fetchAndDisplayCars();
+
+// Add event listener to the search button
+document.getElementById('searchButton').addEventListener('click', searchCars);
+//document.getElementById('searchForm').addEventListener('submit', handleFormSubmit);
+document.getElementById('additionalImageContainer').addEventListener('click', clearSearchResults);
+document.addEventListener('click', (event) => {
+// Check if the clicked element is an image
+if (event.target.tagName === 'IMG' && event.target.parentElement.id === 'additionalImageContainer') {
+// Scroll to the main image container
+}
+});
+});
+
+
+
 
 
 </script>

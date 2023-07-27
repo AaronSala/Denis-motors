@@ -148,59 +148,81 @@ document.getElementById('inquiryForm').addEventListener('submit', function(event
 });
 //for displaying all cars
 
-// ... Rest of your code ...
 
-function fetchAndDisplayCars() {
+ function createCarListItem(car) {
+      const listItem = document.createElement('div');
+      listItem.className = 'carItem';
+      listItem.innerHTML = `
+        <img src="${car.images[0]}" alt="${car.maker} ${car.model}">
+        <h3>${car.maker} ${car.model}</h3>
+      `;
+      return listItem;
+    }
+
+    // Function to display car images
+    function displayCarImages(mainImage, images, maker, model) {
+      // Code to display car images (not included in this example)
+      // ...
+    }
+
+    // Define the number of cars to display per page
+    let currentPage = 1;
+    const carsPerPage = 4; // Number of cars to display per page
+
+    // Function to create car list item
+    function createCarListItem(car) {
+      const listItem = document.createElement('div');
+      listItem.innerHTML = `
+        <h3>${car.maker} ${car.model}</h3>
+        <p>Year: ${car.year}</p>
+        <p>Price: $${car.price}</p>
+        <p>Mileage: ${car.mileage}</p>
+      `;
+      listItem.classList.add('car-list-item');
+      return listItem;
+    }
+
+    // Function to fetch and display cars
+    
+  // Your existing functions...
+
+// Function to fetch and display cars with pagination
+function fetchAndDisplayCars(pageNumber, containerId, paginationButtonsContainerId, category) {
   fetch('http://localhost:3000/cars')
     .then(response => response.json())
     .then(cars => {
-      const allCarsContainer = document.getElementById('carList');
-      const bestDealsContainer = document.getElementById('bestList');
-      const newArrivalsContainer = document.getElementById('newArrivals');
+      const carsPerPage = 4;
+      const start = (pageNumber - 1) * carsPerPage;
+      const end = start + carsPerPage;
 
-      allCarsContainer.innerHTML = '';
-      bestDealsContainer.innerHTML = '';
-      newArrivalsContainer.innerHTML = '';
+      let carsToShow;
+      if (category === 'allCars') {
+        carsToShow = cars.slice(start, end);
+      } else {
+        carsToShow = cars.filter(car => car.category === category).slice(start, end);
+      }
 
-      if (cars.length > 0) {
-        cars.forEach(car => {
+      const carListContainer = document.getElementById(containerId);
+      carListContainer.innerHTML = '';
+
+      if (carsToShow.length > 0) {
+        carsToShow.forEach(car => {
           const listItem = createCarListItem(car);
-
-          // Add click event listener to each car item
           listItem.addEventListener('click', () => {
             displayCarImages(car.images[0], car.images.slice(1), car.maker, car.model);
             window.scrollTo({
               top: mainImageContainer.offsetTop,
               behavior: 'smooth'
-            }); // Call the function to scroll to the main image container
+            });
           });
-
-          allCarsContainer.appendChild(listItem);
-
-          if (car.category === 'bestDeals') {
-            const bestDealsItem = listItem.cloneNode(true);
-            bestDealsItem.addEventListener('click', () => {
-              displayCarImages(car.images[0], car.images.slice(1), car.maker, car.model);
-              window.scrollTo({
-                top: mainImageContainer.offsetTop,
-                behavior: 'smooth'
-              }); // Call the function to scroll to the main image container
-            });
-            bestDealsContainer.appendChild(bestDealsItem);
-          } else if (car.category === 'newArrivals') {
-            const newArrivalsItem = listItem.cloneNode(true);
-            newArrivalsItem.addEventListener('click', () => {
-              displayCarImages(car.images[0], car.images.slice(1), car.maker, car.model);
-              window.scrollTo({
-                top: mainImageContainer.offsetTop,
-                behavior: 'smooth'
-              }); // Call the function to scroll to the main image container
-            });
-            newArrivalsContainer.appendChild(newArrivalsItem);
-          }
+          carListContainer.appendChild(listItem);
         });
+
+        // Add pagination buttons
+        const totalPageCount = Math.ceil((category === 'allCars' ? cars.length : cars.filter(car => car.category === category).length) / carsPerPage);
+        addPaginationButtons(totalPageCount, pageNumber, paginationButtonsContainerId, category);
       } else {
-        allCarsContainer.innerHTML = '<p>No Toyota cars found.</p>';
+        carListContainer.innerHTML = '<p>No cars found.</p>';
       }
     })
     .catch(error => {
@@ -208,8 +230,58 @@ function fetchAndDisplayCars() {
     });
 }
 
-// ... Rest of your code ...
 
+
+function getCategoryContainerId(category) {
+  switch (category) {
+    case 'allCars':
+      return 'carList';
+    case 'bestDeals':
+      return 'bestList';
+    case 'newArrivals':
+      return 'newArrivals';
+    default:
+      return '';
+  }
+}
+
+// Initial fetch and display of cars on page load
+fetchAndDisplayCars(1, 'carList', 'paginationButtonsCarList', 'allCars');
+fetchAndDisplayCars(1, 'bestList', 'paginationButtonsBestList', 'bestDeals');
+fetchAndDisplayCars(1, 'newArrivals', 'paginationButtonsNewArrivals', 'newArrivals');
+
+function addPaginationButtons(totalPageCount, currentPage, paginationButtonsContainerId, category) {
+  const paginationButtonsContainer = document.getElementById(paginationButtonsContainerId);
+  paginationButtonsContainer.innerHTML = '';
+
+  // Set the container's style to display the dots in a row
+  paginationButtonsContainer.style.display = 'flex';
+  paginationButtonsContainer.style.flexDirection = 'row'; // Optional, as row is the default value
+
+  for (let i = 1; i <= totalPageCount; i++) {
+    const dot = document.createElement('span');
+    dot.textContent = '.';
+    dot.classList.add('pagination-dot'); // Add the pagination-dot class
+    
+    // Highlight the currently selected page's dot
+    if (i === currentPage) {
+      dot.classList.add('active'); // Add the active class to the active dot
+    }
+
+    dot.addEventListener('click', () => {
+      fetchAndDisplayCars(i, getCategoryContainerId(category), paginationButtonsContainerId, category);
+    });
+
+    paginationButtonsContainer.appendChild(dot);
+  }
+}
+
+
+
+
+    
+    // Initial fetch and display of cars on page load
+    fetchAndDisplayCars(1);
 
 function createCarListItem(car) {
   const listItem = document.createElement('div');
