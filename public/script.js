@@ -159,11 +159,10 @@ document.getElementById('inquiryForm').addEventListener('submit', function(event
       return listItem;
     }
 
-    // Function to display car images
-    function displayCarImages(mainImage, images, maker, model) {
-      // Code to display car images (not included in this example)
-      // ...
-    }
+    
+
+    // Define the number of cars to display per page
+   
 
     // Define the number of cars to display per page
     let currentPage = 1;
@@ -172,183 +171,168 @@ document.getElementById('inquiryForm').addEventListener('submit', function(event
     // Function to create car list item
     function createCarListItem(car) {
       const listItem = document.createElement('div');
+      listItem.className = 'carItem';
       listItem.innerHTML = `
+        <img src="${car.images[0]}" alt="${car.maker} ${car.model}">
         <h3>${car.maker} ${car.model}</h3>
-        <p>Year: ${car.year}</p>
-        <p>Price: $${car.price}</p>
-        <p>Mileage: ${car.mileage}</p>
       `;
-      listItem.classList.add('car-list-item');
       return listItem;
     }
-
-    // Function to fetch and display cars
-    
-  // Your existing functions...
-
-// Function to fetch and display cars with pagination
-function fetchAndDisplayCars(pageNumber, containerId, paginationButtonsContainerId, category) {
-  fetch('http://localhost:3000/cars')
-    .then(response => response.json())
-    .then(cars => {
-      const carsPerPage = 4;
-      const start = (pageNumber - 1) * carsPerPage;
-      const end = start + carsPerPage;
-
-      let carsToShow;
-      if (category === 'allCars') {
-        carsToShow = cars.slice(start, end);
-      } else {
-        carsToShow = cars.filter(car => car.category === category).slice(start, end);
-      }
-
-      const carListContainer = document.getElementById(containerId);
-      carListContainer.innerHTML = '';
-
-      if (carsToShow.length > 0) {
-        carsToShow.forEach(car => {
-          const listItem = createCarListItem(car);
-          listItem.addEventListener('click', () => {
-            displayCarImages(car.images[0], car.images.slice(1), car.maker, car.model);
-            window.scrollTo({
-              top: mainImageContainer.offsetTop,
-              behavior: 'smooth'
-            });
-          });
-          carListContainer.appendChild(listItem);
-        });
-
-        // Add pagination buttons
-        const totalPageCount = Math.ceil((category === 'allCars' ? cars.length : cars.filter(car => car.category === category).length) / carsPerPage);
-        addPaginationButtons(totalPageCount, pageNumber, paginationButtonsContainerId, category);
-      } else {
-        carListContainer.innerHTML = '<p>No cars found.</p>';
-      }
-    })
-    .catch(error => {
-      console.error('Error fetching car data:', error);
-    });
-}
-
-
-
-function getCategoryContainerId(category) {
-  switch (category) {
-    case 'allCars':
-      return 'carList';
-    case 'bestDeals':
-      return 'bestList';
-    case 'newArrivals':
-      return 'newArrivals';
-    default:
-      return '';
-  }
-}
-
-// Initial fetch and display of cars on page load
-fetchAndDisplayCars(1, 'carList', 'paginationButtonsCarList', 'allCars');
-fetchAndDisplayCars(1, 'bestList', 'paginationButtonsBestList', 'bestDeals');
-fetchAndDisplayCars(1, 'newArrivals', 'paginationButtonsNewArrivals', 'newArrivals');
-
-function addPaginationButtons(totalPageCount, currentPage, paginationButtonsContainerId, category) {
-  const paginationButtonsContainer = document.getElementById(paginationButtonsContainerId);
-  paginationButtonsContainer.innerHTML = '';
-
-  // Set the container's style to display the dots in a row
-  paginationButtonsContainer.style.display = 'flex';
-  paginationButtonsContainer.style.flexDirection = 'row'; // Optional, as row is the default value
-
-  for (let i = 1; i <= totalPageCount; i++) {
-    const dot = document.createElement('span');
-    dot.textContent = '.';
-    dot.classList.add('pagination-dot'); // Add the pagination-dot class
-    
-    // Highlight the currently selected page's dot
-    if (i === currentPage) {
-      dot.classList.add('active'); // Add the active class to the active dot
-    }
-
-    dot.addEventListener('click', () => {
-      fetchAndDisplayCars(i, getCategoryContainerId(category), paginationButtonsContainerId, category);
-    });
-
-    paginationButtonsContainer.appendChild(dot);
-  }
-}
-
-
-
-
-    
-    // Initial fetch and display of cars on page load
-    fetchAndDisplayCars(1);
-
-function createCarListItem(car) {
-  const listItem = document.createElement('div');
-  const mainImage = car.images[0];
-
-  listItem.innerHTML = `
-    <img src="admin/${mainImage}" class="car-image">
-    <h2>${car.maker} ${car.model}</h2>
-    <p>Engine: ${car.engine}</p>
-    <p>Price: ${car.price}</p>
-    <p>Mileage: ${car.mileage}</p>
-  `;
-
-  return listItem;
-}
-
-//reserve info
-let currentDisplayedImage = null;
-let currentCarModel = null;
-let currentCarMaker = null;
-
-function displayCarImages(mainImage, otherImages, maker, model) {
-  currentCarMaker = maker; 
-  currentCarModel = model; 
-
-  const mainImageContainer = document.getElementById('mainImageContainer');
-  mainImageContainer.innerHTML = `<img src="admin/${mainImage}" class="car-image">`;
-
-  const additionalImageContainer = document.getElementById('additionalImageContainer');
-  additionalImageContainer.innerHTML = '';
-
-  // Add the reservation button for the main image immediately
-  addReserveButtonToMainImage();
-
-  otherImages.forEach((image, index) => {
-    const additionalImage = document.createElement('img');
-    additionalImage.src = `admin/${image}`;
-    additionalImage.addEventListener('click', () => {
-      mainImageContainer.innerHTML = `<img src="admin/${image}" class="car-image">`;
-      currentDisplayedImage = image; // Store the currently displayed image URL
-      addReserveButtonToMainImage();
-    });
-    additionalImageContainer.appendChild(additionalImage);
-  });
-}
-
-function addReserveButtonToMainImage() {
-  const mainImageContainer = document.getElementById('mainImageContainer');
-  const reserveButton = mainImageContainer.querySelector('button');
   
-  if (!reserveButton && currentDisplayedImage) {
-    // Create the reserve button and add it to the main image container if it doesn't exist
-    const newReserveButton = document.createElement('button');
-    newReserveButton.innerText = 'Reserve';
-    newReserveButton.addEventListener('click', () => {
-      showReservationForm(currentDisplayedImage, currentCarMaker, currentCarModel);
-    });
-    mainImageContainer.appendChild(newReserveButton);
-  } else if (reserveButton && !currentDisplayedImage) {
-    // Remove the reserve button if it exists but there is no current displayed image
-    reserveButton.remove();
-  }
-}
-
-
-    // ... Rest of your code remains the same ...
-
+    // Function to fetch and display cars
+    function fetchAndDisplayCars(pageNumber, containerId, paginationButtonsContainerId, category) {
+      fetch('http://localhost:3000/cars')
+        .then(response => response.json())
+        .then(cars => {
+          const carsPerPage = 4;
+          const start = (pageNumber - 1) * carsPerPage;
+          const end = start + carsPerPage;
+  
+          let carsToShow;
+          if (category === 'allCars') {
+            carsToShow = cars.slice(start, end);
+          } else {
+            carsToShow = cars.filter(car => car.category === category).slice(start, end);
+          }
+  
+          const carListContainer = document.getElementById(containerId);
+          carListContainer.innerHTML = '';
+  
+          if (carsToShow.length > 0) {
+            carsToShow.forEach(car => {
+              const listItem = createCarListItem(car);
+              listItem.addEventListener('click', () => {
+                // Display images when the car item is clicked
+                displayCarImages(car.images[0], car.images.slice(1), car.maker, car.model);
+                window.scrollTo({
+                  top: mainImageContainer.offsetTop,
+                  behavior: 'smooth'
+                });
+              });
+              carListContainer.appendChild(listItem);
+            });
+  
+            // Add pagination buttons
+            const totalPageCount = Math.ceil((category === 'allCars' ? cars.length : cars.filter(car => car.category === category).length) / carsPerPage);
+            addPaginationButtons(totalPageCount, pageNumber, paginationButtonsContainerId, category);
+          } else {
+            carListContainer.innerHTML = '<p>No cars found.</p>';
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching car data:', error);
+        });
+    }
+  
+    function getCategoryContainerId(category) {
+      switch (category) {
+        case 'allCars':
+          return 'carList';
+        case 'bestDeals':
+          return 'bestList';
+        case 'newArrivals':
+          return 'newArrivals';
+        default:
+          return '';
+      }
+    }
+  
+    // Initial fetch and display of cars on page load
+    fetchAndDisplayCars(1, 'carList', 'paginationButtonsCarList', 'allCars');
+    fetchAndDisplayCars(1, 'bestList', 'paginationButtonsBestList', 'bestDeals');
+    fetchAndDisplayCars(1, 'newArrivals', 'paginationButtonsNewArrivals', 'newArrivals');
+  
+    function addPaginationButtons(totalPageCount, currentPage, paginationButtonsContainerId, category) {
+      const paginationButtonsContainer = document.getElementById(paginationButtonsContainerId);
+      paginationButtonsContainer.innerHTML = '';
+  
+      // Add the backward arrow
+      if (currentPage > 1) {
+        const backwardArrow = document.createElement('span');
+        backwardArrow.textContent = '<<';
+        backwardArrow.classList.add('pagination-arrow');
+        backwardArrow.addEventListener('click', () => {
+          fetchAndDisplayCars(currentPage - 1, getCategoryContainerId(category), paginationButtonsContainerId, category);
+        });
+        paginationButtonsContainer.appendChild(backwardArrow);
+      }
+  
+      for (let i = 1; i <= totalPageCount; i++) {
+        const dot = document.createElement('span');
+        dot.textContent = '.';
+        dot.classList.add('pagination-dot'); // Add the pagination-dot class
+  
+        // Highlight the currently selected page's dot
+        if (i === currentPage) {
+          dot.classList.add('active'); // Add the active class to the active dot
+        }
+  
+        dot.addEventListener('click', () => {
+          fetchAndDisplayCars(i, getCategoryContainerId(category), paginationButtonsContainerId, category);
+        });
+  
+        paginationButtonsContainer.appendChild(dot);
+      }
+  
+      // Add the forward arrow
+      if (currentPage < totalPageCount) {
+        const forwardArrow = document.createElement('span');
+        forwardArrow.textContent = '>>';
+        forwardArrow.classList.add('pagination-arrow');
+        forwardArrow.addEventListener('click', () => {
+          fetchAndDisplayCars(currentPage + 1, getCategoryContainerId(category), paginationButtonsContainerId, category);
+        });
+        paginationButtonsContainer.appendChild(forwardArrow);
+      }
+    }
+  
+    function createCarListItem(car) {
+      const listItem = document.createElement('div');
+      const mainImage = car.images[0];
+  
+      listItem.innerHTML = `
+        <img src="admin/${mainImage}" class="car-image">
+        <h2>${car.maker} ${car.model}</h2>
+        <p>Engine: ${car.engine}</p>
+        <p>Price: ${car.price}</p>
+        <p>Mileage: ${car.mileage}</p>
+      `;
+  
+      return listItem;
+    }
+  
+    //reserve info
+    let currentDisplayedImage = null;
+    let currentCarModel = null;
+    let currentCarMaker = null;
+  
+    function displayCarImages(mainImage, otherImages, maker, model) {
+      currentCarMaker = maker;
+      currentCarModel = model;
+  
+      const mainImageContainer = document.getElementById('mainImageContainer');
+      mainImageContainer.innerHTML = ''; // Clear previous content
+  
+      // Create a new img element for the main image and add it to the mainImageContainer
+      const mainImageElement = document.createElement('img');
+      mainImageElement.src = `admin/${mainImage}`;
+      mainImageElement.classList.add('car-image');
+      mainImageContainer.appendChild(mainImageElement);
+  
+      const additionalImageContainer = document.getElementById('additionalImageContainer');
+      additionalImageContainer.innerHTML = '';
+  
+      otherImages.forEach((image, index) => {
+        const additionalImage = document.createElement('img');
+        additionalImage.src = `admin/${image}`;
+        additionalImage.addEventListener('click', () => {
+          // Update the main image with the clicked small image
+          mainImageElement.src = `admin/${image}`;
+          currentDisplayedImage = image; // Store the currently displayed image URL
+        });
+        additionalImageContainer.appendChild(additionalImage);
+      });
+    }
     document.addEventListener('DOMContentLoaded', () => {
       // Fetch and display cars immediately on page load
       fetchAndDisplayCars();

@@ -408,42 +408,66 @@
               <div class="bar"></div>
               <h2>All Cars</h2>
               <div id="carList" class=" newcars   p-4 flex gap-2 uppercase overflow-scroll ">
-                
-            </div>
-            <div id="paginationButtonsCarList"></div>
+               </div>
+            <div id="paginationButtonsCarList" class="pagination-buttons-container"></div>
+
             <!-- new arrivals -->
             <div class="bar"></div>
                 <h2>New Arrivals</h2>
                 <div id="newArrivals" class=" w-full  newcars p-4 flex gap-2 uppercase ">
-                   
-                </div> <div id="paginationButtonsNewArrivals"></div>
+                    </div>
+                     <div id="paginationButtonsNewArrivals" class="pagination-buttons-container"></div>
                 
 <!-- best deals cars -->
         <div class="bar"></div>
         <h2>Best Deals</h2>
+          <div id="bestList" class="bestdeals p-4 flex gap-4 sm:gap-2 uppercase overflow-scroll "> </div>           
+        <div id="paginationButtonsBestList" class="pagination-buttons-container"></div>
+<!-- Pagination buttons containers -->
 
-        <div id="bestList" class="bestdeals p-4 flex gap-4 sm:gap-2 uppercase overflow-scroll ">
 
-        </div>            <div id="paginationButtonsBestList"></div>
-        
+
         <style>
-            .pagination-dot {
-           
-              width: 10px;
-              height: 10px;
-              background-color: #bd5656;
-              border-radius: 40%;
-              margin: 0 5px;
-              cursor: pointer;
-              margin-left: 50%;
-            }
-            #paginationButtons{
-                background-color: #bd5656;
-            }
+            .pagination-buttons-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  
+  height: 2rem;
+  padding-left: 40%;
+}
+
+/* Style for pagination dots */
+.pagination-dot {
+  cursor: pointer;
+  font-size: 4rem;
+ margin-top: -2.5rem;
+   /* Adjust the margin as per your preference */
+}
+
+/* Style for active pagination dot */
+.pagination-dot.active {
+ 
+  color: blue; /* Change the color as per your preference */
+}
+
+/* Style for pagination arrows */
+.pagination-arrow {
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: blue;
+  /* Adjust the margin as per your preference */
+}
+
+            #paginationButtonsCarList,
+#paginationButtonsBestList,
+#paginationButtonsNewArrivals {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
           
-            .pagination-dot.active {
-              background-color: #555;
-            }
+           
           </style>
           
 
