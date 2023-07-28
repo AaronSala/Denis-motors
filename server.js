@@ -19,7 +19,10 @@ app.use((req, res, next) => {
 
 // Serve static files from the 'public' directory
 app.use(express.static('public'));
-
+// Middleware
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(express.static("public"));
 // Middleware to set the correct MIME type for static files
 
 // Connect to MongoDB
@@ -125,10 +128,7 @@ const inquirySchema = new mongoose.Schema({
 // Create an Inquiry model
 const Inquiry = mongoose.model("Inquiry", inquirySchema);
 
-// Middleware
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(express.static("public"));
+
 
 // Route to handle form submission
 app.post("/inquiries", (req, res) => {
@@ -171,13 +171,6 @@ app.post("/inquiries", (req, res) => {
     });
     
 });
-
-mongoose.connect('mongodb://localhost/denis', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-  .then(() => console.log("Connected to MongoDB"))
-  .catch((error) => console.error("Error connecting to MongoDB:", error));
 
 
   //register

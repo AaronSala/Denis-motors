@@ -58,6 +58,7 @@ function addReview() {
     comments,
     
   };
+  
 
   // Send a POST request to the server to add the review
   fetch('http://localhost:3000/reviews', {
@@ -89,8 +90,6 @@ document.getElementById('reviewForm').addEventListener('submit', function(event)
   addReview(); // Call the addReview function to add a new review
 });
 
-// Call the fetchAndDisplayReviews function to load and display the reviews
-fetchAndDisplayReviews();
 
 
 
@@ -149,35 +148,12 @@ document.getElementById('inquiryForm').addEventListener('submit', function(event
 //for displaying all cars
 
 
- function createCarListItem(car) {
-      const listItem = document.createElement('div');
-      listItem.className = 'carItem';
-      listItem.innerHTML = `
-        <img src="${car.images[0]}" alt="${car.maker} ${car.model}">
-        <h3>${car.maker} ${car.model}</h3>
-      `;
-      return listItem;
-    }
-
-    
-
-    // Define the number of cars to display per page
-   
 
     // Define the number of cars to display per page
     let currentPage = 1;
     const carsPerPage = 4; // Number of cars to display per page
 
-    // Function to create car list item
-    function createCarListItem(car) {
-      const listItem = document.createElement('div');
-      listItem.className = 'carItem';
-      listItem.innerHTML = `
-        <img src="${car.images[0]}" alt="${car.maker} ${car.model}">
-        <h3>${car.maker} ${car.model}</h3>
-      `;
-      return listItem;
-    }
+   
   
     // Function to fetch and display cars
     function fetchAndDisplayCars(pageNumber, containerId, paginationButtonsContainerId, category) {
@@ -197,7 +173,6 @@ document.getElementById('inquiryForm').addEventListener('submit', function(event
   
           const carListContainer = document.getElementById(containerId);
           carListContainer.innerHTML = '';
-  
           if (carsToShow.length > 0) {
             carsToShow.forEach(car => {
               const listItem = createCarListItem(car);
@@ -208,6 +183,9 @@ document.getElementById('inquiryForm').addEventListener('submit', function(event
                   top: mainImageContainer.offsetTop,
                   behavior: 'smooth'
                 });
+        
+                // Show the reserve button in the mainImageContainer
+                
               });
               carListContainer.appendChild(listItem);
             });
@@ -220,7 +198,7 @@ document.getElementById('inquiryForm').addEventListener('submit', function(event
           }
         })
         .catch(error => {
-          console.error('Error fetching car data:', error);
+          //console.error('Error fetching car data:', error);
         });
     }
   
@@ -235,6 +213,19 @@ document.getElementById('inquiryForm').addEventListener('submit', function(event
         default:
           return '';
       }
+    }
+    function createReserveButton(car) {
+      const reserveButton = document.createElement('button');
+      reserveButton.textContent = 'Reserve';
+      reserveButton.classList.add('reserve-button');
+    
+      // Add a click event listener to handle the reservation process
+      reserveButton.addEventListener('click', () => {
+        
+        console.log(`Reserved ${car.maker} ${car.model} for ${car.price}`);
+      });
+    
+      return reserveButton;
     }
   
     // Initial fetch and display of cars on page load
@@ -289,7 +280,7 @@ document.getElementById('inquiryForm').addEventListener('submit', function(event
     function createCarListItem(car) {
       const listItem = document.createElement('div');
       const mainImage = car.images[0];
-  
+    
       listItem.innerHTML = `
         <img src="admin/${mainImage}" class="car-image">
         <h2>${car.maker} ${car.model}</h2>
@@ -297,42 +288,62 @@ document.getElementById('inquiryForm').addEventListener('submit', function(event
         <p>Price: ${car.price}</p>
         <p>Mileage: ${car.mileage}</p>
       `;
-  
+      
+
       return listItem;
     }
   
     //reserve info
-    let currentDisplayedImage = null;
-    let currentCarModel = null;
-    let currentCarMaker = null;
-  
-    function displayCarImages(mainImage, otherImages, maker, model) {
-      currentCarMaker = maker;
-      currentCarModel = model;
-  
-      const mainImageContainer = document.getElementById('mainImageContainer');
-      mainImageContainer.innerHTML = ''; // Clear previous content
-  
-      // Create a new img element for the main image and add it to the mainImageContainer
-      const mainImageElement = document.createElement('img');
-      mainImageElement.src = `admin/${mainImage}`;
-      mainImageElement.classList.add('car-image');
-      mainImageContainer.appendChild(mainImageElement);
-  
-      const additionalImageContainer = document.getElementById('additionalImageContainer');
-      additionalImageContainer.innerHTML = '';
-  
-      otherImages.forEach((image, index) => {
-        const additionalImage = document.createElement('img');
-        additionalImage.src = `admin/${image}`;
-        additionalImage.addEventListener('click', () => {
-          // Update the main image with the clicked small image
-          mainImageElement.src = `admin/${image}`;
-          currentDisplayedImage = image; // Store the currently displayed image URL
-        });
-        additionalImageContainer.appendChild(additionalImage);
-      });
-    }
+    // ... (other parts of your code) ...
+
+function displayCarImages(mainImage, otherImages, maker, model) {
+  currentCarMaker = maker;
+  currentCarModel = model;
+
+  const mainImageContainer = document.getElementById('mainImageContainer');
+  mainImageContainer.innerHTML = ''; // Clear previous content
+
+  // Create a new img element for the main image and add it to the mainImageContainer
+  const mainImageElement = document.createElement('img');
+  mainImageElement.src = `admin/${mainImage}`;
+  mainImageElement.classList.add('car-image');
+  mainImageContainer.appendChild(mainImageElement);
+
+  const additionalImageContainer = document.getElementById('additionalImageContainer');
+  additionalImageContainer.innerHTML = '';
+
+  otherImages.forEach((image, index) => {
+    const additionalImage = document.createElement('img');
+    additionalImage.src = `admin/${image}`;
+    additionalImage.addEventListener('click', () => {
+      // Update the main image with the clicked small image
+      mainImageElement.src = `admin/${image}`;
+      currentDisplayedImage = image; // Store the currently displayed image URL
+    });
+    additionalImageContainer.appendChild(additionalImage);
+  });
+
+  // Check if the reserve button already exists
+  const existingReserveButton = mainImageContainer.querySelector('.reserve-button');
+  if (!existingReserveButton) {
+    // Create a reserve button and add it to the mainImageContainer if it doesn't exist
+    const reserveButton = document.createElement('button');
+    reserveButton.textContent = 'Reserve';
+    reserveButton.classList.add('reserve-button');
+
+    // Add a click event listener to handle the reservation process
+    reserveButton.addEventListener('click', () => {
+      // Call the function to display the reservation form
+      showReservationForm(mainImage, maker, model);
+    });
+
+    // Append the reserve button to the mainImageContainer
+    mainImageContainer.appendChild(reserveButton);
+  }
+}
+
+
+    
     document.addEventListener('DOMContentLoaded', () => {
       // Fetch and display cars immediately on page load
       fetchAndDisplayCars();
@@ -462,6 +473,7 @@ function handleReservationFormSubmit(event) {
 
 
 //login
+const error = document.getElementById('error')
 document.getElementById('login-form').addEventListener('submit', handleLogin);
 
 async function handleLogin(event) {
@@ -488,11 +500,12 @@ async function handleLogin(event) {
       // Login successful
       console.log('Login response:', response);
       const data = await response.json();
-      console.log('Login data received:', data);
+     
       // Redirect to admin.html
       window.location.href = '/admin/public/admin.html';
     } else {
-      // If login failed, show an error message
+      password.style.border='1px solid red'
+      error.innerHTML='wrong credentials'
       console.log('Login failed: Invalid credentials');
     }
   } catch (error) {

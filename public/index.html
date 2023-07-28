@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Denis motors</title>
+    <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="output.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
    
@@ -200,6 +201,7 @@
                  <div class="form-box">
                     <div class="messageContainer" id="messageContainer"></div>
                    <h1 id="title">Sign Up</h1>
+                   <p id="error" class="error text-red-500 bg-red-600 hidden">error wrong cridentials</p>
                        <form action="" method="POST" id="login-form" class="transparent-form" >
                         <div class="input-group">
                           <div class="input-field" id="nameField">
@@ -226,35 +228,102 @@
                </div>
                <script>
                 
-                 let longs = document.getElementById('logs');
-                 let signupBtn = document.getElementById('signupBtn');
-                 let signinBtn = document.getElementById('signinBtn');
-                 let nameField = document.getElementById('nameField');
-                 let title = document.getElementById('title');
-                 let close = document.getElementById('close');
-                 let member = document.getElementById('member');
-                 
-               
-                 signinBtn.onclick = function(){
-                   nameField.style.maxHeight="0";
-                   title.innerHTML="sign In";
-                   signupBtn.classList.add("disabled")
-                   signinBtn.classList.remove("disabled")
-                 }
-                 signupBtn.onclick = function(){
-                   nameField.style.maxHeight="60px";
-                   title.innerHTML="sign Up";
-                   signupBtn.classList.remove("disabled")
-                   signinBtn.classList.add("disabled")
-                 }
-                 member.onclick = function(){
-                     longs.classList.toggle("active")
-                     
-                     
-                 }
-                 close.onclick = function (){
-                    longs.classList.toggle("active")
-                 }
+              // JavaScript Code
+const form = document.getElementById('login-form');
+const signupBtn = document.getElementById('signupBtn');
+const signinBtn = document.getElementById('signinBtn');
+const nameField = document.getElementById('nameField');
+const title = document.getElementById('title');
+const close = document.getElementById('close');
+const longs = document.getElementById('logs');
+const member = document.getElementById('member');
+
+
+let isSignUp = true;
+
+function toggleForm() {
+  if (isSignUp) {
+    nameField.style.maxHeight = '0';
+    title.innerHTML = 'Sign In';
+    signupBtn.classList.add('disabled');
+    signinBtn.classList.remove('disabled');
+  } else {
+    nameField.style.maxHeight = '60px';
+    title.innerHTML = 'Sign Up';
+    signupBtn.classList.remove('disabled');
+    signinBtn.classList.add('disabled');
+  }
+  isSignUp = !isSignUp;
+}
+
+function handleFormSubmit(event) {
+  event.preventDefault();
+  const username = document.getElementById('username').value;
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+
+  // Create an object to hold the form data
+  const formData = {
+    username,
+    email,
+    password,
+  };
+  const inputIds = ['username', 'email', 'password'];
+
+// Function to clear input fields
+function clearInputFields() {
+  inputIds.forEach((id) => {
+    document.getElementById(id).value = '';
+  });
+}
+
+  // Send the form data to the server for processing based on the current state (Sign Up or Sign In)
+  if (isSignUp) {
+    // Handle Sign Up
+    // Make a POST request to the server to handle registration
+    // Example using fetch API:
+    fetch('http://localhost:3000/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Registration successful:', data);
+        clearInputFields();
+        // Perform any additional actions after successful registration
+      })
+      .catch((error) => {
+        console.error('Error during registration:', error);
+      });
+  } else {
+    // Handle Sign In
+    // Make a POST request to the server to handle login
+    // Example using fetch API:
+ 
+    
+  }
+}
+
+// Add click event listener to toggle the form between Sign Up and Sign In
+signupBtn.addEventListener('click', toggleForm);
+signinBtn.addEventListener('click', toggleForm);
+
+// Add event listener for form submission
+form.addEventListener('submit', handleFormSubmit);
+
+// Add click event listener for member button
+member.onclick = function () {
+  longs.classList.toggle('active');
+};
+
+// Add click event listener for close button
+close.onclick = function () {
+  longs.classList.toggle('active');
+};
+
            
                </script>
 <section>
@@ -303,7 +372,7 @@
                     <img src="images/logos/volks.jpeg">VOLKS<span>(12)</span></a>
                 </li>
                 <li><a href="cars.html">
-                    <img src="images/logos/.jpeg">OTHERS<span>(12)</span></a>
+                    <img src="">OTHERS<span>(12)</span></a>
                 </li>
                
             </ul>
@@ -403,7 +472,7 @@
           <h2>your Cars</h2>
           <div id="mainImageContainer" class="bg-slate-300"></div>
           <div id="additionalImageContainer" class="mt-4 bg-slate-300 p-2 gap-2"></div>
-                
+          <div id="reservationFormContainer"></div>
          
               <div class="bar"></div>
               <h2>All Cars</h2>
@@ -453,6 +522,7 @@
 
 /* Style for pagination arrows */
 .pagination-arrow {
+    margin: .5rem;
   cursor: pointer;
   font-size: 1.5rem;
   color: blue;

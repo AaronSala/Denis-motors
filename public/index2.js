@@ -66,34 +66,6 @@ add.addEventListener('click', ()=>{
 // index2.js
 
 // Get the form element
-const reviewForm = document.getElementById('reviewForm');
-
-// Add event listener for form submission
-reviewForm.addEventListener('submit', function(event) {
-  event.preventDefault(); // Prevent form from submitting and page refresh
-
-  // Get the form data
-  const formData = new FormData(reviewForm);
-
-  // Create an object to hold the review data
-  const reviewData = {
-    name: formData.get('name'),
-    location: formData.get('location'),
-    country: formData.get('country'),
-    comments: formData.get('comments')
-  };
-
-  // Send a POST request to the server to save the review data
-  axios.post('/reviews', reviewData)
-    .then(function(response) {
-      console.log('Review added:', response.data);
-      reviewForm.reset(); // Reset the form
-      // You can perform any additional actions after successfully submitting the review
-    })
-    .catch(function(error) {
-      console.error('Error adding review:', error);
-    });
-});
 
 
   
