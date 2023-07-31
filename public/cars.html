@@ -27,44 +27,29 @@
                 <a href="index.html"><img src="images/logos/denis-logo.png"></a>
                 
                 <div class="links lg:w-full ">
-                    <a href="#home" class="hover: hover:bg-black"><i class="fas fa-home "></i>Home</a>
-                    <a href="#contacts" class="hover: hover:bg-black"><i class="fas fa-envelope"></i>Contacts</a>
-                    <a href="#about" class="hover: hover:bg-black"><i class="fas fa-info"></i>About Us</a>
-                    <a href="#testimanials" class="hover: hover:bg-black"><i class="fas fa-thumbs-up"></i>Testmonials</a>
-                    <a href="#location" class="hover: hover:bg-black"><i class="fas fa-location"></i>Location</a>
+                    <a href="index.html " class="hover: hover:bg-black"><i class="fas fa-home "></i>Home</a>
+                    <a href="index.html#contacts" class="hover: hover:bg-black"><i class="fas fa-envelope"></i>Contacts</a>
+                    <a href="index.html#about" class="hover: hover:bg-black"><i class="fas fa-info"></i>About Us</a>
+                    <a href="index.html#reviewList" class="hover: hover:bg-black"><i class="fas fa-thumbs-up"></i>Testmonials</a>
+                    <a href="index.html#location" class="hover: hover:bg-black"><i class="fas fa-location"></i>Location</a>
                     
                 </div>
                </div>
             <!-- header right -->
             
             <div class="header-right ">
-          
-                    <form class="loginForms" id="loginForm" >
-                    <div id="" class="login flex sm:block 2xl:flex">
-                        <input id="username" class="p-1 h-6" type="text" placeholder="User Name" name="userName">
-                        <input id="password" class="p-1 h-6 ml-2" type="password" placeholder="Password" name="password">
-                    </div>
-                    <div>
-                        <div class=" buttons flex mt-1 ">
-                        <button type="submit" id="login" class="bg-green-600 rounded-sm px-4 ml-1" >Login</button>
-                        <button onclick="register()" class="registerb bg-green-500 rounded-sm px-4 ml-1">Register</button>
-                       </div>
-                        <a class="text-red-600 align-middle hover:cursor-pointer">Forgot password?</a>
-                    </div>
+        
+                  
                 </form>
                        <div class=" right-1 text-white text-lg">
                         <a href="#search"><i class="memb fas fa-envelope "></i>&nbsp; Inquiry</a>
                         
                             <div  class="member mt-1 ">
-                                <i class="fas fa-user text-white"></i>
+                               
                             
-                                <button id="memb" class="memb lg:hidden">Member</button>
+               <button  id="memb" class="memb "> <i class="fas fa-user text-white"></i>Member</button>
         
-                                <div class="members bg-red-600 ">
-                                <a href="#" class="register">Register</a>
-                                <a href="#s" class="login2">LogIn</a>
-                            </div>
-                           
+                                
                         </div>
                         </div>
                </div>
@@ -72,7 +57,7 @@
              </div>
             </section>
 
-<section class="border-black border-4 pl-16 pt-1 overflow-hidden m-8 flex" >
+<section class="lg:border-black lg:border-4  lg:pl-16 pt-1 overflow-hidden lg:m-8 flex" >
 
 
         <!-- left nav extends to the bottom -->
@@ -396,16 +381,68 @@ function addReserveButtonToMainImage() {
       fetchAndDisplayCars();
 
       // Add event listener to the search button
-     document.getElementById('searchButton').addEventListener('click', searchCars);
-      //document.getElementById('searchForm').addEventListener('submit', handleFormSubmit);
-      document.getElementById('additionalImageContainer').addEventListener('click', clearSearchResults);
-      document.addEventListener('click', (event) => {
-        // Check if the clicked element is an image
-        if (event.target.tagName === 'IMG' && event.target.parentElement.id === 'additionalImageContainer') {
-          // Scroll to the main image container
-        }
-      });
+   
     });
+
+//reservation section
+function showReservationForm(imageUrl, maker, model){
+ 
+ const reservationFormContainer = document.getElementById('reservationFormContainer');
+ reservationFormContainer.innerHTML = `
+   <form id=reservationForm method="POST">
+     <label for="name">Name:</label>
+     <input type="text" id="name" name="name" required><br>
+     <label for="phone">Phone:</label>
+     <input type="number" id="phone" name="phone" required><br>
+     <label for="email">Email:</label>
+     <input type="email" id="email" name="email" required><br>
+     <input type="hidden" id="carImageUrl" name="carImageUrl" value="${imageUrl}">
+     <input type="hidden" id="maker" name="model" value="${maker}">
+     <input type="hidden" id="model" name="model" value="${model}">
+     <button type="submit">Reserve</button>
+   </form>
+ `;
+
+ const reservationForm = document.getElementById('reservationForm');
+ reservationForm.addEventListener('submit', handleReservationFormSubmit);
+}
+
+function handleReservationFormSubmit(event) {
+ event.preventDefault();
+ const phone = document.getElementById('phone').value;
+ const name = document.getElementById('name').value;
+ const email = document.getElementById('email').value;
+ const maker = document.getElementById('maker').value;
+ const model = document.getElementById('model').value;
+
+ // Create an object to hold the reservation data
+ const reservationData = {
+   phone,
+   name,
+   email,
+   maker,
+   model,
+ };
+
+ // Send a POST request to the server to add the reservation
+ fetch('http://localhost:3000/reserves', {
+   method: 'POST',
+   headers: {
+     'Content-Type': 'application/json'
+   },
+   body: JSON.stringify(reservationData)
+ })
+ .then(response => response.json())
+ .then(newReservation => {
+   console.log('Reservation added:', newReservation);
+   // Clear the reservation form
+   const reservationForm = document.getElementById('reservationForm');
+   reservationForm.reset();
+ })
+ .catch(error => {
+   console.error('Error adding reservation:', error);
+ });
+}
 
 
 

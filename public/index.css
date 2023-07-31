@@ -652,6 +652,34 @@ width: 14rem;
         text-align: center;
         padding-left: 1rem;
     }
+    .makerList a img{
+     width: 85%;
+     height: 10vh;
+     
+    }
+    .makerList td{
+        padding-top: 2rem;
+    }
+    .makerList td{
+        color: aqua;
+        text-align: center;
+        font-weight: bold;
+        font-size: larger;
+    }
+    .shapeList a img{
+        width: 85%;
+        height: 10vh;
+        
+       }
+       .shapeList td{
+           padding-top: 2rem;
+       }
+       .shapeList td{
+           color: aqua;
+           text-align: center;
+           font-weight: bold;
+           font-size: larger;
+       }
 }
 
 
