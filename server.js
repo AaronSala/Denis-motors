@@ -11,21 +11,14 @@ const bcrypt = require('bcrypt');
 
 
 const uri = 'mongodb+srv://salaaron2:<sala4492>@denis.kbbmsou.mongodb.net/';
+
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "https://dennis-motors.vercel.app");
+  res.setHeader("Access-Control-Allow-Origin", "https://denis-motors.vercel.app");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   next();
 });
-app.use((req, res, next) => {
-  res.setHeader(
-    "Access-Control-Allow-Origin",
-    "https://dennis-motors.vercel.app"
-  );
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-  next();
-});
+
 
 
 // Serve static files from the 'public' directory
