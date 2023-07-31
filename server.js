@@ -4,13 +4,28 @@ const app = express();
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const multer = require("multer");
-const { MongoClient } = require('mongodb');
+//const { MongoClient } = require('mongodb');
 const path = require('path');
 const mime = require('mime');
 const bcrypt = require('bcrypt');
 
 
-const uri = 'mongodb+srv://salaaron2:<sala4492>@denis.kbbmsou.mongodb.net/';
+const { MongoClient } = require('mongodb');
+const uri = 'mongodb+srv://salaaron2:sala4492@denis.kbbmsou.mongodb.net/';
+
+async function connectToMongoDB() {
+  const client = new MongoClient(uri, { useUnifiedTopology: true });
+  try {
+    await client.connect();
+    console.log('Connected to MongoDB');
+    // You can now perform operations on the database using the client object.
+  } catch (error) {
+    console.error('Error connecting to MongoDB', error);
+  }
+}
+
+connectToMongoDB();
+
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
