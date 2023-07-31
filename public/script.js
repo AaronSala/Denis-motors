@@ -312,13 +312,17 @@ function displayCarImages(mainImage, otherImages, maker, model) {
   const additionalImageContainer = document.getElementById('additionalImageContainer');
   additionalImageContainer.innerHTML = '';
 
+ 
+
   otherImages.forEach((image, index) => {
     const additionalImage = document.createElement('img');
     additionalImage.src = `admin/${image}`;
     additionalImage.addEventListener('click', () => {
       // Update the main image with the clicked small image
+    
       mainImageElement.src = `admin/${image}`;
       currentDisplayedImage = image; // Store the currently displayed image URL
+     
     });
     additionalImageContainer.appendChild(additionalImage);
   });
@@ -342,6 +346,23 @@ function displayCarImages(mainImage, otherImages, maker, model) {
   }
 }
 
+function addReserveButtonToMainImage() {
+  const mainImageContainer = document.getElementById('mainImageContainer');
+  const reserveButton = mainImageContainer.querySelector('button');
+  
+  if (!reserveButton && currentDisplayedImage) {
+    // Create the reserve button and add it to the main image container if it doesn't exist
+    const newReserveButton = document.createElement('button');
+    newReserveButton.innerText = 'Reserve';
+    newReserveButton.addEventListener('click', () => {
+      showReservationForm(currentDisplayedImage, currentCarMaker, currentCarModel);
+    });
+    mainImageContainer.appendChild(newReserveButton);
+  } else if (reserveButton && !currentDisplayedImage) {
+    // Remove the reserve button if it exists but there is no current displayed image
+   
+  }
+} addReserveButtonToMainImage()
 
     
     document.addEventListener('DOMContentLoaded', () => {
