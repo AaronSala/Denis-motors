@@ -1221,7 +1221,7 @@ nav{
 }
 
 #bestList img{
-  width: 12rem;
+  width: 14rem;
   height: 15vh;
 }
 
@@ -1624,6 +1624,15 @@ background: #ED2323;
     text-align: center;
     padding-left: 1rem;
   }
+  #carList div{
+  max-width: 25%;
+  }
+  #bestList div{
+    max-width: 25%;
+  }
+  #newArrivals div{
+    max-width: 25%;
+  }
 }
 
 @media (max-width:768px) {
@@ -1730,12 +1739,13 @@ background: #ED2323;
   }
 
   #reviewList div2{
-    width: 90%;
+    width: 50%;
   }
 
   #reviewList div{
     display: flex;
     width: 90%;
+   
   }
 
   #reviewList div img{
@@ -1744,6 +1754,7 @@ background: #ED2323;
   }
 
   #reviewList h2{
+   
     font-size: 1.1rem;
     background: #eee;
     color:var(--black);
@@ -1752,11 +1763,20 @@ background: #ED2323;
 
   #reviewList div3{
     display: flex;
-    width: 18rem;
+    width: 15rem;
   }
 
   #reviewList{
     overflow:scroll ;
+  }
+  #carList div{
+    max-width: 50%;
+  }
+  #bestList div{
+    max-width: 50%;
+  }
+  #newArrivals div{
+    max-width: 50%;
   }
 }
 
@@ -1787,4 +1807,5 @@ background: #ED2323;
   .lg\:w-full{
     width: 100%;
   }
+
 }

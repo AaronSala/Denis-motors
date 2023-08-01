@@ -19,7 +19,7 @@ function fetchAndDisplayReviews() {
         reviewElement.innerHTML = `
           
           <div2>
-          <h2>${review.name} From:
+          <h2>${review.name}: 
          ${review.location} ${review.country}
          </h2>
          <div3>
@@ -151,26 +151,33 @@ document.getElementById('inquiryForm').addEventListener('submit', function(event
 
     // Define the number of cars to display per page
     let currentPage = 1;
-    const carsPerPage = 4; // Number of cars to display per page
-
-   
-  
+    let carsPerPage = 4; // Number of cars to display per page
+    
+    // Rest of your existing code...
+    
     // Function to fetch and display cars
     function fetchAndDisplayCars(pageNumber, containerId, paginationButtonsContainerId, category) {
       fetch('http://localhost:3000/cars')
         .then(response => response.json())
         .then(cars => {
-          const carsPerPage = 4;
-          const start = (pageNumber - 1) * carsPerPage;
-          const end = start + carsPerPage;
-  
+          // Calculate the number of cars to display based on the current screen size
+          const screenWidth = window.innerWidth;
+          if (screenWidth >= 1024) {
+            carsPerPage = 4; // Show 6 cars per page on larger screens
+          } else if (screenWidth >= 768) {
+            carsPerPage = 4; // Show 4 cars per page on medium-sized screens
+          } else {
+            carsPerPage = 2; // Show 2 cars per page on smaller screens (e.g., mobile devices)
+          }
+    
+          // Filter the cars based on the category (if applicable) and slice them for the current page
           let carsToShow;
           if (category === 'allCars') {
-            carsToShow = cars.slice(start, end);
+            carsToShow = cars.slice((pageNumber - 1) * carsPerPage, pageNumber * carsPerPage);
           } else {
-            carsToShow = cars.filter(car => car.category === category).slice(start, end);
+            carsToShow = cars.filter(car => car.category === category).slice((pageNumber - 1) * carsPerPage, pageNumber * carsPerPage);
           }
-  
+    
           const carListContainer = document.getElementById(containerId);
           carListContainer.innerHTML = '';
           if (carsToShow.length > 0) {
@@ -183,14 +190,13 @@ document.getElementById('inquiryForm').addEventListener('submit', function(event
                   top: mainImageContainer.offsetTop,
                   behavior: 'smooth'
                 });
-        
+    
                 // Show the reserve button in the mainImageContainer
-                
               });
               carListContainer.appendChild(listItem);
             });
-  
-            // Add pagination buttons
+    
+            // Call addPaginationButtons with the updated carsPerPage value
             const totalPageCount = Math.ceil((category === 'allCars' ? cars.length : cars.filter(car => car.category === category).length) / carsPerPage);
             addPaginationButtons(totalPageCount, pageNumber, paginationButtonsContainerId, category);
           } else {
@@ -198,9 +204,15 @@ document.getElementById('inquiryForm').addEventListener('submit', function(event
           }
         })
         .catch(error => {
-          //console.error('Error fetching car data:', error);
+          console.error('Error fetching car data:', error);
         });
     }
+    window.addEventListener('resize', () => {
+      fetchAndDisplayCars(currentPage, 'carList', 'paginationButtonsCarList', 'allCars');
+      // Add similar calls for other categories if needed
+    });
+    // Rest of your existing code...
+    
   
     function getCategoryContainerId(category) {
       switch (category) {
