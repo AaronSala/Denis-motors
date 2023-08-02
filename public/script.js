@@ -19,7 +19,7 @@ function fetchAndDisplayReviews() {
         reviewElement.innerHTML = `
           
           <div2>
-          <h2>${review.name}: 
+          <h2>${review.name}:y 
          ${review.location} ${review.country}
          </h2>
          <div3>

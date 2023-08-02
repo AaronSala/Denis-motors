@@ -88,6 +88,70 @@ app.use((req, res, next) => {
   next();
 });
 
+// Create a schema for sliders
+// Create a schema for sliders
+const sliderSchema = new mongoose.Schema({
+  imagePath: String,
+});
+
+// Create a model for sliders
+const Slider = mongoose.model('Slider', sliderSchema);
+
+// Route to post a slider image
+app.post('/slider', upload.single('image'), (req, res) => {
+  const file = req.file;
+
+  if (!file) {
+    return res.status(400).send('No image was uploaded.');
+  }
+
+  const imagePath = file.path;
+  const slider = new Slider({ imagePath });
+
+  slider
+    .save()
+    .then(() => {
+      res.json({ imagePath });
+    })
+    .catch((error) => {
+      console.error('Error adding slider:', error);
+      res.status(500).send('Error adding slider.');
+    });
+});
+
+// Route to get all slider images
+app.get('/sliders', (req, res) => {
+  Slider.find()
+    .select('imagePath')
+    .exec()
+    .then((sliders) => {
+      const imagePaths = sliders.map((slider) => slider.imagePath);
+      res.json({ imagePaths });
+    })
+    .catch((error) => {
+      console.error('Error fetching slider images:', error);
+      res.status(500).send('Error fetching slider images.');
+    });
+});
+
+// Route to delete a specific slider image
+app.post('/slider/delete', (req, res) => {
+  const imagePath = req.body.imagePath;
+
+  Slider.findOneAndDelete({ imagePath })
+    .then(() => {
+      res.send('Slider image deleted successfully.');
+    })
+    .catch((error) => {
+      console.error('Error deleting slider image:', error);
+      res.status(500).send('Error deleting slider image.');
+    });
+});
+
+// Rest of your server-side code.
+
+
+
 // Handle POST request for creating a new car
 app.post('/cars', function (req, res) {
   upload.array('images')(req, res, function (error) {
@@ -294,14 +358,10 @@ app.delete('/inquiries/:inquiryId', function(req, res) {
     });
 });
 
-//fetching and displaying reservations
-
-//const Reservation = mongoose.model('Reservation', reservationSchema);
-
 // Assuming you have the 'reserves' model defined and imported
 const reservationSchema = new mongoose.Schema({
   phone: String,
-  name: String,
+  name:  String,
   email: String,
   maker: String,
   model: String,
@@ -340,12 +400,6 @@ app.delete('/reserves/:reservationId', function (req, res) {
       res.status(500).json({ error: 'Error deleting reservation' });
     });
 });
-
-
-
-// Serve the cars.html file for the root URL
-//
-
 
 // Start the server
 app.listen(3005, function () {

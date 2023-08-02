@@ -278,12 +278,22 @@
 </form>
  </div>
 
+ <div >
+    <h2 class="text-2xl">Add to slider</h2>
+    <form id="sliderForm" method="POST" action="">
+    <h3 class="font-semibold text-red-500 uppercase w-full">Slider images</h3>
+    <input type="file" id="imageInput" name="images"  required>
+    <button type="submit" class="object-center align w-1/2 p-2 bg-green-600 text-center text-white font-semibold text-xl m-1 mb-8  border rounded ">Add Slider</button>
+</form>
+  </div>
  <!-- edit car firm -->
  <div id="editFormContainer" style="display: none;" class="ml-8 mt-2 w-1/2">
     <h2>Edit car</h2>
+   
     <form id="editCarForm" method="PUT" action="/cars/:id" enctype="multipart/form-data">
       <!-- Car ID field -->
-      <input type="" id="editCarId" name="editCarId">
+      <label for="editCarId">Car Id</label>
+      <input type="" id="editCarId" name="editCarId" disabled>
   
       <!-- Form fields for editing a car -->
       <div>
@@ -334,9 +344,9 @@
         <button type="button" onclick="closeEditForm() " class="w-28 bg-orange-600 p-2 text-white ml-8 rounded-lg">Cancel</button>
       </div>
     </form>
-  </div>
-
-        </div>
+  </div></div>
+  
+        
  <!-- add vehicle ends here -->
  <div class="mt-8 bg-gray-200 flex"><img class=" logo-img m-2 border border-black" 
     src="" width=30><h3 class="pt-2 font-mono">Cars in stock</h3>
@@ -362,6 +372,10 @@
            
                 </div>  
           
+                <h3 class=" w-full h-8 text-white bg-blue-900 p-2 "> Slider Images</h3>
+                <div  id="sliders" class="p-4 flex w-full  gap-2 overflow-scroll">
+                 
+                      </div> 
     </div>
 
 </section>

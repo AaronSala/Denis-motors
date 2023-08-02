@@ -1716,35 +1716,41 @@ nav{
     display: block;
   }
 
-  #reviewList div2{
-    width: 90%;
-  }
+  #reviewList p{
+    font-weight: bold;
+    font-size: large;
+}
+#reviewList span{
+    color: blue;
+    font-weight: 700;
+    font-style:italic ;
+}
 
-  #reviewList div{
-    display: flex;
-    width: 90%;
-  }
 
-  #reviewList div img{
-    width: 4rem;
-    height: 10vh;
-  }
+#reviewList div{
+   background: beige;
+   width: 18rem;
+   align-items: center;
+   
 
-  #reviewList h2{
-    font-size: 1.1rem;
-    background: #eee;
-    color:var(--black);
+}
+#reviewList button{
+    background: green;
+    color: antiquewhite;
     font-weight: 900;
-  }
-
-  #reviewList div3{
-    display: flex;
-    width: 18rem;
-  }
-
-  #reviewList{
-    overflow:scroll ;
-  }
+    width: 90%;
+    text-align: center;
+     margin-top: 1rem;
+}
+#reviewList btn{
+    background: var(--red);
+    text-align: center;
+     width: 100%;
+    margin-top: 1rem;
+    color: aliceblue;
+    font-weight:bolder;
+}
+  
 }
 
 .hover\:bg-black:hover{

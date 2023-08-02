@@ -58,6 +58,30 @@ carForm.addEventListener('submit', function(event) {
     });
 });
 
+//adding slider
+const sliderForm = document.getElementById('sliderForm');
+
+sliderForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+
+  const formData = new FormData();
+  const imageInput = document.getElementById('imageInput');
+  const image = imageInput.files[0]; // Get the first selected image
+
+  formData.append('image', image); // Append the image to the formData
+  axios
+    .post('/slider', formData)
+    .then(function (response) {
+      const imagePath = response.data.imagePath;
+      console.log('Image uploaded:', imagePath);
+      sliderForm.reset(); // Reset the form
+      fetchSliderImage(); // Fetch and display the updated slider image
+    })
+    .catch(function (error) {
+      console.error('Error adding slider:', error);
+    });
+});
+
 
 // Function to fetch and display the car data
 function fetchAndDisplayCars() {
@@ -72,11 +96,12 @@ function fetchAndDisplayCars() {
 
       // Iterate over the car list and create HTML elements to display each car
       carList.forEach(function(car) {
+        const imageFileNames = car.images[0].split('/').pop();
         const carElement = document.createElement('div');
         carElement.classList.add('car');
 
         const carImageElement = document.createElement('img');
-        carImageElement.src =`${car.images[0]}`; // Display the first image
+        carImageElement.src =`uploads/${imageFileNames}`; // Display the first image
         carElement.appendChild(carImageElement);
 
         const carInfoElement = document.createElement('div');
@@ -382,25 +407,26 @@ function fetchAndDisplayReservations() {
     });
 }
 
-// The rest of your code remains the same...
-
-
-  // Function for deleting a reservation
-  function deleteReservation(reservationId) {
-    fetch(`/reservations/${reservationId}`, {
-      method: 'DELETE'
-    })
-      .then(() => {
-        console.log('Reservation deleted:', reservationId);
-        fetchAndDisplayReservations(); // Fetch and display the updated reservations
-      })
-      .catch(error => {
-        console.error('Error deleting reservation:', error);
-      });
-  }
-
   // Fetch and display reservations immediately on page load
   fetchAndDisplayReservations();
+
+// Add some console.log statements to track the flow of data and variable values
+function deleteReservation(reservationId) {
+  console.log('Reservation ID:', reservationId); // Check if reservationId is passed correctly
+  fetch(`/reserves/${reservationId}`, {
+    method: 'DELETE'
+  })
+    .then(() => {
+      console.log('Reservation deleted:', reservationId);
+      fetchAndDisplayReservations(); // Fetch and display the updated reservations
+    })
+    .catch(error => {
+      console.error('Error deleting reservation:', error);
+    });
+}
+
+
+  
   document.getElementById('logoutButton').addEventListener('click', handleLogout);
 function handleLogout() {
   // Remove the token from Local Storage
@@ -410,3 +436,69 @@ function handleLogout() {
   window.location.href = './public/index.html'; 
 }
 
+//fetching and deleting sliders
+function fetchSliderImages() {
+  axios
+    .get('/sliders')
+    .then(function (response) {
+      const imagePaths = response.data.imagePaths;
+      
+
+      // Get the slider container
+      const sliderContainer = document.getElementById('sliders');
+      sliderContainer.innerHTML = ''; // Clear the container
+
+      
+      imagePaths.forEach((imagePath) => {
+        const imageFileName = imagePath.split('/').pop();
+        // Create a wrapper div for each slider image
+        const imageWrapper = document.createElement('div');
+        imageWrapper.classList.add('image-wrapper');
+
+        // Create an image element for the slider image
+        const img = document.createElement('img');
+        img.src = `uploads/${imageFileName}`;
+        img.classList.add('slider-image');
+
+        // Create a delete button for each slider image
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.classList.add('delete-button');
+
+        // Add an event listener to the delete button
+        deleteButton.addEventListener('click', () => {
+          // When the delete button is clicked, trigger a request to delete the image
+          deleteSliderImage(imagePath);
+        });
+
+        // Append the image and delete button to the wrapper div
+        imageWrapper.appendChild(img);
+        imageWrapper.appendChild(deleteButton);
+
+        // Append the wrapper div to the slider container
+        sliderContainer.appendChild(imageWrapper);
+      });
+    })
+    .catch(function (error) {
+      //console.error('Error fetching slider images:', error);
+    });
+}
+
+// Rest of your client-side code.
+
+// Function to delete the slider image
+function deleteSliderImage(imagePath) {
+  axios
+    .post('/slider/delete', { imagePath })
+    .then(function (response) {
+      console.log('Slider image deleted:', imagePath);
+      // After deleting the image, fetch the updated slider image again
+      fetchSliderImage();
+    })
+    .catch(function (error) {
+      console.error('Error deleting slider image:', error);
+    });
+}
+
+// Call the fetchSliderImage function when the page loads to display the slider image
+fetchSliderImages();
