@@ -8,7 +8,7 @@ const multer = require("multer");
 const path = require('path');
 const mime = require('mime');
 const bcrypt = require('bcrypt');
-
+const cors = require('cors');
 const { MongoClient } = require('mongodb');
 
 // Assign the MongoDB Atlas connection string to the 'uri' variable
@@ -28,7 +28,7 @@ async function connectToMongoDB() {
 connectToMongoDB();
 
 
-
+app.use(cors()); 
 app.use((req, res, next) => {
   //res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
