@@ -226,6 +226,7 @@
                   </div>
                  </div>
                </div>
+               <!-- script for login and register forms -->
                <script>
                 
               // JavaScript Code
@@ -280,8 +281,7 @@ function clearInputFields() {
   // Send the form data to the server for processing based on the current state (Sign Up or Sign In)
   if (isSignUp) {
     // Handle Sign Up
-    // Make a POST request to the server to handle registration
-    // Example using fetch API:
+    
     fetch('http://localhost:3000/users', {
       method: 'POST',
       headers: {
@@ -355,39 +355,39 @@ close.onclick = function () {
          <div class="left-nav-list pl-2">
             <ul>
                 <li><a href="cars.html#toyota" class="toyota">
-                    <img src="images/logos/toyota1.jpeg">TOYOTA<span>(12)</span></a>
+                    <img src="images/logos/toyota1.jpeg">TOYOTA<span>()</span></a>
                 </li>
 
                 <li><a href="cars.html#nissan" id="nissan">
-                    <img src="images/logos/nissan.jpeg">NISSAN<span>(12)</span></a>
+                    <img src="images/logos/nissan.jpeg">NISSAN<span>()</span></a>
                 </li>
 
                 <li><a href="cars.html#benz" class="benz">
-                    <img src="images/logos/benz.jpeg">BENZ<span>(12)</span></a>
+                    <img src="images/logos/benz.jpeg">BENZ<span>()</span></a>
                 </li>
 
                 <li><a href="cars.html#mazda" class="mazda">
-                    <img src="images/logos/mazda.jpeg">MAZDA<span>(12)</span></a>
+                    <img src="images/logos/mazda.jpeg">MAZDA<span>()</span></a>
                 </li>
 
                
                 <li><a href="cars.html#subaru" class="subaru">
-                    <img src="images/logos/subaru.jpeg">SUBARU<span>(12)</span></a>
+                    <img src="images/logos/subaru.jpeg">SUBARU<span>()</span></a>
                 </li>
                 <li><a href="cars.html#suzuki">
-                    <img src="images/logos/suzuki.jpeg">SUZUKI<span>(12)</span></a>
+                    <img src="images/logos/suzuki.jpeg">SUZUKI<span>()</span></a>
                 </li>
                 <li><a href="cars.html">
-                    <img src="images/logos/honda.jpeg">HONDA<span>(12)</span></a>
+                    <img src="images/logos/honda.jpeg">HONDA<span>()</span></a>
                 </li>
                 <li><a href="cars.html#bmw">
                     <img src="images/logos/bmw.png">BMW<span>(12)</span></a>
                 </li>
                 <li><a href="cars.html#volks">
-                    <img src="images/logos/volks.jpeg">VOLKS<span>(12)</span></a>
+                    <img src="images/logos/volks.jpeg">VOLKS<span>()</span></a>
                 </li>
                 <li><a href="cars.html#others">
-                    <img src="">OTHERS<span>(12)</span></a>
+                    <img src="">OTHERS<span>()</span></a>
                 </li>
                
             </ul>
@@ -644,18 +644,18 @@ close.onclick = function () {
            <h2 class="inquire">Inquire Cars</h2>
            
             <div class="form border-2 border-grey bg-slate-200">
-               <form action="/inquiries" method="POST" id="inquiry">
+               <form action="/inquiries" method="POST" id="inquiryForm">
              <select name="maker" id="makers" class="w-full p-1 bg-white border-2 ">
-               <option> Maker (All)</option>
-               <option> NISSAN(12)</option>
-               <option> TOYOTA(12)</option>
-               <option> MAZDA(12)</option>
-               <option> MITSUBISHI(12)</option>
-               <option> HONDA(12)</option>
-               <option> BENZ(12)</option>
-               <option> BMW(12)</option>
-               <option> SUZUKI(12)</option>
-               <option> OTHERS(12)</option>
+               <option> Maker (A)</option>
+               <option> NISSAN()</option>
+               <option> TOYOTA()</option>
+               <option> MAZDA()</option>
+               <option> MITSUBISHI()</option>
+               <option> HONDA()</option>
+               <option> BENZ()</option>
+               <option> BMW()</option>
+               <option> SUZUKI()</option>
+               <option> OTHERS()</option>
              </select>
              <label for="models">Model</label>
              <input type="text" id="models" placeholder="eg, noah, extrail, C 200 etc" name="model" class="w-full p-1 bg-white border-2">
@@ -834,7 +834,7 @@ close.onclick = function () {
 
 <!-- all section on the right -->
 <div class="nav-right  ">
-
+<!-- sending inquiry in large screens hidden in small screen -->
 <div class="bar"></div>
 <h2 class="inquire">Inquire Cars</h2>
 
@@ -842,15 +842,15 @@ close.onclick = function () {
     <form action="/inquiries" method="POST" id="inquiryForm">
   <select name="maker" id="maker" class="w-full p-1 bg-white border-2 ">
     <option> Maker (All)</option>
-    <option> NISSAN(12)</option>
-    <option> TOYOTA(12)</option>
-    <option> MAZDA(12)</option>
-    <option> MITSUBISHI(12)</option>
-    <option> HONDA(12)</option>
-    <option> BENZ(12)</option>
-    <option> BMW(12)</option>
-    <option> SUZUKI(12)</option>
-    <option> OTHERS(12)</option>
+    <option> NISSAN()</option>
+    <option> TOYOTA()</option>
+    <option> MAZDA()</option>
+    <option> MITSUBISHI()</option>
+    <option> HONDA()</option>
+    <option> BENZ()</option>
+    <option> BMW()</option>
+    <option> SUZUKI()</option>
+    <option> OTHERS()</option>
   </select>
   <label for="model">Model</label>
   <input type="text" id="model" placeholder="eg, noah, extrail, C 200 etc" name="model" class="w-full p-1 bg-white border-2">
@@ -863,11 +863,14 @@ close.onclick = function () {
           <select name="minengine" id="minengine" class=" p-1 w-4/5 bg-white border-2 ">
             <option>engine (min)</option>
             <option> 700 </option>
+            <option> 1000 </option>
             <option>1500</option>
+            <option> 2000 </option>
             <option>2500</option>
             <option>3000</option>
             <option>3500</option>
             <option>4000 </option>
+            <option> 5000 </option>
             
           </select>  
           <input type="text" name="maxyear" id="maxyear" class=" p-1  border-2 " placeholder="maxyear"></input>
@@ -876,22 +879,25 @@ close.onclick = function () {
          <div >
               <select name="maxdistance" id="maxdistance" class=" p-1 w-full bg-white border-2 ">
                 <option>km (max)</option>
+                <option> 00 </option>
                 <option>50 000 </option>
                 <option>80 000</option>
                 <option>100 000</option>
                 <option>150 000</option>
                 <option>170 000</option>
-                <option>2017 </option>
+                <option>200 000 </option>
                 
               </select>  
               <select name="maxengine" id="maxengine" class=" p-1 w-full bg-white border-2 ">
                 <option>engine (max)</option>
-                <option> 700 </option>
-                <option>1500</option>
-                <option>2500</option>
-                <option>3000</option>
-                <option>3500</option>
-                <option>4000 </option>
+               
+            <option>1500</option>
+            <option> 2000 </option>
+            <option>2500</option>
+            <option>3000</option>
+            <option>3500</option>
+            <option>4000 </option>
+            <option> 5000 </option>
                 
               </select>  
               <input type="text" name="maxprice" id="maxprice" class="w-3/4 p-1 border-2 " placeholder="maxprice"></input></br>
@@ -965,10 +971,10 @@ close.onclick = function () {
 
 
      <!-- footer starts -->
-    <div class="footer bg-slate-900">
-        <div class=" text-white justify-center">
+    <div class="footer bg-slate-900 flex">
+        <div class="flex text-white justify-center">
            
-                <img src="images/logo3.png">
+                <img src="images/logo3.png" class="w-28">
                 <div class="smallfooter ml-2 hidden">
                 <h4 class="text-xl font-bold"> Denis Motors Imports Ltd</h4>
                 <h1 class="font-semibold ">Nairobi Headquaters</h1>

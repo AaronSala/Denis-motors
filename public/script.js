@@ -120,7 +120,8 @@ document.getElementById('inquiryForm').addEventListener('submit', function(event
     comments,
   };
   // Post the inquiry to the server
-  fetch('/inquiries', {
+  fetch('http://localhost:3000/inquiries',
+   {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -129,7 +130,7 @@ document.getElementById('inquiryForm').addEventListener('submit', function(event
   })
   .then(response => response.json())
   .then(savedInquiry => {
-    console.log('Inquiry saved:', savedInquiry);
+   // console.log('Inquiry saved:', savedInquiry);
     // Clear the input fields
     document.getElementById('maker').value = '';
     document.getElementById('model').value = '';

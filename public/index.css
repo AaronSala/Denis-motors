@@ -502,7 +502,10 @@ width: 14rem;
     padding-left: .4rem;
   }
   
-
+ .footer img{
+    width: 20rem;
+    height: 40vh;
+ }
 
 
 
@@ -601,6 +604,10 @@ width: 14rem;
         margin: 0;
         padding: .5rem;
        }
+       .footer img{
+        height: 20vh;
+        margin-right: 2rem;
+       }
        
        .right-1 .member :hover .members{
         
@@ -653,7 +660,7 @@ width: 14rem;
         padding-left: 1rem;
     }
     .makerList a img{
-     width: 85%;
+     width: 100px;
      height: 10vh;
      
     }
@@ -667,8 +674,8 @@ width: 14rem;
         font-size: larger;
     }
     .shapeList a img{
-        width: 85%;
-        height: 10vh;
+        width: 100px;
+        height: 8vh;
         
        }
        .shapeList td{
@@ -751,7 +758,7 @@ width: 14rem;
        }
        .footer img{
         width: 25%;
-        margin: 0;
+        margin-left: -2rem;
        }
        .footer{
         margin: 0;

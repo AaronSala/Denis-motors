@@ -9,9 +9,10 @@ const path = require('path');
 const mime = require('mime');
 const bcrypt = require('bcrypt');
 
-
 const { MongoClient } = require('mongodb');
-const uri = 'mongodb+srv://salaaron2:sala4492@denis.kbbmsou.mongodb.net/';
+
+// Assign the MongoDB Atlas connection string to the 'uri' variable
+const uri = "mongodb+srv://salaaron2:sala4492@denis.kbbmsou.mongodb.net/dbname?retryWrites=true&w=majority";
 
 async function connectToMongoDB() {
   const client = new MongoClient(uri, { useUnifiedTopology: true });
@@ -25,6 +26,7 @@ async function connectToMongoDB() {
 }
 
 connectToMongoDB();
+
 
 
 app.use((req, res, next) => {
@@ -182,7 +184,7 @@ app.post("/inquiries", (req, res) => {
   newInquiry
     .save()
     .then((savedInquiry) => {
-      console.log("Inquiry saved:", savedInquiry);
+      //yconsole.log("Inquiry saved:", savedInquiry);
       res.json(savedInquiry); // Send the saved inquiry as the response
     })
     .catch((error) => {

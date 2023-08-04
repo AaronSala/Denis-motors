@@ -25,10 +25,10 @@ const swiper = new Swiper(".swiper", {
     prevEl: ".swiper-button-prev",
   },
 
-  // And if we need scrollbar
+  
 });
 
-  // And if we need scrollbar
+
 
 //  quastion and answer area
 const question = document.querySelectorAll(".quiz");
@@ -57,15 +57,6 @@ add.addEventListener('click', ()=>{
       add2.classList.toggle('fa-times')
     })
     
-      
-// the change page of cars to redirect
-
-
-// posting inquiry t database
-// Get the form element
-// index2.js
-
-// Get the form element
-
+    
 
   
