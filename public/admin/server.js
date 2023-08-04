@@ -5,10 +5,23 @@ const bodyParser = require('body-parser');
 const multer = require('multer');
 const mime = require('mime');
 
+const uri = "mongodb+srv://salaaron2:sala4492@denis.kbbmsou.mongodb.net/dbname?retryWrites=true&w=majority";
 
+async function connectToMongoDB() {
+  const client = new MongoClient(uri, { useUnifiedTopology: true });
+  try {
+    await client.connect();
+    console.log('Connected to MongoDB');
+    // You can now perform operations on the database using the client object.
+  } catch (error) {
+    console.error('Error connecting to MongoDB', error);
+  }
+}
+
+connectToMongoDB();
 
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "https://dennis-motors.vercel.app");
+  res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   next();
