@@ -94,34 +94,36 @@ document.getElementById('reviewForm').addEventListener('submit', function(event)
 
 
 //posting inquiries
-
-document.getElementById('inquiryForm').addEventListener('submit', function(event) {
-  event.preventDefault();
-
+// Function to handle form submission
+function handleFormSubmission(formId, makerId, modelId,maxpriceId, contactsId, minengineId, maxyearId, maxdistanceId, maxengineId, commentsId) {
+  const form = document.getElementById(formId);
+  
   // Get the form data
-  const maker = document.getElementById('maker').value;
-  const model = document.getElementById('model').value;
-  const contacts = document.getElementById('contacts').value;
-  const minengine = document.getElementById('minengine').value;
-  const maxyear = document.getElementById('maxyear').value;
-  const maxdistance = document.getElementById('maxdistance').value;
-  const maxengine = document.getElementById('maxengine').value;
-  const comments = document.getElementById('comment').value;
+  const maker = form.querySelector(`#${makerId}`).value;
+  const model = form.querySelector(`#${modelId}`).value;
+  const maxprice = form.querySelector(`#${maxpriceId}`).value;
+  const contacts = form.querySelector(`#${contactsId}`).value;
+  const minengine = form.querySelector(`#${minengineId}`).value;
+  const maxyear = form.querySelector(`#${maxyearId}`).value;
+  const maxdistance = form.querySelector(`#${maxdistanceId}`).value;
+  const maxengine = form.querySelector(`#${maxengineId}`).value;
+  const comments = form.querySelector(`#${commentsId}`).value;
 
   // Create an inquiry object
   const inquiryData = {
     maker,
     model,
     contacts,
+    maxprice,
     minengine,
     maxyear,
     maxdistance,
     maxengine,
     comments,
   };
+
   // Post the inquiry to the server
-  fetch('http://localhost:3000/inquiries',
-   {
+  fetch('http://localhost:3000/inquiries', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -130,31 +132,38 @@ document.getElementById('inquiryForm').addEventListener('submit', function(event
   })
   .then(response => response.json())
   .then(savedInquiry => {
-   // console.log('Inquiry saved:', savedInquiry);
     // Clear the input fields
-    document.getElementById('maker').value = '';
-    document.getElementById('model').value = '';
-    document.getElementById('contacts').value = '';
-    document.getElementById('minengine').value = '';
-    document.getElementById('maxyear').value = '';
-    document.getElementById('maxprice').value = '';
-    document.getElementById('maxdistance').value = '';
-    document.getElementById('maxengine').value = '';
-    document.getElementById('comment').value = '';
+    form.querySelector(`#${makerId}`).value = '';
+    form.querySelector(`#${modelId}`).value = '';
+    form.querySelector(`#${contactsId}`).value = '';
+    form.querySelector(`#${minengineId}`).value = '';
+    form.querySelector(`#${maxyearId}`).value = '';
+    form.querySelector(`#${maxpriceId}`).value = '';
+    form.querySelector(`#${maxdistanceId}`).value = '';
+    form.querySelector(`#${maxengineId}`).value = '';
+    form.querySelector(`#${commentsId}`).value = '';
   })
   .catch(error => {
     console.error('Error saving inquiry:', error);
   });
-});
-//for displaying all cars
+}
 
+// Add event listeners for form submissions
+document.getElementById('inquiryForm').addEventListener('submit', function(event) {
+  event.preventDefault();
+  handleFormSubmission('inquiryForm', 'maker', 'model', 'contacts', 'minengine', 'maxyear', 'maxprice', 'maxdistance', 'maxengine', 'comment');
+});
+
+document.getElementById('inquiry2').addEventListener('submit', function(event) {
+  event.preventDefault();
+  handleFormSubmission('inquiry2', 'makers', 'models', 'contactss', 'minengines', 'maxyears', 'maxprices', 'maxdistances', 'maxengines', 'comments');
+});
 
 
     // Define the number of cars to display per page
     let currentPage = 1;
     let carsPerPage = 4; // Number of cars to display per page
-    
-    // Rest of your existing code...
+  
     
     // Function to fetch and display cars
     function fetchAndDisplayCars(pageNumber, containerId, paginationButtonsContainerId, category) {
@@ -210,10 +219,9 @@ document.getElementById('inquiryForm').addEventListener('submit', function(event
     }
     window.addEventListener('resize', () => {
       fetchAndDisplayCars(currentPage, 'carList', 'paginationButtonsCarList', 'allCars');
-      // Add similar calls for other categories if needed
+      
     });
-    // Rest of your existing code...
-    
+   
   
     function getCategoryContainerId(category) {
       switch (category) {
@@ -305,9 +313,7 @@ document.getElementById('inquiryForm').addEventListener('submit', function(event
 
       return listItem;
     }
-  
-    //reserve info
-    // ... (other parts of your code) ...
+
 
 function displayCarImages(mainImage, otherImages, maker, model) {
   currentCarMaker = maker;
@@ -360,6 +366,7 @@ function displayCarImages(mainImage, otherImages, maker, model) {
 }
 
 function addReserveButtonToMainImage() {
+  
   const mainImageContainer = document.getElementById('mainImageContainer');
   const reserveButton = mainImageContainer.querySelector('button');
   
@@ -372,78 +379,18 @@ function addReserveButtonToMainImage() {
     });
     mainImageContainer.appendChild(newReserveButton);
   } else if (reserveButton && !currentDisplayedImage) {
-    // Remove the reserve button if it exists but there is no current displayed image
    
   }
 } addReserveButtonToMainImage()
 
-    
     document.addEventListener('DOMContentLoaded', () => {
-      // Fetch and display cars immediately on page load
       fetchAndDisplayCars();
 
-      // Add event listener to the search button
-     document.getElementById('searchButton').addEventListener('click', searchCars);
-      //document.getElementById('searchForm').addEventListener('submit', handleFormSubmit);
-      document.getElementById('additionalImageContainer').addEventListener('click', clearSearchResults);
-      document.addEventListener('click', (event) => {
-        // Check if the clicked element is an image
-        if (event.target.tagName === 'IMG' && event.target.parentElement.id === 'additionalImageContainer') {
-          // Scroll to the main image container
-        }
-      });
     });
 
-function searchCars() {
-  const search = document.getElementById('searchInput').value.toLowerCase();
-  fetch('http://localhost:3000/cars')
-    .then(response => response.json())
-    .then(cars => {
-      const allCarsContainer = document.getElementById('additionalImageContainer');
-      allCarsContainer.innerHTML = ''; // Clear allCarsContainer before displaying filtered cars
+   
 
-      const filteredCars = cars.filter(car =>
-        car.category.toLowerCase().includes(search) ||
-        car.maker.toLowerCase().includes(search) ||
-        car.year.toString().toLowerCase().includes(search) ||
-        car.model.toLowerCase().includes(search) ||
-        car.shape.toLowerCase().includes(search)
-      );
 
-      if (filteredCars.length > 0) {
-        filteredCars.forEach((car, index) => {
-          const listItem = createCarListItem(car);
-
-          listItem.addEventListener('click', () => {
-            displayCarImages(car.images[0], car.images.slice(1));
-          });
-
-          allCarsContainer.appendChild(listItem);
-        });
-      } else {
-        allCarsContainer.innerHTML = '<p>No cars found.</p>';
-      }
-      document.getElementById('searchInput').value = '';
-    })
-    .catch(error => {
-      console.error('Error fetching car data:', error);
-    });
-}
-
-function handleFormSubmit(event) {
-  event.preventDefault(); // Prevent the form from submitting
-  searchCars();
-}
-
-function clearSearchResults(event) {
-  const targetElement = event.target;
-
-  // Check if the clicked element is an image inside the additionalImageContainer
-  if (targetElement.tagName === 'IMG' && targetElement.parentElement.id === 'additionalImageContainer') {
-    const mainImageContainer = document.getElementById('mainImageContainer');
-    mainImageContainer.innerHTML = `<img src="${targetElement.src}" class="car-image">`;
-  }
-}
 //reservation section
 function showReservationForm(imageUrl, maker, model){
  
@@ -503,8 +450,6 @@ function handleReservationFormSubmit(event) {
     console.error('Error adding reservation:', error);
   });
 }
-
-
 
 //login
 const error = document.getElementById('error')

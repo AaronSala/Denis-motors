@@ -480,13 +480,17 @@ close.onclick = function () {
           
            
         </div> 
-        <div class="search  mt-3"> <input id="searchInput" type="search" placeholder="make, year, maker, model" required> <button id="searchButton">Search</button>
-             </div>
-          
-             <div class="bar"></div>
+        <form id="searchForm" method="" action="/cars">
+            <div class="search mt-3">
+              <input id="searchInput" type="search" placeholder="make, year, maker, model" required>
+              <button id="searchButton" >Search</button>
+            </div>
+          </form>
+          <div class="bar"></div>
           <h2>your Cars</h2>
           <div id="mainImageContainer" class="bg-slate-300"></div>
-          <div id="additionalImageContainer" class="mt-4 bg-slate-300 p-2 gap-2"></div>
+          <div id="additionalImageContainer" class="mt-4 p-2 gap-2"></div>
+          
           <div id="reservationFormContainer"></div>
          
               <div class="bar"></div>
@@ -644,7 +648,7 @@ close.onclick = function () {
            <h2 class="inquire">Inquire Cars</h2>
            
             <div class="form border-2 border-grey bg-slate-200">
-               <form action="/inquiries" method="POST" id="inquiryForm">
+               <form action="/inquiries" method="POST" id="inquiry2">
              <select name="maker" id="makers" class="w-full p-1 bg-white border-2 ">
                <option> Maker (A)</option>
                <option> NISSAN()</option>

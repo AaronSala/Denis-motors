@@ -30,7 +30,7 @@ connectToMongoDB();
 
 app.use(cors()); 
 app.use((req, res, next) => {
-  //res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   next();
@@ -311,7 +311,32 @@ app.post('/users', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
-  
+
+// Middleware to parse JSON requests
+
+
+// Search route
+app.get('/cars', async (req, res) => {
+  const { search } = req.query;
+
+  try {
+    const regex = new RegExp(search, 'i'); // Case-insensitive search regex
+    const filteredCars = await Car.find({
+      $or: [
+        { category: regex },
+        { maker: regex },
+        { year: { $regex: regex } },
+        { model: regex },
+        { shape: regex }
+      ]
+    });
+    res.json(filteredCars);
+  } catch (error) {
+    console.error('Error fetching car data:', error);
+    res.status(500).json({ error: 'An error occurred while fetching car data.' });
+  }
+});
+
 // Start the server
 app.listen(3000, () => {
   console.log("Server listening on port 3000");
