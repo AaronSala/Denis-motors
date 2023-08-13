@@ -240,28 +240,13 @@
             <option>2014</option>
           </select>
           <h3 class="mt-3 font-semibold text-red-500 uppercase">mileage</h3>
-          <select name="mileage" id="mileage" class=" p-1 w-4/5 bg-white border-2 ">
-            <option>mileage</option>
-            <option>0</option>
-            <option>50 000 </option>
-            <option>80 000</option>
-            <option>100 000</option>
-            <option>150 000</option>
-            <option>170 000</option>
-            <option>above </option>
+          <input type="text" name="mileage" id="mileage" class=" p-1 w-4/5 bg-white border-2 ">
             
-          </select>  
+            
           <h3 class="mt-3 font-semibold text-red-500 uppercase">engine size(--cc)</h3>
-          <select name="engine" id="engine" class=" p-1 w-4/5 bg-white border-2 ">
-            <option>engine capacity</option>
-            <option> 700 </option>
-            <option>1500</option>
-            <option>2500</option>
-            <option>3000</option>
-            <option>3500</option>
-            <option>4000 </option>
+          <input type="text" name="engine" id="engine" class=" p-1 w-4/5 bg-white border-2 ">
             
-          </select> 
+    
 
           <h3 class="mt-3 font-semibold text-red-500 uppercase">price</h3>
           <input type="text" id="price" name="price" class="w-1/2 p-1 border-2 mb-16" placeholder="price"></input>
@@ -295,7 +280,7 @@
     <form id="editCarForm" method="PUT" action="/cars/:id" enctype="multipart/form-data">
       <!-- Car ID field -->
       <label for="editCarId">Car Id</label>
-      <input type="" id="editCarId" name="editCarId" disabled>
+      <input type="" id="editCarId" name="editCarId" >
   
       <!-- Form fields for editing a car -->
       <div>
@@ -541,7 +526,7 @@
     <!-- the very last footer part -->
     <div class="h-8 bg-red-600 flex justify-between pl-16 pr-16 text-white">
         <p><span>@</span>copyright 2021- Denis Motors Imports LTD. All rights Reserved</p>
-        <div class=""><h5>Developed By: Salaz Techiz</h5></div>
+       
     </div>
 </section>
 

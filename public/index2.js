@@ -10,23 +10,50 @@ bars.addEventListener("click", () => {
   slider.classList.toggle("active")
 });
 
-const swiper = new Swiper(".swiper", {
-  autoplay: {
-    delay: 3000,
-    disableOnInteraction: false,
-  },
-  loop: true,
-  pagination: {
-    el: ".swiper-pagination",
-    clickable: true,
-  },
-  navigation: {
-    nextEl: ".swiper-button-next",
-    prevEl: ".swiper-button-prev",
-  },
+document.addEventListener('DOMContentLoaded', async () => {
+  try {
+    const response = await fetch('/getSliderImages'); // Replace with your server endpoint
+    const data = await response.json();
+
+    const swiperWrapper = document.getElementById('swiperWrapper');
+
+    data.sliderImages.forEach(image => {
+      const slideDiv = document.createElement('div');
+      slideDiv.classList.add('swiper-slide');
+
+      const imgElement = document.createElement('img');
+      imgElement.src =  `admin/${image.imagePath}`;
+
+      slideDiv.appendChild(imgElement);
+      swiperWrapper.appendChild(slideDiv);
+    });
+
+    // Initialize Swiper
+    new Swiper('.swiper', {
+      // Your Swiper options here
+      autoplay: {
+        delay: 3000,
+        disableOnInteraction: false,
+      },
+      loop: true,
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+      },
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+    });
+  } catch (error) {
+    console.error('Error fetching slider images:', error);
+  }
+});
+
+ 
 
   
-});
+
 
 
 

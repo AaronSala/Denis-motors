@@ -278,40 +278,56 @@ app.post('/reserves', (req, res) => {
 });
 
 
-//login
+//signup
+app.post('/signup', async (req, res) => {
+  const { username, email, password } = req.body;
+  console.log('Sign-up request received:', req.body);
 
-//Middleware to parse JSON in the request body
-app.use(express.json());
-
-// Login route
-app.post('/users', async (req, res) => {
-  const { email, password } = req.body;
-  console.log('Login request received:', req.body);
   try {
-    // Find the user by email in the database
-    const user = await User.findOne({ email });
+    // Hash the password using bcrypt before saving it to the database
+    const hashedPassword = await bcrypt.hash(password, 10); // 10 is the salt round
 
-    // If the user does not exist, return an error
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' });
-    }
+    // Save the user information to the database
+    const newUser = new User({
+      username,
+      email,
+      password: hashedPassword,
+    });
+    await newUser.save();
 
-    // Compare the password with the stored hashed password using bcrypt
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-
-    // If the passwords don't match, return an error
-    if (!isPasswordValid) {
-      return res.status(401).json({ error: 'Invalid password' });
-    }
-    console.log('Login response sent:', { message: 'Login successful' });
-    // If the password is correct, send a success message indicating successful login
-    res.json({ message: 'Login successful' });
+    // Send a success message for sign-up
+    console.log('Sign-up response sent:', { message: 'Sign-up successful' });
+    res.json({ message: 'Sign-up successful' });
   } catch (error) {
-    console.error('Error during login:', error);
+    console.error('Error during sign-up:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
 
+// Login route
+const Users= mongoose.model('users', userSchema);
+app.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const user = await Users.findOne({ email });
+
+    if (!user) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+
+    const passwordMatch = await bcrypt.compare(password, user.password);
+
+    if (!passwordMatch) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+
+    res.json({ message: 'Login successful' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'An error occurred' });
+  }
+});
 // Middleware to parse JSON requests
 
 
@@ -337,6 +353,22 @@ app.get('/cars', async (req, res) => {
   }
 });
 
+// for slider
+const Slider = mongoose.model('sliders', { 
+  imagePath: String,
+});
+
+app.use(express.static('public')); 
+
+app.get('/getSliderImages', async (req, res) => {
+  try {
+    const sliderImages = await Slider.find();
+    res.json({ sliderImages }); 
+  } catch (error) {
+    console.error('Error fetching slider images:', error);
+    res.status(500).json({ error: 'Internal Server Error' }); 
+  }
+});
 // Start the server
 app.listen(3000, () => {
   console.log("Server listening on port 3000");

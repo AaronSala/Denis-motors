@@ -451,46 +451,6 @@ function handleReservationFormSubmit(event) {
   });
 }
 
-//login
-const error = document.getElementById('error')
-document.getElementById('login-form').addEventListener('submit', handleLogin);
-
-async function handleLogin(event) {
-  event.preventDefault();
-
-  const email = document.getElementById('email').value;
-  const password = document.getElementById('password').value;
-
-  const loginData = {
-    email,
-    password
-  };
-
-  try {
-    const response = await fetch('/users', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(loginData)
-    });
-
-    if (response.ok) {
-      // Login successful
-      console.log('Login response:', response);
-      const data = await response.json();
-     
-      // Redirect to admin.html
-      window.location.href = '/admin/public/admin.html';
-    } else {
-      password.style.border='1px solid red'
-      error.innerHTML='wrong credentials'
-      console.log('Login failed: Invalid credentials');
-    }
-  } catch (error) {
-    console.error('Error during login:', error);
-  }
-}
 
   
       
