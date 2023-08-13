@@ -289,7 +289,7 @@ function handleFormSubmit(event) {
   // Send the form data to the server for processing based on the current state (Sign Up or Sign In)
   if (isSignUp) {
     // Handle Sign Up
-    fetch('http://localhost:3000/login', {
+    fetch('http://localhost:3000/users', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
