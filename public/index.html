@@ -202,20 +202,23 @@
                     <div class="messageContainer" id="messageContainer"></div>
                    <h1 id="title">Sign Up</h1>
                    <p id="error" class="error text-red-500 bg-red-600 hidden">error wrong cridentials</p>
-                       <form action="" method="POST" id="login-form" class="transparent-form" >
+                       <form  method="POST" id="login-form" class="transparent-form" >
                         <div class="input-group">
                           <div class="input-field" id="nameField">
                            <i class="fa-solid fa-user"></i>
                            <input name="username" id="username" type="text" placeholder="name">
                           </div>
+                         
                           <div class="input-field">
                            <i class="fa-solid fa-envelope"></i>
                            <input name="email" id="email" type="text" placeholder="email" required>
                           </div>
+                          <p id="error"class="text-red-600 hidden" >wrong email</p>
                           <div class="input-field">
                            <i class="fa-solid fa-user"></i>
                            <input name="password" id="password" type="password" placeholder="password" required>
                           </div>
+                          <p id="error"class="text-red-600 hidden" >wrong password</p>
                           <p>Forgot Password<a href="#">click here</a></p>
                         </div>
                         <div class="btn-field">
@@ -241,8 +244,12 @@ const member = document.getElementById('member');
 
 
 let isSignUp = true;
-
 function toggleForm() {
+  // No need to toggle if already in the current state
+  if ((isSignUp && this.id === 'signupBtn') || (!isSignUp && this.id === 'signinBtn')) {
+    return;
+  }
+
   if (isSignUp) {
     nameField.style.maxHeight = '0';
     title.innerHTML = 'Sign In';
@@ -262,8 +269,9 @@ function handleFormSubmit(event) {
   const username = document.getElementById('username').value;
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
-
-  // Create an object to hold the form data
+  const error = document.getElementById('error')
+  const passwords = document.getElementById('password')
+  const emails = document.getElementById('email')
   const formData = {
     username,
     email,
@@ -271,18 +279,17 @@ function handleFormSubmit(event) {
   };
   const inputIds = ['username', 'email', 'password'];
 
-// Function to clear input fields
-function clearInputFields() {
-  inputIds.forEach((id) => {
-    document.getElementById(id).value = '';
-  });
-}
+  // Function to clear input fields
+  function clearInputFields() {
+    inputIds.forEach((id) => {
+      document.getElementById(id).value = '';
+    });
+  }
 
   // Send the form data to the server for processing based on the current state (Sign Up or Sign In)
   if (isSignUp) {
     // Handle Sign Up
-    
-    fetch('http://localhost:3000/users', {
+    fetch('http://localhost:3000/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -291,43 +298,48 @@ function clearInputFields() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log('Registration successful:', data);
-        clearInputFields();
-        // Perform any additional actions after successful registration
+        console.log('Login response:', data);
+        if (data.message === 'Login successful') {
+          console.error('Login succesful:');
+          // Redirect to a different page for successful login
+          window.location.href = 'dashboard.html';
+        } else {
+          // Handle login failure
+          console.error('Login failed:', data.message);
+          // You can display an error message to the user
+        }
       })
       .catch((error) => {
-        console.error('Error during registration:', error);
-      });
-  } else {
-    // Handle Sign In
-    // Make a POST request to the server to handle login
-    // Example using fetch API:
-    fetch('YOUR_SERVER_URL/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Login successful:', data);
-        // Perform any additional actions after successful login
-      })
-      .catch((error) => {
-        
         console.error('Error during login:', error);
       });
-    
   }
 }
 
+function clearInputFields() {
+  document.getElementById('email').value = '';
+  document.getElementById('password').value = ''
+}
+// Add event listener for form submission
+form.addEventListener('submit', handleFormSubmit);
+
+
+// Add event listener for member button
+member.onclick = function () {
+  longs.classList.toggle('active');
+};
+
+// Add event listener for close button
+close.onclick = function () {
+  longs.classList.toggle('active');
+};
+
+// Add event listener for form submission
+form.addEventListener('submit', handleFormSubmit);
 // Add click event listener to toggle the form between Sign Up and Sign In
 signupBtn.addEventListener('click', toggleForm);
 signinBtn.addEventListener('click', toggleForm);
 
-// Add event listener for form submission
-form.addEventListener('submit', handleFormSubmit);
+
 
 // Add click event listener for member button
 member.onclick = function () {
@@ -463,18 +475,13 @@ close.onclick = function () {
     <div class="slider ">
         <div class="swiper">
             <!-- Additional required wrapper -->
-            <div class="swiper-wrapper">
-              <!-- Slides -->
-              <div class="swiper-slide"><img src="./images/cars/bmw2.jpeg"></div>
-              <div class="swiper-slide"><img src="./images/cars/bmw.jpeg"></div>
-              <div class="swiper-slide"><img src="./images/cars/th (2).jpeg"></div>
-              <div class="swiper-slide"><img src="./images/cars/sport.jpeg"></div>
+            <div class="swiper-wrapper" id="swiperWrapper">
+            
              
             </div>
             <!-- If we need pagination -->
             <div class="swiper-pagination"></div>
-          
-            <!-- If we need navigation buttons -->
+        
             <div class="swiper-button-prev"></div>
             <div class="swiper-button-next"></div>
           
@@ -511,7 +518,10 @@ close.onclick = function () {
         <h2>Best Deals</h2>
           <div id="bestList" class="bestdeals p-4 flex gap-4 sm:gap-2 uppercase overflow-scroll "> </div>           
         <div id="paginationButtonsBestList" class="pagination-buttons-container"></div>
-<!-- Pagination buttons containers -->
+
+        <div class="bar"></div>
+       
+        <!-- Pagination buttons containers -->
 <div class=" lg:hidden">
 <div class="bar"></div>
 <h2>search by Maker</h2>
@@ -724,8 +734,7 @@ close.onclick = function () {
                     <h4>Can Denis Motors find a car that fits my needs best? </h4>
                     <span  class="plus plus1 text-white h-6 w-6 p-1  bg-red-600  fas fa-plus "></span>
                 </a></li>
-                <p id="quiz1"class="detailz">Youve jast arrived Denis motors is the place to get the exact machine 
-                    you need. No disapointments we source cars localy and from outside jas give a quote and we'ill get to you ASAP!</p>
+                <p id="quiz1"class="detailz"> we import and export car across the globe</p>
 
 
                <li  class="quiz border-2 border-red-600 mt-2 py-2 px-4 "><a class="question cursor-pointer text-red-600 w-full flex justify-between ">
@@ -733,7 +742,7 @@ close.onclick = function () {
                      <span  class="plus plus2 text-white h-6 w-6 p-1  bg-red-600  fas fa-plus "></span>
                  </a></li>
                  
-                 <p id="quiz2" class="detailz">Yes! we got amongest the best drivers who does the delivery to all corners of the country
+                 <p id="quiz2" class="detailz">Yes! we have the best drivers who does the delivery to all corners of the country
                     and even outside the country we've done all our deliveries very seccessfully and on time
                  </p>
 
@@ -741,7 +750,7 @@ close.onclick = function () {
                     <h4>Am afraid of the shipping cost might be very high?
                         </h4><span class="plus plus3 text-white h-6 w-6 p-1  bg-red-600  fas fa-plus "></span>
                     </a></li>
-                    <p id="quiz3" class="detailz ">Not exatcly Denis motors is the most friendly and
+                    <p id="quiz3" class="detailz ">Denis motors is the most friendly and
                          provides delivery and has been providing delivery to the exact location of our customer 
                         at a very friendly cost</p>
                           
@@ -754,7 +763,7 @@ close.onclick = function () {
                 <div class="news" id="news">
                    <div class="bar"></div>
                    <h2 class="">News And Announcements</h2>
-                   <p>DENIS MOTORS IMPORTS LIMITED Is now the Best Car Dealer In Kenya</p>
+                   <p>DENIS MOTORS IMPORTS LIMITED Is now the Best Car Dealership company In Kenya</p>
                  </div>
                  <div class="advantages" id="news">
                     <div class="bar"></div>
@@ -1115,13 +1124,10 @@ close.onclick = function () {
 
     </div>
     <div class="h-8 bg-red-600 flex justify-between pl-16 pr-16 text-white">
-        <p><span>@</span>copyright 2021- Denis Motors Imports LTD. All rights Reserved</p>
-        <div class="sm:hidden"><h5>Developed By: Salaz Techiz</h5></div>
+        <p><span>@</span>copyright 2023- Denis Motors Imports LTD. All rights Reserved</p>
+       
     </div>
 </section>
-
-
-
 
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
