@@ -433,7 +433,7 @@ function handleLogout() {
   localStorage.removeItem('token');
 
   // Redirect the user to the login page or any other desired page
-  window.location.href = './public/index.html'; 
+  window.location.href = '/index.html'; 
 }
 
 //fetching and deleting sliders

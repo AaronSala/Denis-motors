@@ -287,7 +287,7 @@ function handleFormSubmit(event) {
   }
 
   // Send the form data to the server for processing based on the current state (Sign Up or Sign In)
-  if (isSignUp) {
+  
     // Handle Sign Up
     fetch('http://localhost:3000/users', {
       method: 'POST',
@@ -300,20 +300,36 @@ function handleFormSubmit(event) {
       .then((data) => {
         console.log('Login response:', data);
         if (data.message === 'Login successful') {
-          console.error('Login succesful:');
-          // Redirect to a different page for successful login
-          window.location.href = 'dashboard.html';
-        } else {
-          // Handle login failure
-          console.error('Login failed:', data.message);
-          // You can display an error message to the user
-        }
-      })
+      if (formData.email === 'admin@gmail.com' && formData.password === 'adminPassword') {
+        // Redirect to admin.html for admin login
+        window.location.href = 'admin/public/admin.html';
+      } else if (formData.email === 'admin@gmail.com') {
+        // Handle incorrect password for admin
+        window.location.href = 'admin/public/admin.html';
+        console.error('Incorrect password for admin');
+        error.style.display='none'
+        emails.style.border='1px solid grey'
+      passwords.style.border='1px solid grey'
+        clearInputFields()
+        // You can display an error message to the user
+      } else {
+        // Redirect to index.html for other successful logins
+        window.location.href = 'index.html';
+      }
+    } else {
+      // Handle login failure
+      console.error('Login failed:', data.message);
+      error.style.display='block'
+      emails.style.border='1px solid red'
+      passwords.style.border='1px solid red'
+      // You can display an error message to the user
+    }
+  })
       .catch((error) => {
         console.error('Error during login:', error);
       });
   }
-}
+
 
 function clearInputFields() {
   document.getElementById('email').value = '';
