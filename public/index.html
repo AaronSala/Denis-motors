@@ -16,7 +16,7 @@
 
 <body class="m-0 p-0">
  
-    <a class="floating-button" href="https://wa.me/+254700914360"><img src="images/whatsup2.jpeg"></a>
+    <a class="floating-button" href="https://wa.me/+254700914360"><img src="images/whatsup.jpeg"></a>
     <!-- header section -->
     <section class="header ">
 <!-- header top -->
@@ -29,7 +29,7 @@
        <div class="logo">
 
         <a href="#" class="bars hidden  text-white "><i class=" text-3xl fas fa-bars -mb-2 p-1"></i>menu</a>
-        <a href="admin/admin.html"><img src="images/logos/denis-logo.png"></a>
+        <a href="index.html"><img src="images/logos/denis-logo.png"></a>
         
         <div class="links lg:w-full ">
             <a href="#home" class="hover: hover:bg-black"><i class="fas fa-home "></i>Home</a>
@@ -38,6 +38,7 @@
             <a href="#reviewList" class="hover: hover:bg-black"><i class="fas fa-thumbs-up"></i>Testmonials</a>
             <a href="#location" class="hover: hover:bg-black"><i class="fas fa-location"></i>Location</a>
             <a href="#q&a" class="hover: hover:bg-black"><i class="fas fa-location"></i>Q&A</a>
+          
         </div>
        </div>
     <!-- header right -->
@@ -230,7 +231,7 @@
                  </div>
                </div>
                <!-- script for login and register forms -->
-               <script>
+ <script>
                 
               // JavaScript Code
 const form = document.getElementById('login-form');
@@ -286,10 +287,8 @@ function handleFormSubmit(event) {
     });
   }
 
-  // Send the form data to the server for processing based on the current state (Sign Up or Sign In)
-  
     // Handle Sign Up
-    fetch('http://localhost:3000/users', {
+    fetch('http://localhost:3002/users', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -302,10 +301,10 @@ function handleFormSubmit(event) {
         if (data.message === 'Login successful') {
       if (formData.email === 'admin@gmail.com' && formData.password === 'adminPassword') {
         // Redirect to admin.html for admin login
-        window.location.href = 'admin/public/admin.html';
+        window.location.href = 'admin/admin.html';
       } else if (formData.email === 'admin@gmail.com') {
         // Handle incorrect password for admin
-        window.location.href = 'admin/public/admin.html';
+        window.location.href = 'admin/admin.html';
         console.error('Incorrect password for admin');
         error.style.display='none'
         emails.style.border='1px solid grey'
@@ -368,7 +367,10 @@ close.onclick = function () {
 };
 
            
-               </script>
+    </script>
+
+
+
 <section>
 
 

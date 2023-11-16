@@ -50,12 +50,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
- 
-
-  
-
-
-
 
 //  quastion and answer area
 const question = document.querySelectorAll(".quiz");

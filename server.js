@@ -36,9 +36,6 @@ app.use((req, res, next) => {
   next();
 });
 
-
-
-
 // Serve static files from the 'public' directory
 app.use(express.static('public'));
 // Middleware
@@ -194,8 +191,6 @@ app.post("/inquiries", (req, res) => {
     
 });
 
-
-  //register
 // Create a user schema
 const userSchema = new mongoose.Schema({
   email: String,
@@ -235,7 +230,7 @@ app.post('/', async (req, res) => {
 
 app.get("/admin/:imageName", function (req, res) {
   const imageName = req.params.imageName;
-  res.sendFile(path.join(__dirname, "public/uploads", imageName));
+  res.sendFile(path.join(__dirname, "uploads", imageName));
 });
 
 //car reserves
@@ -373,7 +368,346 @@ app.get('/getSliderImages', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' }); 
   }
 });
+
+
+//admin server side
+//fetching inquiries for admin
+// const reviewsSchema = new mongoose.Schema({
+//   name: String,
+//   location: String,
+//   rating: String,
+//   comment: String,
+// });
+
+// const Reviews = mongoose.model('Reviews', reviewsSchema);
+
+// app.get('/reviews', function (req, res) {
+//   Reviews.find()
+//     .then(reviews => {
+//       res.json(reviews);
+//     })
+//     .catch(error => {
+//       console.error('Error fetching reviews:', error);
+//       res.status(500).json({ error: 'Error fetching reviews' });
+//     });
+// });
+
+// Create a car schema
+const carsSchema = new mongoose.Schema({
+  maker: String,
+  model: String,
+  year: Number,
+  images: [String],
+  price: Number,
+  category: String,
+  shape: String,
+  mileage: String,
+  engine: String,
+  description:String,
+});
+
+// Create a car model
+const Cars = mongoose.model('Cars', carsSchema);
+
+// Create a storage configuration for multer
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'public/admin/uploads'); 
+  },
+  filename: function (req, file, cb) {
+    // Generate a unique filename for the uploaded file
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+    cb(null, file.fieldname + '-' + uniqueSuffix);
+  },
+});
+
+// Create the multer middleware using the storage configuration
+const upload = multer({ storage: storage });
+
+
+// Handle POST request for creating a new car
+app.post('/cars', function (req, res) {
+  upload.array('images')(req, res, function (error) {
+    if (error) {
+      console.error('Error uploading images:', error);
+      return res.status(500).send('Error uploading images');
+    }
+
+    const { maker, model, year, price, category, shape, mileage, engine,description } = req.body;
+    const imagePaths = req.files.map(file => file.path);
+
+    // Create a new car object
+    const car = new Car({
+      maker,
+      model,
+      year,
+      images: imagePaths,
+      price,
+      category,
+      shape,
+      mileage,
+      engine,
+      description,
+    });
+
+
+    // Create a schema for sliders
+const sliderSchema = new mongoose.Schema({
+  imagePath: String,
+});
+
+// Create a model for sliders
+const Sliders = mongoose.model('Sliders', sliderSchema);
+
+// Route to post a slider image
+app.post('/sliders', upload.single('image'), (req, res) => {
+  const file = req.file;
+  console.log('Received POST request to /sliders');
+
+  if (!file) {
+    return res.status(400).send('No image was uploaded.');
+  }
+
+  const imagePath = file.path;
+  const slider = new Sliders({ imagePath });
+
+  slider
+    .save()
+    .then(() => {
+      res.json({ imagePath });
+    })
+    .catch((error) => {
+      console.error('Error adding slider:', error);
+      res.status(500).send('Error adding slider.');
+    });
+});
+
+    // Save the car object to the database
+    car.save()
+      .then(() => {
+        console.log('Car saved:', car);
+        res.redirect('/');
+      })
+      .catch(error => console.error('Error saving car:', error));
+  });
+});
+// Handle PUT request for updating a car
+app.put('/cars/:id', upload.array('images'), function (req, res) {
+  const carId = req.params.id;
+  const { maker, model, year, price, shape, description, engine, category, mileage } = req.body;
+  const imagePaths = req.files.map(file => file.path);
+
+  // Find the car by its ID and update the fields
+  Cars.findByIdAndUpdate(carId, {
+    maker,
+    model,
+    year,
+    price,
+    shape,
+    description,
+    engine,
+    category,
+    mileage,
+    images: imagePaths
+  }, { new: true })
+    .then(updatedCar => {
+      if (updatedCar) {
+        console.log('Car updated:', updatedCar);
+        res.json(updatedCar);
+      } else {
+        console.error('Car not found');
+        res.status(404).json({ error: 'Car not found' });
+      }
+    })
+    .catch(error => {
+      console.error('Error updating car:', error);
+      res.status(500).json({ error: 'Error updating car' });
+    });
+});
+
+
+// Handle DELETE request for deleting a car
+app.delete('/cars/:id', function (req, res) {
+  const carId = req.params.id;
+
+  // Find the car by ID and delete it
+  Car.findByIdAndRemove(carId)
+    .then(() => {
+      console.log('Car deleted:', carId);
+      res.sendStatus(204); // Send a success status without content
+    })
+    .catch(error => {
+      console.error('Error deleting car:', error);
+      res.status(500).json({ error: 'Error deleting car' });
+    });
+});
+
+app.get('/cars', function (req, res) {
+  Car.find()
+    .then(cars => {
+      res.json(cars);
+    })
+    .catch(error => {
+      console.error('Error fetching cars:', error);
+      res.status(500).json({ error: 'Error fetching cars' });
+    });
+});
+
+
+// Route to get all slider images
+app.get('/sliders', (req, res) => {
+  Slider.find()
+    .select('imagePath')
+    .exec()
+    .then((sliders) => {
+      const imagePaths = sliders.map((slider) => slider.imagePath);
+      res.json({ imagePaths });
+    })
+    .catch((error) => {
+      console.error('Error fetching slider images:', error);
+      res.status(500).send('Error fetching slider images.');
+    });
+});
+
+// Route to delete a specific slider image
+app.post('/slider/delete', (req, res) => {
+  const imagePath = req.body.imagePath;
+
+  Slider.findOneAndDelete({ imagePath })
+    .then(() => {
+      res.send('Slider image deleted successfully.');
+    })
+    .catch((error) => {
+      console.error('Error deleting slider image:', error);
+      res.status(500).send('Error deleting slider image.');
+    });
+});
+
+
+//inquiry
+const inquirSchema = new mongoose.Schema({
+  maker: String,
+  model: String,
+  contacts: String,
+  minengine: String,
+  maxyear: String,
+  maxdistance: String,
+  maxengine: String,
+  comments: String,
+});
+
+
+//fetching enquireies
+const Inquiries = mongoose.model('Inquiries', inquirSchema);
+
+app.get('/inquiries', function (req, res) {
+  Inquiries.find()
+    .then(inquiries => {
+      res.json(inquiries);
+    })
+    .catch(error => {
+      console.error('Error fetching inquiries:', error);
+      res.status(500).json({ error: 'Error fetching inquiries' });
+    });
+});
+// reserves fetch
+const reservationSchema = new mongoose.Schema({
+  phone: String,
+  name:  String,
+  email: String,
+  maker: String,
+  model: String,
+});
+
+const Reserves = mongoose.model('Reserves', reservationSchema);
+
+// Route to fetch and display reservations
+app.get('/reserves', function (req, res) {
+  Reserves.find()
+    .then(reservations => {
+      res.json(reservations);
+    })
+    .catch(error => {
+      console.error('Error fetching reservations:', error);
+      res.status(500).json({ error: 'Error fetching reservations' });
+    });
+});
+
+// Handle PUT request for updating a review rating
+app.put('/reviews/:id', function (req, res) {
+  const reviewId = req.params.id;
+  const newRating = 'good'; // Update the rating value as desired
+
+  // Find the review by its ID and update the rating field
+  Review.findByIdAndUpdate(reviewId, { rating: newRating }, { new: true })
+    .then(updatedReview => {
+      if (updatedReview) {
+        console.log('Review updated:', updatedReview);
+        res.json(updatedReview);
+      } else {
+        console.error('Review not found');
+        res.status(404).json({ error: 'Review not found' });
+      }
+    })
+    .catch(error => {
+      console.error('Error updating rating:', error);
+      res.status(500).json({ error: 'Error updating rating' });
+    });
+});
+// Handle DELETE request for deleting a review
+app.delete('/reviews/:id', function(req, res) {
+  const reviewId = req.params.id;
+
+  // Find the review by ID and delete it
+  Review.findByIdAndRemove(reviewId)
+    .then(() => {
+      console.log('Review deleted:', reviewId);
+      res.sendStatus(204); // Send a success status without content
+    })
+    .catch(error => {
+      console.error('Error deleting review:', error);
+      res.status(500).json({ error: 'Error deleting review' });
+    });
+});
+// Route to delete a reservation by ID
+app.delete('/reserves/:reservationId', function (req, res) {
+  const reservationId = req.params.reservationId;
+
+  Reserve.findByIdAndRemove(reservationId)
+    .then(deletedReservation => {
+      if (!deletedReservation) {
+        // Reservation not found
+        res.status(404).json({ error: 'Reservation not found' });
+      } else {
+        console.log('Reservation deleted:', deletedReservation);
+        res.json({ message: 'Reservation deleted successfully' });
+      }
+    })
+    .catch(error => {
+      console.error('Error deleting reservation:', error);
+      res.status(500).json({ error: 'Error deleting reservation' });
+    });
+});
+// Delete an inquiry by ID
+app.delete('/inquiries/:inquiryId', function(req, res) {
+  const inquiryId = req.params.inquiryId;
+
+  Inquiries.findByIdAndRemove(inquiryId)
+    .then(deletedInquiry => {
+      if (!deletedInquiry) {
+        // Inquiry not found
+        res.status(404).json({ error: 'Inquiry not found' });
+      } else {
+        console.log('Inquiry deleted:', deletedInquiry);
+        res.json({ message: 'Inquiry deleted successfully' });
+      }
+    })
+    .catch(error => {
+      console.error('Error deleting inquiry:', error);
+      res.status(500).json({ error: 'Error deleting inquiry' });
+    });
+});
 // Start the server
-app.listen(3000, () => {
+app.listen(3002, () => {
   console.log("Server listening on port 3000");
 });

@@ -69,11 +69,10 @@ sliderForm.addEventListener('submit', (event) => {
   const image = imageInput.files[0]; // Get the first selected image
 
   formData.append('image', image); // Append the image to the formData
-  axios
-    .post('/slider', formData)
+  axios.post('/sliders', formData)
     .then(function (response) {
       const imagePath = response.data.imagePath;
-      console.log('Image uploaded:', imagePath);
+      
       sliderForm.reset(); // Reset the form
       fetchSliderImage(); // Fetch and display the updated slider image
     })
