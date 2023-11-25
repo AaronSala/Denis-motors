@@ -1,103 +1,71 @@
 [{
   "_id": {
-    "$oid": "649c3506cdfb75e74a6b61c1"
+    "$oid": "654c9673e4254f8dc47bd1c3"
   },
-  "image": "uploads/golf.jpeg ",
-  "maker": "honda",
-  "model": "prius",
-  "description": "",
+  "maker": "TOYOTA",
+  "model": "mark x",
+  "year": 2014,
+  "images": [
+    "images/images-1699518067440-933128372",
+    "images/images-1699518067441-512406240",
+    "images/images-1699518067441-627380467",
+    "images/images-1699518067441-672633238"
+  ],
+  "price": 3200000,
+  "category": "bestDeals",
+  "shape": "SEDAN",
+  "mileage": "300000",
+  "engine": "2400cc",
+  "description": "locally uswd",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65535e4dfd8c50a0b71acd10"
+  },
+  "maker": "TOYOTA",
+  "model": "fielder",
   "year": 2016,
-  "price": "145433",
-  "mileage": "90 000km",
-  "category": "bestDeals"
+  "images": [
+    "images/images-1699962445002-651081664",
+    "images/images-1699962445014-185360619",
+    "images/images-1699962445017-285114736",
+    "images/images-1699962445023-236786289",
+    "images/images-1699962445027-865104754",
+    "images/images-1699962445029-364147989",
+    "images/images-1699962445039-193108760",
+    "images/images-1699962445044-337466267",
+    "images/images-1699962445049-457442292",
+    "images/images-1699962445051-876225205",
+    "images/images-1699962445054-234253726",
+    "images/images-1699962445056-749493407",
+    "images/images-1699962445058-431051960"
+  ],
+  "price": 2800000,
+  "category": "newArrivals",
+  "shape": "HATCHBACK",
+  "mileage": "40000",
+  "engine": "1800",
+  "description": "new car ",
+  "__v": 0
 },
 {
   "_id": {
-    "$oid": "649c366acdfb75e74a6b61c7"
+    "$oid": "655361914090b3863abc00dc"
   },
-  "image": "uploads/bmw.jpeg",
-  "maker": "bmw",
-  "model": "x5",
-  "description": "",
-  "year": 2015,
-  "price": "4333847",
-  "mileage": "80 000km",
-  "shape": "suv",
-  "category": "newArrivals"
-},
-{
-  "_id": {
-    "$oid": "649d7881cef3b96a1dfa1cf5"
-  },
-  "maker": "volks wagen",
-  "model": "golf",
-  "year": 2018,
-  "image": "uploads/golf.jpeg",
-  "price": 223848,
-  "__v": 0,
-  "category": "bestDeals"
-},
-{
-  "_id": {
-    "$oid": "649e6b46c16348b99afe0620"
-  },
-  "maker": "NISSAN",
-  "model": "teana",
-  "year": 2016,
-  "image": "",
-  "price": 2332223,
+  "maker": "TOYOTA",
+  "model": "sdedd",
+  "year": 2022,
+  "images": [
+    "images/images-1699963281807-79627384",
+    "images/images-1699963281809-870456393",
+    "images/images-1699963281809-39677233"
+  ],
+  "price": 345,
   "category": "newArrivals",
   "shape": "COUPE",
-  "description": null,
-  "engine": null,
-  "mileage": "100 000",
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "64a34dab96b6a0fb81aeac64"
-  },
-  "maker": "BENZ",
-  "model": "E350",
-  "year": 2020,
-  "image": " ",
-  "price": 4300000,
-  "category": "bestDeals",
-  "shape": "SEDAN",
-  "description": null,
-  "engine": null,
-  "mileage": "80 000",
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "64a34dab96b6a0fb81aeac66"
-  },
-  "maker": "BENZ",
-  "model": "E350",
-  "year": 2020,
-  "image": " uploads/benz.jpeg",
-  "price": 4300000,
-  "category": "bestDeals",
-  "shape": "SEDAN",
-  "description": null,
-  "engine": null,
-  "mileage": "80 000",
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "64a3537296b6a0fb81aeac74"
-  },
-  "maker": "HONDA",
-  "model": "CX 7",
-  "year": 2019,
-  "image": " ",
-  "price": 4500000,
-  "category": "newArrivals",
-  "shape": "SUV",
-  "description": null,
-  "engine": null,
-  "mileage": "50 000",
+  "mileage": "2345",
+  "engine": "345",
+  "description": "d3d3d3",
   "__v": 0
 }]

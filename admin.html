@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Denis motors</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/output3.css">
+    <link rel="stylesheet" href="indexadmin.css">
+    <script src=" https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+<body class="">
+    <!-- header section -->
+    <section class="header">
+<!-- header top -->
+     <div class="top" id="head">
+        <span>D</span>enis <span>M</span>otors <span>I</span>mports <span>L</span>imited
+     </div> 
+<!-- main header -->
+     <div class="header2 p-3">
+
+       <div class="logo">
+
+        <a href="#" class="bars hidden  text-white "><i class=" text-3xl fas fa-bars -mb-2 p-1"></i>menu</a>
+       <a href="admin.html"><img src="images/denis-logo.png"></a> 
+       
+        <div class="links lg:w-full hidden">
+            <a href="#search"><i class="fas fa-car object-"></i>Search cars</a>
+            <a href="#buy"><i class="fas fa-shopping-cart"></i>how To Buy</a>
+            <a href="#about"><i class="fas fa-info"></i>About Us</a>
+            <a href="#testimanials"><i class="fas fa-thumbs-up"></i>Testmonials</a>
+            <a href="#recently-viewed"><i class="fas fa-clock"></i>Recently Viewed</a>
+            
+        </div>
+       </div>
+    <!-- header right -->
+       <div class="header-right ">
+        
+       </div>
+       
+        <div class="favourite">
+
+           
+        </div>
+        <a id="logoutButton" href="#search" class="text-white text-xl mt-4 mr-8"></i>logout</a>
+     </div>
+    </section>
+
+<section class="maindiv lg:border-black lg:border-4 lg:pr-8 lg:p-1 lg:mr-14 lg:ml-14 overflow-hidden  flex" >
+
+
+        <!-- left nav extends to the bottom -->
+    <nav class="h-full  w-1/3  ">
+        <div class="left-nav  ">
+         <div class="bar"></div>
+         <h2>search by Maker</h2>
+         <div class="left-nav-list pl-2 text">
+            <ul>
+                <li class="pt-4"><a href="#toyota">
+                    <img src="images/toyota1.jpeg">TOYOTA<span>()</span></a>
+                </li>
+
+                <li class=" -pt-4"><a href="#nissan" class="nissan">
+                    <img src="images/nissan.jpeg" >NISSAN<span>()</span></a>
+                </li>
+
+                <li><a href="#benz">
+                    <img src="images/benz.jpeg">BENZ<span>()</span></a>
+                </li>
+
+                <li><a href="#mazda">
+                    <img src="images/mazda.jpeg">MAZDA<span>()</span></a>
+                </li>
+
+               
+                <li><a href="#subaru">
+                    <img src="images/subaru.jpeg">SUBARU<span>()</span></a>
+                </li>
+                <li><a href="#suzuki">
+                    <img src="images/suzuki.jpeg">SUZUKI<span>()</span></a>
+                </li>
+                <li><a href="#hond">
+                    <img src="images/honda.jpeg">HONDA<span>()</span></a>
+                </li>
+                <li><a href="#bmw">
+                    <img src="images/bmw.png">BMW<span>()</span></a>
+                </li>
+                <li><a href="#volks">
+                    <img src="images/volks.jpeg">VOLKS<span>()</span></a>
+                </li>
+                
+               
+            </ul>
+         </div>
+
+         <!-- search by fob -->
+         <div class="bar"></div>
+         <h2>search by FOB price</h2>
+         
+         <div class="search-fob pl-6">
+         <ul>
+
+            <li class="pt-1"><a href="#cars-by-price">Over Ksh10 000 000</a></li>
+            <li class="pt-1"><a href="#cars-by-price">Under Ksh10 000 000</a></li>
+            <li class="pt-1"><a href="#cars-by-price">Under Ksh9 000 000</a></li>
+            <li class="pt-1"><a href="#cars-by-price">Under Ksh9 000 000</a></li>
+            <li class="pt-1"><a href="#cars-by-price">Under Ksh8 000 000</a></li>
+            <li class="pt-1"><a href="#cars-by-price">Under Ksh7 000 000</a></li>
+            <li class="pt-1"><a href="#cars-by-price">Under Ksh6 000 000</a></li>
+            <li class="pt-1"><a href="#cars-by-price">Under Ksh5 000 000</a></li>
+            <li class="pt-1"><a href="#cars-by-price">Under Ksh3 000 000</a></li>
+            <li class="pt-1"><a href="#cars-by-price">Under Ksh2 000 000</a></li>
+            <li class="pt-1"><a href="#cars-by-price">Under Ksh1 000 000</a></li>
+        </ul>
+         </div>
+
+         <div class="bar"></div>
+         <h2>search by Shape </h2>
+         <div >
+        <ul class="list-none">
+            <li class="pt-3"><a href="#toyota" class="flex text-blue-600">
+                <img src="images/coupe.png " class="w-12 mr-3">COUPE</a>
+            </li>
+            <li class="pt-3"><a href="#toyota" class="flex text-blue-600">
+                <img src="images/hatchback.png" class="w-12 mr-3">HATCHBACK</a>
+            </li>
+            <li class="pt-3"><a href="#toyota" class="flex text-blue-600">
+                <img src="images/sedan.png" class="w-12 mr-3">SEDAN</a>
+            </li>
+            <li class="pt-3"><a href="#toyota" class="flex text-blue-600">
+                <img src="images/pickup.png" class="w-12 mr-3">PICKUP</a>
+            </li>
+            <li class="pt-3"><a href="#toyota" class="flex text-blue-600">
+                <img src="images/micro.png" class="w-12 mr-3">MICRO</a>
+            </li>
+            <li class="pt-3"><a href="#toyota" class="flex text-blue-600">
+                <img src="images/van.png" class="w-12 mr-3">VAN</a>
+            </li>
+            <li class="pt-3"><a href="#toyota" class="flex text-blue-600">
+                <img src="images/truck.png" class="w-12 mr-3">TRUCK</a>
+            </li>
+            <li class="pt-3"><a href="#toyota" class="flex text-blue-600">
+                <img src="images/wagon.png" class="w-12 mr-3">WAGON</a>
+            </li>
+        </ul>
+         </div>
+
+         <div class="bar"></div>
+         <h2>search by year</h2>
+         <div class="flex-col">
+        <a  class="text-blue-600 "> <span>2019~</span></a></br>
+        <a  class="text-blue-600 "> <span>2017~2019</span></a></br>
+        <a  class="text-blue-600 "> <span>2014~2017</span></a></br>
+        <a  class="text-blue-600 "><span>2012~2014</span></a></br>
+        <a  class="text-blue-600 "> <span>~2012</span></a>
+        </div>
+
+        </div>
+        
+    </nav>
+
+    <!-- add vehicle -->
+    <div class="center w-full lg:m-4 lg:p-12 p-4">
+       
+             <div class=" bg-gray-200 flex"><img class=" m-2 border border-black" 
+                src=" " width=30><h3 class="header-1 pt-2 font-mono">Add Cars</h3>
+        </div>
+
+        <h3 class=" w-full h-8 text-white bg-blue-900 p-2 "> Add cars</h3>
+
+        <div class=" ">
+          
+            <div class="bar"></div>
+<h2 class="">Add cars</h2>
+
+ <div class="border-2 border-grey bg-slate-200 pr-4">
+  <form action="/cars" method="POST" id="carForm" enctype="multipart/form-data">
+  <select class="w-full p-2 bg-white border-2" name="maker" id="maker">
+    <option>Maker </option>
+    <option> NISSAN</option>
+    <option>TOYOTA</option>
+    <option> MAZDA</option>
+    <option> MITSUBISHI</option>
+    <option> HONDA</option>
+    <option> BENZ</option>
+    <option> BMW</option>
+    <option> SUZUKI</option>
+    <option> OTHERS</option>
+  </select>
+  <select class="w-full p-2 bg-white border-2" name="shape" id="shape">
+    <option>Shape </option>
+    <option> COUPE</option>
+    <option>SEDAN</option>
+    <option> HATCHBACK</option>
+    <option> WAGON</option>
+    <option> SUV</option>
+    <option> BUS</option>
+    <option> VAN</option>
+    <option> LORRY</option>
+    <option> TRUCK</option>
+  </select>
+
+  <select class="w-full p-2 bg-white border-2" name="category" id="category">
+    <option>Vehicle Category</option>
+    <option>newArrivals</option>
+    <option> bestDeals</option>
+    <option>featuredCars</option>
+    
+    
+  </select>
+
+  
+
+  <h3 class="mt-3 font-semibold text-red-500 uppercase">Model</h3>
+  <input type="text" id="model" name="model" placeholder="eg land cruiser-TX, TZG" class="p-2">
+
+  <h3 class="mt-3 font-semibold text-red-500 uppercase">Vehicle Description</h3>
+  <textarea type="text" id="description" name="description" class="w-full p-1 border-2" placeholder="Description"></textarea>
+ 
+   
+  <div class="select flex items-center h-auto">
+    <div class="left w-full">
+        <h3 class="mt-3 font-semibold text-red-500 uppercase">year of manufacture</h3>
+        <select name="year" id="year" class=" p-1 w-4/5 bg-white border-2 " >
+            <option>Year </option>
+            <option>2023 </option>
+            <option>2022 </option>
+            <option>2021</option>
+            <option>2020</option>
+            <option>2019</option>
+            <option>2018</option>
+            <option>2017 </option>
+            <option>2016</option>
+            <option>2015 </option>
+            <option>2014</option>
+          </select>
+          <h3 class="mt-3 font-semibold text-red-500 uppercase">mileage</h3>
+          <input type="text" name="mileage" id="mileage" class=" p-1 w-4/5 bg-white border-2 ">
+            
+            
+          <h3 class="mt-3 font-semibold text-red-500 uppercase">engine size(--cc)</h3>
+          <input type="text" name="engine" id="engine" class=" p-1 w-4/5 bg-white border-2 ">
+            
+    
+
+          <h3 class="mt-3 font-semibold text-red-500 uppercase">price</h3>
+          <input type="text" id="price" name="price" class="w-1/2 p-1 border-2 mb-16" placeholder="price"></input>
+    
+  
+        <h3 class="font-semibold text-red-500 uppercase w-full">Vehicle images</h3>
+<input type="file" id="image" name="images"  multiple required>
+
+</div>
+    
+        
+</div>
+<div class=" w-full items-center">
+ <button type="submit" class="object-center align w-1/2 p-2 bg-green-600 text-center text-white font-semibold text-xl m-1 mb-8  border rounded ">Add Vehicle</button>
+</div>
+</form>
+ </div>
+
+ <div >
+    <h2 class="mt-3 text-2xl">Add to slider</h2>
+    <form id="sliderForm" method="POST" action="">
+    <h3 class="font-semibold text-red-500 uppercase w-full">Slider images</h3>
+    <input type="file" id="imageInput" name="images"  required>
+    <button type="submit" class="object-center align w-1/2 p-2 bg-green-600 text-center text-white font-semibold text-xl m-1 mb-8  border rounded ">Add Slider</button>
+</form>
+  </div>
+ <!-- edit car firm -->
+ <div id="editFormContainer" style="display: none;" class="ml-8 mt-2 w-1/2">
+    <h2>Edit car</h2>
+   
+    <form id="editCarForm" method="PUT" action="/cars/:id" enctype="multipart/form-data">
+      <!-- Car ID field -->
+      <label for="editCarId">Car Id</label>
+      <input type="" id="editCarId" name="editCarId" >
+  
+      <!-- Form fields for editing a car -->
+      <div>
+        <label for="editMaker">Maker:</label>
+        <input type="text" id="editMaker" name="editMaker">
+      </div>
+      <div>
+        <label for="editModel">Model:</label>
+        <input type="text" id="editModel" name="editModel">
+      </div>
+      <div>
+        <label for="editYear">Year:</label>
+        <input type="text" id="editYear" name="editYear">
+      </div>
+      <div>
+        <label for="editPrice">Price:</label>
+        <input type="text" id="editPrice" name="editPrice">
+      </div>
+      <div>
+        <label for="editShape">Shape:</label>
+        <input type="text" id="editShape" name="editShape">
+      </div>
+      <div>
+        <label for="editDescription">Description:</label>
+        <input type="textfield" id="editDescription" name="editDescription">
+      </div>
+      <div>
+        <label for="editEngine">Engine Capacity:</label>
+        <input type="text" id="editEngine" name="editEngine">
+      </div>
+      <div>
+        <label for="editCategory">Category:</label>
+        <input type="text" id="editCategory" name="editCategory">
+      </div>
+      
+      <div>
+        <label for="editMileage">Mileage:</label>
+        <input type="text" id="editMileage" name="editMileage">
+      </div>
+      
+      <h3 class="mt-3 font-semibold text-red-500 uppercase w-full">Vehicle images</h3>
+         <input type="file" id="editImages" name="images" accept="image/jpeg, image/png" multiple >
+
+      <!-- Submit button -->
+      <div class="mt-8 align-middle">
+        
+        <button type="submit" class="bg-lime-500 w-28 p-2 rounded-lg text-white font-semibold">Update</button>
+        <button type="button" onclick="closeEditForm() " class="w-28 bg-orange-600 p-2 text-white ml-8 rounded-lg">Cancel</button>
+      </div>
+    </form>
+  </div></div>
+  
+        
+ <!-- add vehicle ends here -->
+ <div class="mt-8 bg-gray-200 flex"><img class=" logo-img m-2 border border-black" 
+    src="" width=30><h3 class="pt-2 font-mono">Cars in stock</h3>
+</div>
+<h3 class=" w-full h-8 text-white bg-blue-900 p-2 "> All</h3>
+<!-- display all cars here -->
+<div id="carList" class="p-4 flex   gap-2 overflow-scroll">
+    </div>
+    <h3 class=" w-full h-8 text-white bg-blue-900 p-2 "> comments</h3>
+    <!-- display all cars here -->
+   
+    <div  id="reviewList" class="p-4 flex w-full  gap-2  overflow-scroll">
+     
+          </div>
+          
+           <!-- for displaying inquiries -->
+          <h3 class=" w-full h-8 text-white bg-blue-900 p-2 "> inquiries</h3>
+    <div  id="inquiryList" class="p-4 flex w-full  gap-2 overflow-scroll">
+     
+          </div>  
+          <h3 class=" w-full h-8 text-white bg-blue-900 p-2 "> reservations</h3>
+          <div  id="reservations" class="p-4 flex w-full  gap-2 overflow-scroll">
+           
+                </div>  
+          
+                <h3 class=" w-full h-8 text-white bg-blue-900 p-2 "> Slider Images</h3>
+                <div  id="sliders" class="p-4 flex w-full  gap-2 overflow-scroll">
+                 
+                      </div> 
+    </div>
+
+</section>
+
+<!-- links section starts here -->
+<section class=" mt-2 w-full">
+    <div class="bg-slate-200 h-16 mt-3" >
+        <div class="flex justify-center">
+          <a>  <img src="images/th (4).jpeg" class="h-12 m-2"></a>
+           <a> <img src="images/th (3).jpeg" class="h-12 m-2 ml-8"></a>
+            <a><img src="images/th (2).jpeg" class="h-12 m-2 ml-8"></a>
+        </div>
+     </div>
+
+
+     <!-- footer section starts here -->
+    <div class="footer bg-slate-900 ">
+        <div class="footers hidden p-12 text-white justify-center">
+            <div class="p-4 ">
+                <img src="images/logo3.png" class="w-56">
+                <h4> Denis Motors Imports Ltd</h4>
+                <h1>Nairobi Headquaters</h1>
+                <span>TEL:</span></br>
+                <span>PHONE:</span></br>
+                <span>EMAIL:</span>
+            </div>
+            <div class="p-4">
+                <ul>
+                    <li class="font-semibold mb-6"><h3>Search By Maker</h3>
+                    </li>
+                    <li class="p-1">
+                        <a class="hover:underline cursor-pointer m-3">TOYOTA (2)</a>
+                    </li>
+                    <li class="p-1">
+                        <a class="hover:underline cursor-pointer m-3">NISSAN (2)</a>
+                    </li>
+                    <li class="p-1">
+                        <a class="hover:underline cursor-pointer m-3">MITSUBISHI(2)</a>
+                    </li>
+                    <li class="p-1">
+                        <a class="hover:underline cursor-pointer m-3">HONDA(2)</a>
+                    </li>
+                    <li class="p-1">
+                        <a class="hover:underline cursor-pointer m-3">MAZDA (2)</a>
+                    </li>
+                    <li class="p-1">
+                        <a class="hover:underline cursor-pointer m-3">SUBARU (2)</a>
+                    </li>
+                    <li class="p-1">
+                        <a class="hover:underline cursor-pointer m-3">SUZUKI (2)</a>
+                    </li>
+                    <li class="p-1">
+                        <a class="hover:underline cursor-pointer m-3">VOLKSWAGEN (2)</a>
+                    </li>
+                    <li class="p-1">
+                        <a class="hover:underline cursor-pointer m-3">BENZ (2)</a>
+                    </li>
+                    <li class="p-1">
+                        <a class="hover:underline cursor-pointer m-3">LEXUS (2)</a>
+                    </li>
+                    <li class="p-1">
+                        <a class="hover:underline cursor-pointer m-3">AUDI (2)</a>
+                    </li>
+                    <li class="p-1">
+                        <a class="hover:underline cursor-pointer m-3">BMW (2)</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="p-4">
+                <ul>
+                    <li class="font-semibold mb-6"><h3>Search By Shape</h3>
+                    </li>
+                <li class="p-1">
+                    <a class="hover:underline cursor-pointer m-3">COUPE</a>
+                </li>
+                <li class="p-1">
+                    <a class="hover:underline cursor-pointer m-3">SEDAN</a>
+                </li>
+                <li class="p-1">
+                    <a class="hover:underline cursor-pointer m-3">HATCHBACK</a>
+                </li>
+                <li class="p-1">
+                    <a class="hover:underline cursor-pointer m-3">WAGON</a>
+                </li>
+                <li class="p-1">
+                    <a class="hover:underline cursor-pointer m-3">SUV</a>
+                </li>
+                <li class="p-1">
+                    <a class="hover:underline cursor-pointer m-3">VAN</a>
+                </li>
+                <li class="p-1">
+                    <a class="hover:underline cursor-pointer m-3">TRUCK</a>
+                </li>
+            </div>
+
+            <div class="p-4">
+                <ul>
+                    <li class="font-semibold mb-6"><h3>Search By FOB Price</h3>
+                    </li>
+                    <li class="p-1">
+                        <a class="hover:underline cursor-pointer">Over $7,000</a>
+                    </li>
+                    <li class="p-1">
+                        <a class="hover:underline cursor-pointer ">Under $7,000</a>
+                    </li>
+                    <li class="p-1">
+                        <a class="hover:underline cursor-pointer">Under $6,000</a>
+                    </li>
+                    <li class="p-1">
+                        <a class="hover:underline cursor-pointer">Under $5,000</a>
+                    </li>
+                    <li class="p-1">
+                        <a class="hover:underline cursor-pointer">Under $3,500</a>
+                    </li>
+                    <li class="p-1">
+                        <a class="hover:underline cursor-pointer">Under $2,500</a>
+                    </li>
+                    <li class="p-1">
+                        <a class="hover:underline cursor-pointer">Under $1,000</a>
+                    </li>
+            </div>
+            <div class="p-4">
+                <ul>
+                    <li class="font-semibold mb-6"><h3>About Us</h3>
+                    </li>
+                    <li class="p-1">
+                        <a class=" font-semibold">About Denis Motors</a>
+                    </li>
+                    <li class="p-1">
+                        <a class="hover:underline cursor-pointer ">Contacts</a>
+                    </li>
+                    <li class="p-1">
+                        <a class="hover:underline cursor-pointer ">Yard Facilities</a>
+                    </li>
+                    <li class="p-1">
+                        <a class="hover:underline cursor-pointer ">Bank Information</a>
+                    </li>
+                    <li class="p-1">
+                        <a class="hover:underline cursor-pointer">Company Profile</a>
+                    </li>
+                    <li class="p-1">
+                        <a class="hover:underline cursor-pointer ">Access</a>
+                    </li>
+                    <li class="p-1">
+                        <h3 class="font-semibold p-3 text-8">How To Buy</h3>
+                    </li>
+                    <li class="p-1">
+                        <a class="hover:underline cursor-pointer m-3">From Stock</a>
+                    </li>
+                    <li class="p-1">
+                        <a class="hover:underline cursor-pointer m-3">From Auction</a>
+                    </li>
+                    <li class="p-1">
+                        <a class="hover:underline cursor-pointer m-3">Buy Parts</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <!-- the very last footer part -->
+    <div class="h-8 bg-red-600 flex justify-between pl-16 pr-16 text-white">
+        <p><span>@</span>copyright 2021- Denis Motors Imports LTD. All rights Reserved</p>
+       
+    </div>
+</section>
+<script src="scriptAdmin.js"></script>
+<script src="server.js"></script>
+  
+    
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+
+    </body>
+
+</html>

@@ -1,0 +1,21 @@
+[{
+  "_id": {
+    "$oid": "64b4f7682e4125a1a183e81c"
+  },
+  "name": "aaron",
+  "location": "nairobi",
+  "country": "kenya",
+  "comments": "very much well served",
+  "__v": 0,
+  "rating": "good"
+},
+{
+  "_id": {
+    "$oid": "655656e4787c3a06a0fdb10c"
+  },
+  "name": "aaron",
+  "location": "mombasa",
+  "country": "kenys",
+  "comments": "dmwndisa",
+  "__v": 0
+}]

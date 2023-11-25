@@ -1,0 +1,21 @@
+[{
+  "_id": {
+    "$oid": "64d90679a032ee6b0347bf74"
+  },
+  "imagePath": "images/images-1699962445002-651081664",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64d9435fa032ee6b0347bf87"
+  },
+  "imagePath": "images/images-1699518067440-933128372",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65560c8ae05c16e211c2dabf"
+  },
+  "imagePath": "images/image-1700138122251-86133817",
+  "__v": 0
+}]

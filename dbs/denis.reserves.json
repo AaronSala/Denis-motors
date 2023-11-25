@@ -1,0 +1,11 @@
+[{
+  "_id": {
+    "$oid": "64c1232d16bdaa952c21af2a"
+  },
+  "email": "",
+  "name": "Kenya",
+  "phone": "0704261080",
+  "maker": "NISSAN",
+  "model": "AXIO",
+  "__v": 0
+}]
