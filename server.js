@@ -12,21 +12,20 @@ const cors = require("cors");
 const { MongoClient } = require("mongodb");
 
 // Assign the MongoDB Atlas connection string to the 'uri' variable
-const uri =
-  "mongodb+srv://salaaron2:sala4492@denis.kbbmsou.mongodb.net/dbname?retryWrites=true&w=majority";
+const atlasURI =
+  "mongodb+srv://salaaron2:sala4492@denis.kbbmsou.mongodb.net/denis?retryWrites=true&w=majority";
 
-async function connectToMongoDB() {
-  const client = new MongoClient(uri, { useUnifiedTopology: true });
-  try {
-    await client.connect();
-    console.log("Connected to MongoDB");
-    // You can now perform operations on the database using the client object.
-  } catch (error) {
-    console.error("Error connecting to MongoDB", error);
-  }
-}
+const client = new MongoClient(atlasURI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
-connectToMongoDB();
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "MongoDB connection error:"));
+db.once("open", () => {
+  console.log("Connected to MongoDB Atlas");
+});
+//"mongodb+srv://salaaron:sala4492@cluster0.bunnqbx.mongodb.net/?retryWrites=true&w=majority";
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -35,73 +34,36 @@ app.use((req, res, next) => {
   next();
 });
 
-// Serve static files from the 'public' directory
-//app.use(express.static('__dirname'));
 // Middleware
 app.use(express.static(path.join(__dirname)));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// Middleware to set the correct MIME type for static files
-
-// Connect to MongoDB
-mongoose
-  .connect("mongodb://localhost/denis", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("Connected to MongoDB"))
-  .catch((error) => console.error("Error connecting to MongoDB:", error));
-
-// Create a car schema
-const carSchema = new mongoose.Schema({
-  maker: String,
-  model: String,
-  year: Number,
-  images: [String],
-  price: Number,
-  category: String,
-  shape: String,
-  mileage: String,
-  engine: String,
-  description: String,
-});
-
-// Create a car model
-const Car = mongoose.model("Car", carSchema);
-
-// Create a review schema
-const reviewSchema = new mongoose.Schema({
-  name: String,
-  location: String,
-  country: String,
-  comments: String,
-});
-
-const Review = mongoose.model("Review", reviewSchema);
-
 // Route to fetch car data
-app.get("/cars", function (req, res) {
-  Car.find()
-    .then((cars) => {
-      res.json(cars);
-    })
-    .catch((error) => {
-      console.error("Error fetching cars:", error);
-      res.status(500).json({ error: "Error fetching cars" });
-    });
+app.get("/cars", async (req, res) => {
+  try {
+    const database = client.db("denis");
+    const collection = database.collection("cars");
+    const cars = await collection.find({}).toArray();
+    res.json(cars);
+  } catch (error) {
+    console.error("Error fetching cars:", error);
+    res.status(500).json({ error: "Error fetching cars" });
+  }
 });
 
 // Route to fetch reviews
-app.get("/reviews", function (req, res) {
-  Review.find()
-    .then((reviews) => {
-      res.json(reviews);
-    })
-    .catch((error) => {
-      console.error("Error fetching reviews:", error);
-      res.status(500).json({ error: "Error fetching reviews" });
-    });
+// Route to fetch reviews
+app.get("/reviews", async (req, res) => {
+  try {
+    const database = client.db("denis"); // Replace dbname with your DB name
+    const collection = database.collection("reviews"); // Replace reviews with your collection name
+    const reviews = await collection.find({}).toArray();
+    res.json(reviews);
+  } catch (error) {
+    console.error("Error fetching reviews:", error);
+    res.status(500).json({ error: "Error fetching reviews" });
+  }
 });
 
 // Add a route to handle POST requests for adding a review
@@ -130,24 +92,20 @@ app.post("/reviews", function (req, res) {
       res.status(500).json({ error: "Error saving review" });
     });
 });
-// posting enquiries
-const inquirySchema = new mongoose.Schema({
-  maker: String,
-  model: String,
-  contacts: String,
-  minengine: String,
-  maxyear: String,
-  maxdistance: String,
-  maxengine: String,
-  comments: String,
+
+// Route to fetch inquiries
+app.get("/inquiries", async (req, res) => {
+  try {
+    const inquiries = await Inquiries.find({}); // Use the Inquiries model to find all inquiries
+    res.json(inquiries);
+  } catch (error) {
+    console.error("Error fetching inquiries:", error);
+    res.status(500).json({ error: "Error fetching inquiries" });
+  }
 });
 
-// Create an Inquiry model
-const Inquiry = mongoose.model("Inquiry", inquirySchema);
-
-// Route to handle form submission
-app.post("/inquiries", (req, res) => {
-  // Retrieve the inquiry data from the request body
+// Route to add a new inquiry
+app.post("/inquiries", async (req, res) => {
   const {
     maker,
     model,
@@ -156,34 +114,30 @@ app.post("/inquiries", (req, res) => {
     maxyear,
     maxdistance,
     maxengine,
-    maxprice,
     comments,
   } = req.body;
 
-  // Create a new instance of the Inquiry model
-  const newInquiry = new Inquiry({
-    maker,
-    model,
-    contacts,
-    minengine,
-    maxyear,
-    maxprice,
-    maxdistance,
-    maxengine,
-    comments,
-  });
-
-  // Save the new inquiry to the database
-  newInquiry
-    .save()
-    .then((savedInquiry) => {
-      //yconsole.log("Inquiry saved:", savedInquiry);
-      res.json(savedInquiry); // Send the saved inquiry as the response
-    })
-    .catch((error) => {
-      console.error("Error saving inquiry:", error);
-      res.status(500).json({ error: "Error saving inquiry" });
+  try {
+    // Create a new instance of the Inquiries model
+    const newInquiry = new Inquiries({
+      maker,
+      model,
+      contacts,
+      minengine,
+      maxyear,
+      maxdistance,
+      maxengine,
+      comments,
     });
+
+    // Save the new inquiry to the database
+    await newInquiry.save();
+
+    res.json({ message: "Inquiry added successfully!" });
+  } catch (error) {
+    console.error("Error adding inquiry:", error);
+    res.status(500).json({ error: "Error adding inquiry" });
+  }
 });
 
 // Create a user schema
@@ -201,7 +155,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // Handle registration form submission
-app.post("/", async (req, res) => {
+app.post("/register", async (req, res) => {
   const { email, username, password } = req.body;
 
   try {
@@ -223,9 +177,10 @@ app.post("/", async (req, res) => {
   }
 });
 
-app.get("/imageName", function (req, res) {
+// Serve images by name
+app.get("/images/:imageName", function (req, res) {
   const imageName = req.params.imageName;
-  res.sendFile(path.join(__dirname, imageName));
+  res.sendFile(path.join(__dirname, "images", imageName)); // assuming images are stored in a folder named 'images'
 });
 
 //car reserves
@@ -323,7 +278,19 @@ app.post("/users", async (req, res) => {
   }
 });
 // Middleware to parse JSON requests
+const Slide = mongoose.model("sliders", {
+  imagePath: String,
+});
 
+app.get("/sliders", async (req, res) => {
+  try {
+    const sliderImages = await Slide.find().maxTimeMS(5000);
+    res.json({ sliderImages });
+  } catch (error) {
+    console.error("Error fetching slider images:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 // Search route
 app.get("/cars", async (req, res) => {
   const { search } = req.query;
@@ -345,20 +312,6 @@ app.get("/cars", async (req, res) => {
     res
       .status(500)
       .json({ error: "An error occurred while fetching car data." });
-  }
-});
-
-const Slider = mongoose.model("sliders", {
-  imagePath: String,
-});
-
-app.get("/getSliderImages", async (req, res) => {
-  try {
-    const sliderImages = await Slider.find();
-    res.json({ sliderImages });
-  } catch (error) {
-    console.error("Error fetching slider images:", error);
-    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
@@ -428,8 +381,6 @@ app.post("/cars", function (req, res) {
       engine,
       description,
     });
-
-    // Create a schema for sliders
 
     // Save the car object to the database
     car

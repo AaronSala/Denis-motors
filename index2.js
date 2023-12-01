@@ -9,7 +9,7 @@ bars.addEventListener("click", () => {
 
 document.addEventListener("DOMContentLoaded", async () => {
   try {
-    const response = await fetch("/getSliderImages"); // Replace with your server endpoint
+    const response = await fetch("/sliders"); // Replace with your server endpoint
     const data = await response.json();
 
     const swiperWrapper = document.getElementById("swiperWrapper");
