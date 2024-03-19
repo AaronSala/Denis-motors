@@ -1,32 +1,30 @@
 const express = require("express");
 const app = express();
 
-const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const multer = require("multer");
-//const { MongoClient } = require('mongodb');
+
 const path = require("path");
-const mime = require("mime");
+
 const bcrypt = require("bcrypt");
 const cors = require("cors");
-const { MongoClient } = require("mongodb");
+const { Pool } = require("pg");
 
-// Assign the MongoDB Atlas connection string to the 'uri' variable
-const atlasURI =
-  "mongodb+srv://salaaron2:sala4492@denis.kbbmsou.mongodb.net/denis?retryWrites=true&w=majority";
-
-const client = new MongoClient(atlasURI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+// PostgreSQL connection configuration
+const pool = new Pool({
+  user: "postgres",
+  host: "localhost",
+  database: "mydatabase",
+  password: "sala4492",
+  port: 5432, // Change if necessary
 });
 
-const db = mongoose.connection;
-db.on("error", console.error.bind(console, "MongoDB connection error:"));
-db.once("open", () => {
-  console.log("Connected to MongoDB Atlas");
+pool.on("error", (err, pool) => {
+  console.error("Unexpected error on idle client", err);
+  process.exit(-1);
 });
-//"mongodb+srv://salaaron:sala4492@cluster0.bunnqbx.mongodb.net/?retryWrites=true&w=majority";
 
+// Middleware
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
@@ -34,15 +32,13 @@ app.use((req, res, next) => {
   next();
 });
 
-// Middleware
 app.use(express.static(path.join(__dirname)));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
 // Route to fetch car data
 app.get("/cars", async (req, res) => {
   try {
-    const database = client.db("denis");
+    const database =pool.db("denis");
     const collection = database.collection("cars");
     const cars = await collection.find({}).toArray();
     res.json(cars);
@@ -53,10 +49,9 @@ app.get("/cars", async (req, res) => {
 });
 
 // Route to fetch reviews
-// Route to fetch reviews
 app.get("/reviews", async (req, res) => {
   try {
-    const database = client.db("denis"); // Replace dbname with your DB name
+    const database = pool.db("denis"); // Replace dbname with your DB name
     const collection = database.collection("reviews"); // Replace reviews with your collection name
     const reviews = await collection.find({}).toArray();
     res.json(reviews);
@@ -65,7 +60,7 @@ app.get("/reviews", async (req, res) => {
     res.status(500).json({ error: "Error fetching reviews" });
   }
 });
-
+//const Review = require("./models/Review");
 // Add a route to handle POST requests for adding a review
 app.post("/reviews", function (req, res) {
   // Retrieve the review data from the request body
@@ -141,18 +136,8 @@ app.post("/inquiries", async (req, res) => {
 });
 
 // Create a user schema
-const userSchema = new mongoose.Schema({
-  email: String,
-  username: String,
-  password: String,
-});
 
-// Create a User model
-const User = mongoose.model("User", userSchema);
 
-// Middleware
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
 
 // Handle registration form submission
 app.post("/register", async (req, res) => {
@@ -194,10 +179,6 @@ const reserveSchema = new mongoose.Schema({
 
 // Create a User model
 const Reserve = mongoose.model("Reserve", reserveSchema);
-
-// Middleware
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
 
 // Handle registration form submission
 app.post("/reserves", (req, res) => {
@@ -277,27 +258,14 @@ app.post("/users", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
-// Middleware to parse JSON requests
-const Slide = mongoose.model("sliders", {
-  imagePath: String,
-});
 
-app.get("/sliders", async (req, res) => {
-  try {
-    const sliderImages = await Slide.find().maxTimeMS(5000);
-    res.json({ sliderImages });
-  } catch (error) {
-    console.error("Error fetching slider images:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
 // Search route
 app.get("/cars", async (req, res) => {
   const { search } = req.query;
 
   try {
     const regex = new RegExp(search, "i"); // Case-insensitive search regex
-    const filteredCars = await Car.find({
+    const filteredCars = await Cars.find({
       $or: [
         { category: regex },
         { maker: regex },
@@ -445,7 +413,7 @@ app.delete("/cars/:id", function (req, res) {
   const carId = req.params.id;
 
   // Find the car by ID and delete it
-  Car.findByIdAndRemove(carId)
+  Cars.findByIdAndRemove(carId)
     .then(() => {
       console.log("Car deleted:", carId);
       res.sendStatus(204); // Send a success status without content
@@ -457,7 +425,7 @@ app.delete("/cars/:id", function (req, res) {
 });
 
 app.get("/cars", function (req, res) {
-  Car.find()
+  Cars.find()
     .then((cars) => {
       res.json(cars);
     })
@@ -471,9 +439,25 @@ const sliderSchema = new mongoose.Schema({
   imagePath: String,
 });
 
-//const Sliderz = mongoose.model("Sliderz", sliderSchema);
+const Sliders = mongoose.model("sliders", sliderSchema);
 
-// Route to handle slider image upload
+// Fetch all slider images
+app.get("/sliders", async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+  try {
+    const sliderImages = await Sliders.find()
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .select("imagePath");
+    res.json({ sliderImages });
+  } catch (error) {
+    console.error("Error fetching slider images:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+// Upload a new slider image
 app.post("/sliders", upload.single("image"), (req, res) => {
   const file = req.file;
 
@@ -482,7 +466,7 @@ app.post("/sliders", upload.single("image"), (req, res) => {
   }
 
   const imagePath = `images/${file.filename}`;
-  const slider = new Slider({ imagePath });
+  const slider = new Sliders({ imagePath });
 
   slider
     .save()
@@ -495,33 +479,16 @@ app.post("/sliders", upload.single("image"), (req, res) => {
     });
 });
 
-// Route to get all slider images
-app.get("/sliders", (req, res) => {
-  Slider.find()
-    .select("imagePath")
-    .exec()
-    .then((sliders) => {
-      const imagePaths = sliders.map((slider) => slider.imagePath);
-      res.json({ imagePaths });
-    })
-    .catch((error) => {
-      console.error("Error fetching slider images:", error);
-      res.status(500).send("Error fetching slider images.");
-    });
-});
-
-// Route to delete a specific slider image
-app.post("/slider/delete", (req, res) => {
-  const imagePath = req.body.imagePath;
-
-  Slider.findOneAndDelete({ imagePath })
-    .then(() => {
-      res.send("Slider image deleted successfully.");
-    })
-    .catch((error) => {
-      console.error("Error deleting slider image:", error);
-      res.status(500).send("Error deleting slider image.");
-    });
+// Delete a specific slider image
+app.post("/slider/delete", async (req, res) => {
+  try {
+    const imagePath = req.body.imagePath;
+    await Sliders.findOneAndDelete({ imagePath });
+    res.send("Slider image deleted successfully.");
+  } catch (error) {
+    console.error("Error deleting slider image:", error);
+    res.status(500).send("Error deleting slider image.");
+  }
 });
 
 //inquiry
@@ -647,6 +614,7 @@ app.delete("/inquiries/:inquiryId", function (req, res) {
     });
 });
 // Start the server
-app.listen(4001, () => {
-  console.log("Server listening on port 4001");
+const PORT = process.env.PORT || 4001;
+app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
 });

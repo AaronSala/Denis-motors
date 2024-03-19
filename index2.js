@@ -6,42 +6,46 @@ bars.addEventListener("click", () => {
   links.classList.toggle("active");
   slider.classList.toggle("active");
 });
-
 document.addEventListener("DOMContentLoaded", async () => {
   try {
-    const response = await fetch("/sliders"); // Replace with your server endpoint
-    const data = await response.json();
+    const response = await fetch("http://localhost:4001/sliders");
+    if (response.ok) {
+      const data = await response.json();
+      const sliderImages = data.sliderImages || [];
 
-    const swiperWrapper = document.getElementById("swiperWrapper");
+      const swiperWrapper = document.getElementById("swiperWrapper");
 
-    data.sliderImages.forEach((image) => {
-      const slideDiv = document.createElement("div");
-      slideDiv.classList.add("swiper-slide");
+      sliderImages.forEach((image) => {
+        const slideDiv = document.createElement("div");
+        slideDiv.classList.add("swiper-slide");
 
-      const imgElement = document.createElement("img");
-      imgElement.src = `${image.imagePath}`;
+        const imgElement = document.createElement("img");
+        imgElement.src = image.imagePath; // Assuming imagePath contains the image URL
 
-      slideDiv.appendChild(imgElement);
-      swiperWrapper.appendChild(slideDiv);
-    });
+        slideDiv.appendChild(imgElement);
+        swiperWrapper.appendChild(slideDiv);
+      });
 
-    // Initialize Swiper
-    new Swiper(".swiper", {
-      // Your Swiper options here
-      autoplay: {
-        delay: 3000,
-        disableOnInteraction: false,
-      },
-      loop: true,
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true,
-      },
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-      },
-    });
+      // Initialize Swiper here if needed
+      new Swiper(".swiper", {
+        // Your Swiper options here
+        autoplay: {
+          delay: 3000,
+          disableOnInteraction: false,
+        },
+        loop: true,
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+        navigation: {
+          nextEl: ".swiper- button - next",
+          prevEl: ".swiper-button-prev",
+        },
+      });
+    } else {
+      console.error("Error fetching slider images:", response.statusText);
+    }
   } catch (error) {
     console.error("Error fetching slider images:", error);
   }
