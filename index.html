@@ -7,8 +7,8 @@
     <title>Denis motors</title>
     <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="output2.css">
+   <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-   
 
    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
@@ -236,7 +236,7 @@
                <!-- script for login and register forms -->
  <script>
                 
-              // JavaScript Code
+             
 const form = document.getElementById('login-form');
 const signupBtn = document.getElementById('signupBtn');
 const signinBtn = document.getElementById('signinBtn');
@@ -245,11 +245,13 @@ const title = document.getElementById('title');
 const close = document.getElementById('close');
 const longs = document.getElementById('logs');
 const member = document.getElementById('member');
-
+const error = document.getElementById('error');
+const passwords = document.getElementById('password');
+const emails = document.getElementById('email');
 
 let isSignUp = true;
+
 function toggleForm() {
-  // No need to toggle if already in the current state
   if ((isSignUp && this.id === 'signupBtn') || (!isSignUp && this.id === 'signinBtn')) {
     return;
   }
@@ -270,49 +272,30 @@ function toggleForm() {
 
 function handleFormSubmit(event) {
   event.preventDefault();
-  const username = document.getElementById('username').value;
-  const email = document.getElementById('email').value;
-  const password = document.getElementById('password').value;
-  const error = document.getElementById('error')
-  const passwords = document.getElementById('password')
-  const emails = document.getElementById('email')
-  const formData = {
-    username,
-    email,
-    password,
-  };
-  const inputIds = ['username', 'email', 'password'];
+  const email = emails.value;
+  const password = passwords.value;
+  const formData = { email, password };
 
-  // Function to clear input fields
-  function clearInputFields() {
-    inputIds.forEach((id) => {
-      document.getElementById(id).value = '';
-    });
-  }
-
-    // Handle Sign Up
-    fetch('http://localhost:4001/users', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Login response:', data);
-        if (data.message === 'Login successful') {
-      if (formData.email === 'admin@gmail.com' && formData.password === 'adminPassword') {
+  fetch('http://localhost:4001/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(formData),
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log('Login response:', data);
+    if (data.message === 'Login successful') {
+      if (email === 'admin@gmail.com' && password === 'adminPassword') {
         // Redirect to admin.html for admin login
         window.location.href = 'admin.html';
-      } else if (formData.email === 'admin@gmail.com') {
+      } else if (email === 'admin@gmail.com') {
         // Handle incorrect password for admin
         window.location.href = 'admin.html';
         console.error('Incorrect password for admin');
-        error.style.display='none'
-        emails.style.border='1px solid grey'
-      passwords.style.border='1px solid grey'
-        clearInputFields()
+        error.style.display = 'none';
+        emails.style.border = '1px solid grey';
+        passwords.style.border = '1px solid grey';
+        clearInputFields();
         // You can display an error message to the user
       } else {
         // Redirect to index.html for other successful logins
@@ -321,25 +304,24 @@ function handleFormSubmit(event) {
     } else {
       // Handle login failure
       console.error('Login failed:', data.message);
-      error.style.display='block'
-      emails.style.border='1px solid red'
-      passwords.style.border='1px solid red'
+      error.style.display = 'block';
+      emails.style.border = '1px solid red';
+      passwords.style.border = '1px solid red';
       // You can display an error message to the user
     }
   })
-      .catch((error) => {
-        console.error('Error during login:', error);
-      });
-  }
-
+  .catch(error => {
+    console.error('Error during login:', error);
+  });
+}
 
 function clearInputFields() {
-  document.getElementById('email').value = '';
-  document.getElementById('password').value = ''
+  emails.value = '';
+  passwords.value = '';
 }
+
 // Add event listener for form submission
 form.addEventListener('submit', handleFormSubmit);
-
 
 // Add event listener for member button
 member.onclick = function () {
@@ -351,23 +333,9 @@ close.onclick = function () {
   longs.classList.toggle('active');
 };
 
-// Add event listener for form submission
-form.addEventListener('submit', handleFormSubmit);
 // Add click event listener to toggle the form between Sign Up and Sign In
 signupBtn.addEventListener('click', toggleForm);
 signinBtn.addEventListener('click', toggleForm);
-
-
-
-// Add click event listener for member button
-member.onclick = function () {
-  longs.classList.toggle('active');
-};
-
-// Add click event listener for close button
-close.onclick = function () {
-  longs.classList.toggle('active');
-};
 
            
     </script>
@@ -498,8 +466,6 @@ close.onclick = function () {
             <!-- Additional required wrapper -->
             <div class="swiper-wrapper" id="swiperWrapper">
             
-             
-            </div>
             <!-- If we need pagination -->
             <div class="swiper-pagination"></div>
         
@@ -508,6 +474,8 @@ close.onclick = function () {
           
            
         </div> 
+        </div>
+        
         <form id="searchForm" method="" action="/cars">
             <div class="search mt-3">
               <input id="searchInput" type="search" placeholder="make, year, maker, model" required>
@@ -660,8 +628,7 @@ close.onclick = function () {
   color: blue;
   /* Adjust the margin as per your preference */
 }
-
-            #paginationButtonsCarList,
+ #paginationButtonsCarList,
 #paginationButtonsBestList,
 #paginationButtonsNewArrivals {
   display: flex;
@@ -739,7 +706,7 @@ close.onclick = function () {
                    
            </div>
            <h2>comments</h2>
-           <textarea name="comment" id="comments" class=" p-1 w-full bg-white border-2 border-slate-800 "></textarea>
+           <textarea name="comment" id="comment" class=" p-1 w-full bg-white border-2 border-slate-800 "></textarea>
             <button type="submit" class="w-full bg-red-600 text-center m-1 mb-8  border rounded ">submit</button>
             </form>
             </div>  
@@ -873,7 +840,7 @@ close.onclick = function () {
 <h2 class="inquire">Inquire Cars</h2>
 
  <div class="form border-2 border-grey bg-slate-200">
-    <form action="/inquiries" method="POST" id="inquiryForm">
+ <form action="/inquiries" method="POST" id="inquiryForm">
   <select name="maker" id="maker" class="w-full p-1 bg-white border-2 ">
     <option> Maker (All)</option>
     <option> NISSAN()</option>
@@ -895,7 +862,7 @@ close.onclick = function () {
   <div class="select flex items-center">
     <div class="left w-1/2">
           <select name="minengine" id="minengine" class=" p-1 w-4/5 bg-white border-2 ">
-            <option>engine (min)</option>
+            <option selected>engine (min)</option>
             <option> 700 </option>
             <option> 1000 </option>
             <option>1500</option>
@@ -939,7 +906,7 @@ close.onclick = function () {
         
 </div>
 <h2>comments</h2>
-<textarea name="comment" id="comment" class=" p-1 w-full bg-white border-2 border-slate-800 "></textarea>
+<textarea name="comment" id="comments" class=" p-1 w-full bg-white border-2 border-slate-800 "></textarea>
  <button type="submit" class="w-full bg-red-600 text-center m-1 mb-8  border rounded ">submit</button>
  </form>
  </div>
@@ -1151,11 +1118,13 @@ close.onclick = function () {
 </section>
 
 
+
+    <!-- <script src="/server.js"> </script> -->
+   
 <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <!-- <script src="/server.js"> </script> -->
     <script src="index2.js"></script>
     <script src="script.js"></script>
-    
     
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     

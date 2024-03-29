@@ -1,11 +1,8 @@
 const express = require("express");
 const app = express();
-
 const bodyParser = require("body-parser");
 const multer = require("multer");
-
 const path = require("path");
-
 const bcrypt = require("bcrypt");
 const cors = require("cors");
 const { Pool } = require("pg");
@@ -14,9 +11,9 @@ const { Pool } = require("pg");
 const pool = new Pool({
   user: "postgres",
   host: "localhost",
-  database: "mydatabase",
+  database: "denisMotors",
   password: "sala4492",
-  port: 5432, // Change if necessary
+  port: 5432,
 });
 
 pool.on("error", (err, pool) => {
@@ -31,16 +28,19 @@ app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   next();
 });
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 app.use(express.static(path.join(__dirname)));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 // Route to fetch car data
-app.get("/cars", async (req, res) => {
+app.get("/api/cars", async (req, res) => {
   try {
-    const database =pool.db("denis");
-    const collection = database.collection("cars");
-    const cars = await collection.find({}).toArray();
+    const client = await pool.connect();
+    const result = await client.query("SELECT * FROM cars");
+    const cars = result.rows;
+    client.release();
     res.json(cars);
   } catch (error) {
     console.error("Error fetching cars:", error);
@@ -51,43 +51,41 @@ app.get("/cars", async (req, res) => {
 // Route to fetch reviews
 app.get("/reviews", async (req, res) => {
   try {
-    const database = pool.db("denis"); // Replace dbname with your DB name
-    const collection = database.collection("reviews"); // Replace reviews with your collection name
-    const reviews = await collection.find({}).toArray();
+    const query = "SELECT * FROM reviews"; // SQL query to select all records from the 'reviews' table
+    const result = await pool.query(query);
+    const reviews = result.rows;
     res.json(reviews);
   } catch (error) {
     console.error("Error fetching reviews:", error);
     res.status(500).json({ error: "Error fetching reviews" });
   }
 });
-//const Review = require("./models/Review");
+
 // Add a route to handle POST requests for adding a review
-app.post("/reviews", function (req, res) {
-  // Retrieve the review data from the request body
-  const { name, location, country, comments, rating } = req.body;
+app.post("/reviews", async (req, res) => {
+  try {
+    // Retrieve the review data from the request body
+    const { name, location, country, comments, rating } = req.body;
 
-  // Create a new instance of the Review model
-  const newReview = new Review({
-    name,
-    location,
-    country,
-    comments,
-    rating,
-  });
+    // Define the SQL query to insert a new review into the "reviews" table
+    const query = {
+      text: "INSERT INTO reviews (name, location, country, comments, rating) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+      values: [name, location, country, comments, rating],
+    };
 
-  // Save the new review to the database
-  newReview
-    .save()
-    .then((savedReview) => {
-      console.log("Review saved:", savedReview);
-      res.json(savedReview); // Send the saved review as the response
-    })
-    .catch((error) => {
-      console.error("Error saving review:", error);
-      res.status(500).json({ error: "Error saving review" });
-    });
+    // Execute the SQL query
+    const result = await pool.query(query);
+
+    // Extract the inserted review from the query result
+    const savedReview = result.rows[0];
+
+    console.log("Review saved:", savedReview);
+    res.json(savedReview); // Send the saved review as the response
+  } catch (error) {
+    console.error("Error saving review:", error);
+    res.status(500).json({ error: "Error saving review" });
+  }
 });
-
 // Route to fetch inquiries
 app.get("/inquiries", async (req, res) => {
   try {
@@ -101,43 +99,53 @@ app.get("/inquiries", async (req, res) => {
 
 // Route to add a new inquiry
 app.post("/inquiries", async (req, res) => {
-  const {
-    maker,
-    model,
-    contacts,
-    minengine,
-    maxyear,
-    maxdistance,
-    maxengine,
-    comments,
-  } = req.body;
-
   try {
-    // Create a new instance of the Inquiries model
-    const newInquiry = new Inquiries({
+    // Retrieve the review data from the request body
+    const {
       maker,
       model,
-      contacts,
-      minengine,
-      maxyear,
-      maxdistance,
-      maxengine,
+      maxprice,
+      minprice,
       comments,
-    });
+      maxyear,
+      contacts,
+      maxengine,
+      minengine,
+      maxdistance,
+    } = req.body;
 
-    // Save the new inquiry to the database
-    await newInquiry.save();
+    // Define the SQL query to insert a new review into the "reviews" table
+    const query = {
+      text: "INSERT INTO inquiries (maker, model, maxprice, minprice, minengine,maxengine, comments, maxdistance, contacts,maxyear) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *",
+      values: [
+        maker,
+        model,
+        maxprice,
+        minprice,
+        comments,
+        minengine,
+        maxengine,
+        maxyear,
+        contacts,
+        maxdistance,
+      ],
+    };
 
-    res.json({ message: "Inquiry added successfully!" });
+    // Execute the SQL query
+    const result = await pool.query(query);
+
+    // Extract the inserted review from the query result
+    const savedReview = result.rows[0];
+
+    console.log("inquery saved:", savedReview);
+    res.json(savedReview); // Send the saved review as the response
   } catch (error) {
-    console.error("Error adding inquiry:", error);
-    res.status(500).json({ error: "Error adding inquiry" });
+    console.error("Error saving inquiry:", error);
+    res.status(500).json({ error: "Error saving inquiry" });
   }
 });
 
 // Create a user schema
-
-
 
 // Handle registration form submission
 app.post("/register", async (req, res) => {
@@ -163,48 +171,29 @@ app.post("/register", async (req, res) => {
 });
 
 // Serve images by name
-app.get("/images/:imageName", function (req, res) {
-  const imageName = req.params.imageName;
-  res.sendFile(path.join(__dirname, "images", imageName)); // assuming images are stored in a folder named 'images'
+app.get("/images/:imagepath", function (req, res) {
+  const imagepath = req.params.imagepath;
+  res.sendFile(path.join(__dirname, "images", imagepath)); //images are stored in a folder named 'images'
 });
 
-//car reserves
-const reserveSchema = new mongoose.Schema({
-  email: String,
-  name: String,
-  phone: String,
-  maker: String,
-  model: String,
-});
-
-// Create a User model
-const Reserve = mongoose.model("Reserve", reserveSchema);
-
-// Handle registration form submission
-app.post("/reserves", (req, res) => {
+// Handle reservation form submission
+app.post("/api/reserves", async (req, res) => {
   const { name, phone, email, model, maker } = req.body;
 
-  const newReserve = new Reserve({
-    name,
-    phone,
-    email,
-    model,
-    maker,
-  });
+  const insertQuery =
+    "INSERT INTO reserves (name, phone, email, model, maker) VALUES ($1, $2, $3, $4, $5)";
+  const values = [name, phone, email, model, maker];
 
-  newReserve
-    .save()
-
-    .then(() => {
-      res.json({ message: "Reserve registered successfully!" });
-    })
-    .catch((error) => {
-      console.error("Error registering user:", error);
-      res.status(500).json({ error: "Error registering user" });
-    });
+  try {
+    await pool.query(insertQuery, values);
+    res.json({ message: "Reserve registered successfully!" });
+  } catch (error) {
+    console.error("Error registering reservation:", error);
+    res.status(500).json({ error: "Error registering reservation" });
+  }
 });
 
-//signup
+// Route for user sign-up
 app.post("/signup", async (req, res) => {
   const { username, email, password } = req.body;
   console.log("Sign-up request received:", req.body);
@@ -213,17 +202,35 @@ app.post("/signup", async (req, res) => {
     // Hash the password using bcrypt before saving it to the database
     const hashedPassword = await bcrypt.hash(password, 10); // 10 is the salt round
 
-    // Save the user information to the database
-    const newUser = new User({
-      username,
-      email,
-      password: hashedPassword,
+    // Connect to the PostgreSQL database
+    const client = new pg.Client({
+      connectionString: process.env.DATABASE_URL,
+      ssl: {
+        rejectUnauthorized: false,
+      },
     });
-    await newUser.save();
+    await client.connect();
 
-    // Send a success message for sign-up
-    console.log("Sign-up response sent:", { message: "Sign-up successful" });
-    res.json({ message: "Sign-up successful" });
+    // Insert the new user into the database
+    const query = {
+      text: "INSERT INTO users (username, email, password) VALUES ($1, $2, $3)",
+      values: [username, email, hashedPassword],
+    };
+    const result = await client.query(query);
+
+    // Close the database connection
+    await client.end();
+
+    // Check if the user was successfully inserted
+    if (result.rowCount === 1) {
+      // Send a success message for sign-up
+      console.log("Sign-up response sent:", { message: "Sign-up successful" });
+      res.json({ message: "Sign-up successful" });
+    } else {
+      // If insertion failed, send an error response
+      console.error("Error inserting user into database");
+      res.status(500).json({ error: "Error inserting user into database" });
+    }
   } catch (error) {
     console.error("Error during sign-up:", error);
     res.status(500).json({ error: "Internal server error" });
@@ -231,17 +238,62 @@ app.post("/signup", async (req, res) => {
 });
 
 // Login route
-app.post("/users", async (req, res) => {
+app.post("/register", async (req, res) => {
+  const { email, password } = req.body;
+  console.log("Registration request received:", req.body);
+  try {
+    // Check if the user already exists
+    const userCheckQuery = {
+      text: "SELECT * FROM users WHERE email = $1",
+      values: [email],
+    };
+
+    const userCheckResult = await pool.query(userCheckQuery);
+
+    if (userCheckResult.rows.length > 0) {
+      return res.status(400).json({ error: "User already exists" });
+    }
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Insert the user into the database
+    const insertQuery = {
+      text: "INSERT INTO users (email, password) VALUES ($1, $2)",
+      values: [email, hashedPassword],
+    };
+
+    // Execute the insert query
+    await pool.query(insertQuery);
+
+    console.log("User registered successfully");
+
+    res.json({ message: "User registered successfully" });
+  } catch (error) {
+    console.error("Error during registration:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   console.log("Login request received:", req.body);
   try {
-    // Find the user by email in the database
-    const user = await User.findOne({ email });
+    // Query to find the user by email in the database
+    const query = {
+      text: "SELECT * FROM users WHERE email = $1",
+      values: [email],
+    };
+
+    // Execute the query
+    const result = await pool.query(query);
 
     // If the user does not exist, return an error
-    if (!user) {
+    if (result.rows.length === 0) {
       return res.status(404).json({ error: "User not found" });
     }
+
+    const user = result.rows[0];
 
     // Compare the password with the stored hashed password using bcrypt
     const isPasswordValid = await bcrypt.compare(password, user.password);
@@ -250,6 +302,7 @@ app.post("/users", async (req, res) => {
     if (!isPasswordValid) {
       return res.status(401).json({ error: "Invalid password" });
     }
+
     console.log("Login response sent:", { message: "Login successful" });
     // If the password is correct, send a success message indicating successful login
     res.json({ message: "Login successful" });
@@ -284,21 +337,6 @@ app.get("/cars", async (req, res) => {
 });
 
 // Create a car schema
-const carsSchema = new mongoose.Schema({
-  maker: String,
-  model: String,
-  year: Number,
-  images: [String],
-  price: Number,
-  category: String,
-  shape: String,
-  mileage: String,
-  engine: String,
-  description: String,
-});
-
-// Create a car model
-const Cars = mongoose.model("Cars", carsSchema);
 
 // Create a storage configuration for multer
 const storage = multer.diskStorage({
@@ -334,30 +372,36 @@ app.post("/cars", function (req, res) {
       engine,
       description,
     } = req.body;
-    const imagePaths = req.files.map((file) => file.path);
 
-    // Create a new car object
-    const car = new Car({
+    // Extract only the file names without any directory prefixes
+    const imageNames = req.files.map((file) =>
+      path.basename(file.originalname)
+    );
+
+    // Inserting car data into the PostgreSQL database in admin
+    const query = `INSERT INTO cars (maker, model, year, price, category, shape, mileage, engine, description, image) 
+                   VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`;
+    const values = [
       maker,
       model,
       year,
-      images: imagePaths,
       price,
       category,
       shape,
       mileage,
       engine,
       description,
-    });
+      imageNames,
+    ];
 
-    // Save the car object to the database
-    car
-      .save()
-      .then(() => {
-        console.log("Car saved:", car);
-        res.redirect("/");
-      })
-      .catch((error) => console.error("Error saving car:", error));
+    pool.query(query, values, (err, result) => {
+      if (err) {
+        console.error("Error inserting car into database:", err);
+        return res.status(500).send("Error inserting car into database");
+      }
+      console.log("Car inserted into database");
+      res.redirect("/");
+    });
   });
 });
 // Handle PUT request for updating a car
@@ -389,7 +433,7 @@ app.put("/cars/:id", upload.array("images"), function (req, res) {
       engine,
       category,
       mileage,
-      images: imagePaths,
+      image: imagePaths,
     },
     { new: true }
   )
@@ -435,21 +479,17 @@ app.get("/cars", function (req, res) {
     });
 });
 
-const sliderSchema = new mongoose.Schema({
-  imagePath: String,
-});
-
-const Sliders = mongoose.model("sliders", sliderSchema);
-
 // Fetch all slider images
 app.get("/sliders", async (req, res) => {
   const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 10;
+  const limit = parseInt(req.query.limit) || 5;
   try {
-    const sliderImages = await Sliders.find()
-      .skip((page - 1) * limit)
-      .limit(limit)
-      .select("imagePath");
+    const query = {
+      text: "SELECT * FROM sliders OFFSET $1 LIMIT $2",
+      values: [(page - 1) * limit, limit],
+    };
+    const result = await pool.query(query);
+    const sliderImages = result.rows.map((row) => row.imagepath);
     res.json({ sliderImages });
   } catch (error) {
     console.error("Error fetching slider images:", error);
@@ -492,19 +532,6 @@ app.post("/slider/delete", async (req, res) => {
 });
 
 //inquiry
-const inquirSchema = new mongoose.Schema({
-  maker: String,
-  model: String,
-  contacts: String,
-  minengine: String,
-  maxyear: String,
-  maxdistance: String,
-  maxengine: String,
-  comments: String,
-});
-
-//fetching enquireies
-const Inquiries = mongoose.model("Inquiries", inquirSchema);
 
 app.get("/inquiries", function (req, res) {
   Inquiries.find()
@@ -517,15 +544,6 @@ app.get("/inquiries", function (req, res) {
     });
 });
 // reserves fetch
-const reservationSchema = new mongoose.Schema({
-  phone: String,
-  name: String,
-  email: String,
-  maker: String,
-  model: String,
-});
-
-const Reserves = mongoose.model("Reserves", reservationSchema);
 
 // Route to fetch and display reservations
 app.get("/reserves", function (req, res) {

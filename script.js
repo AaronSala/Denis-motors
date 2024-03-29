@@ -1,34 +1,38 @@
-//const { redirect } = require("react-router-dom");
-
 function fetchAndDisplayReviews() {
   // Send a GET request to the server to retrieve the reviews
   fetch("http://localhost:4001/reviews")
-    .then((response) => response.json())
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Failed to fetch reviews");
+      }
+      return response.json();
+    })
     .then((reviews) => {
       const reviewListElement = document.getElementById("reviewList");
       reviewListElement.innerHTML = ""; // Clear previous reviews
 
-      reviews.forEach((review) => {
-        if (review.rating === "good") {
-          const reviewElement = document.createElement("div");
-          reviewElement.classList.add("review");
+      // Check if reviews is an array
+      if (Array.isArray(reviews)) {
+        reviews.forEach((review) => {
+          if (review.rating === "good") {
+            const reviewElement = document.createElement("div");
+            reviewElement.classList.add("review");
 
-          reviewElement.innerHTML = `
-          
-          <div2>
-          <h2>${review.name}:y 
-         ${review.location} ${review.country}
-         </h2>
-         <div3>
-         <img src="images/quote.png">
-          <p><span>${review.comments}</span></p>
-          </div3>
-          </div2>
-        `;
-          // {<p>Rating: <span>${review.rating}</span></p>}
-          reviewListElement.appendChild(reviewElement);
-        }
-      });
+            reviewElement.innerHTML = `
+              <div2>
+                <h2>${review.name}: ${review.location} ${review.country}</h2>
+                <div3>
+                  <img src="images/quote.png">
+                  <p><span>${review.comments}</span></p>
+                </div3>
+              </div2>
+            `;
+            reviewListElement.appendChild(reviewElement);
+          }
+        });
+      } else {
+        console.error("Received unexpected data format:", reviews);
+      }
     })
     .catch((error) => {
       console.error("Error fetching reviews:", error);
@@ -87,122 +91,20 @@ document
     addReview(); // Call the addReview function to add a new review
   });
 
-// Function to handle form submission
-function handleFormSubmission(
-  formId,
-  makerId,
-  modelId,
-  maxpriceId,
-  contactsId,
-  minengineId,
-  maxyearId,
-  maxdistanceId,
-  maxengineId,
-  commentsId
-) {
-  const form = document.getElementById(formId);
-
-  // Get the form data
-  const maker = form.querySelector(`#${makerId}`).value;
-  const model = form.querySelector(`#${modelId}`).value;
-  const maxprice = form.querySelector(`#${maxpriceId}`).value;
-  const contacts = form.querySelector(`#${contactsId}`).value;
-  const minengine = form.querySelector(`#${minengineId}`).value;
-  const maxyear = form.querySelector(`#${maxyearId}`).value;
-  const maxdistance = form.querySelector(`#${maxdistanceId}`).value;
-  const maxengine = form.querySelector(`#${maxengineId}`).value;
-  const comments = form.querySelector(`#${commentsId}`).value;
-
-  // Create an inquiry object
-  const inquiryData = {
-    maker,
-    model,
-    contacts,
-    maxprice,
-    minengine,
-    maxyear,
-    maxdistance,
-    maxengine,
-    comments,
-  };
-
-  // Post the inquiry to the server
-  fetch("http://localhost:4001/inquiries", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(inquiryData),
-  })
-    .then((response) => response.json())
-    .then((savedInquiry) => {
-      // Clear the input fields
-      form.querySelector(`#${makerId}`).value = "";
-      form.querySelector(`#${modelId}`).value = "";
-      form.querySelector(`#${contactsId}`).value = "";
-      form.querySelector(`#${minengineId}`).value = "";
-      form.querySelector(`#${maxyearId}`).value = "";
-      form.querySelector(`#${maxpriceId}`).value = "";
-      form.querySelector(`#${maxdistanceId}`).value = "";
-      form.querySelector(`#${maxengineId}`).value = "";
-      form.querySelector(`#${commentsId}`).value = "";
-    })
-    .catch((error) => {
-      console.error("Error saving inquiry:", error);
-    });
-}
-
-// Add event listeners for form submissions
-document
-  .getElementById("inquiryForm")
-  .addEventListener("submit", function (event) {
-    event.preventDefault();
-    handleFormSubmission(
-      "inquiryForm",
-      "maker",
-      "model",
-      "contacts",
-      "minengine",
-      "maxyear",
-      "maxprice",
-      "maxdistance",
-      "maxengine",
-      "comment"
-    );
-  });
-
-document
-  .getElementById("inquiry2")
-  .addEventListener("submit", function (event) {
-    event.preventDefault();
-    handleFormSubmission(
-      "inquiry2",
-      "makers",
-      "models",
-      "contactss",
-      "minengines",
-      "maxyears",
-      "maxprices",
-      "maxdistances",
-      "maxengines",
-      "comments"
-    );
-  });
-
-// Define the number of cars to display per page
 let currentPage = 1;
 let carsPerPage = 4; // Number of cars to display per page
 
-// Function to fetch and display cars
 function fetchAndDisplayCars(
   pageNumber,
-  containerId,
+  carList,
   paginationButtonsContainerId,
   category
 ) {
-  fetch("http://localhost:4001/cars")
+  fetch("http://localhost:4001/api/cars")
     .then((response) => response.json())
     .then((cars) => {
+      //const carList = document.getElementById("carList");
+
       // Calculate the number of cars to display based on the current screen size
       const screenWidth = window.innerWidth;
       if (screenWidth >= 1024) {
@@ -226,7 +128,7 @@ function fetchAndDisplayCars(
           .slice((pageNumber - 1) * carsPerPage, pageNumber * carsPerPage);
       }
 
-      const carListContainer = document.getElementById(containerId);
+      const carListContainer = document.getElementById(carList);
       carListContainer.innerHTML = "";
       if (carsToShow.length > 0) {
         carsToShow.forEach((car) => {
@@ -234,11 +136,12 @@ function fetchAndDisplayCars(
           listItem.addEventListener("click", () => {
             // Display images when the car item is clicked
             displayCarImages(
-              car.images[0],
-              car.images.slice(1),
+              car.image[0],
+              car.image.slice(1),
               car.maker,
               car.model
             );
+            console.log(car.image[0]);
             window.scrollTo({
               top: mainImageContainer.offsetTop,
               behavior: "smooth",
@@ -270,6 +173,7 @@ function fetchAndDisplayCars(
       console.error("Error fetching car data:", error);
     });
 }
+
 window.addEventListener("resize", () => {
   fetchAndDisplayCars(
     currentPage,
@@ -382,10 +286,10 @@ function addPaginationButtons(
 
 function createCarListItem(car) {
   const listItem = document.createElement("div");
-  const mainImage = car.images[0];
+  const mainImage = car.image[0];
 
   listItem.innerHTML = `
-        <img src="${mainImage}" class="car-image">
+        <img src="/images/${mainImage}" class="car-image">
         <h2>${car.maker} ${car.model}</h2>
         <p>Engine: ${car.engine}</p>
         <p>Price: ${car.price}</p>
@@ -404,7 +308,7 @@ function displayCarImages(mainImage, otherImages, maker, model) {
 
   // Create a new img element for the main image and add it to the mainImageContainer
   const mainImageElement = document.createElement("img");
-  mainImageElement.src = `${mainImage}`;
+  mainImageElement.src = `/images/${mainImage}`;
   mainImageElement.classList.add("car-image");
   mainImageContainer.appendChild(mainImageElement);
 
@@ -415,11 +319,11 @@ function displayCarImages(mainImage, otherImages, maker, model) {
 
   otherImages.forEach((image, index) => {
     const additionalImage = document.createElement("img");
-    additionalImage.src = `${image}`;
+    additionalImage.src = `/images/${image}`;
     additionalImage.addEventListener("click", () => {
       // Update the main image with the clicked small image
 
-      mainImageElement.src = `${image}`;
+      mainImageElement.src = `/images/${image}`;
       currentDisplayedImage = image; // Store the currently displayed image URL
     });
     additionalImageContainer.appendChild(additionalImage);
@@ -470,6 +374,44 @@ document.addEventListener("DOMContentLoaded", () => {
   fetchAndDisplayCars();
 });
 
+//register form
+app.post("/register", async (req, res) => {
+  const { email, password } = req.body;
+  console.log("Registration request received:", req.body);
+  try {
+    // Check if the user already exists
+    const userCheckQuery = {
+      text: "SELECT * FROM users WHERE email = $1",
+      values: [email],
+    };
+
+    const userCheckResult = await pool.query(userCheckQuery);
+
+    if (userCheckResult.rows.length > 0) {
+      return res.status(400).json({ error: "User already exists" });
+    }
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Insert the user into the database
+    const insertQuery = {
+      text: "INSERT INTO users (email, password) VALUES ($1, $2)",
+      values: [email, hashedPassword],
+    };
+
+    // Execute the insert query
+    await pool.query(insertQuery);
+
+    console.log("User registered successfully");
+
+    res.json({ message: "User registered successfully" });
+  } catch (error) {
+    console.error("Error during registration:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 //reservation section
 function showReservationForm(imageUrl, maker, model) {
   const reservationFormContainer = document.getElementById(
@@ -512,7 +454,7 @@ function handleReservationFormSubmit(event) {
   };
 
   // Send a POST request to the server to add the reservation
-  fetch("http://localhost:4001/reserves", {
+  fetch("http://localhost:4001/api/reserves", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

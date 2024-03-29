@@ -1,11 +1,11 @@
 const bars = document.querySelector(".bars");
 const links = document.querySelector(".links");
 const slider = document.querySelector(".slider");
-
 bars.addEventListener("click", () => {
   links.classList.toggle("active");
   slider.classList.toggle("active");
 });
+
 document.addEventListener("DOMContentLoaded", async () => {
   try {
     const response = await fetch("http://localhost:4001/sliders");
@@ -15,20 +15,19 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       const swiperWrapper = document.getElementById("swiperWrapper");
 
-      sliderImages.forEach((image) => {
+      sliderImages.forEach((imagePath) => {
         const slideDiv = document.createElement("div");
         slideDiv.classList.add("swiper-slide");
 
         const imgElement = document.createElement("img");
-        imgElement.src = image.imagePath; // Assuming imagePath contains the image URL
+        imgElement.src = `/images/${imagePath}`;
 
         slideDiv.appendChild(imgElement);
         swiperWrapper.appendChild(slideDiv);
       });
 
-      // Initialize Swiper here if needed
+      // Initialize Swiper
       new Swiper(".swiper", {
-        // Your Swiper options here
         autoplay: {
           delay: 3000,
           disableOnInteraction: false,
@@ -39,7 +38,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           clickable: true,
         },
         navigation: {
-          nextEl: ".swiper- button - next",
+          nextEl: ".swiper-button-next",
           prevEl: ".swiper-button-prev",
         },
       });
@@ -82,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
   document
     .getElementById("searchForm")
     .addEventListener("submit", handleFormSubmit);
-  document.body.addEventListener("click", clearSearchResults);
+  //document.body.addEventListener("click", clearSearchResults);
 });
 
 function searchCars() {
@@ -92,7 +91,7 @@ function searchCars() {
     "additionalImageContainer"
   );
 
-  fetch("http://localhost:4001/cars")
+  fetch("http://localhost:4001/api/cars")
     .then((response) => response.json())
     .then((cars) => {
       additionalImageContainer.innerHTML = ""; // Clear previous search results

@@ -1,5 +1,4 @@
-// Add event listener for form submission
-// Function to handle form submission for adding a new car
+
 // Prevent form from submitting and page refresh
 const carForm = document.getElementById("carForm");
 
@@ -51,7 +50,7 @@ carForm.addEventListener("submit", function (event) {
   axios
     .post("/cars", formData)
     .then(function (response) {
-      console.log("Car added:", response.data);
+      
       carForm.reset(); // Reset the form
     })
     .catch(function (error) {
@@ -59,7 +58,7 @@ carForm.addEventListener("submit", function (event) {
     });
 });
 
-//adding slider
+
 //adding slider
 const sliderForm = document.getElementById("sliderForm");
 
