@@ -86,16 +86,6 @@ app.post("/reviews", async (req, res) => {
     res.status(500).json({ error: "Error saving review" });
   }
 });
-// Route to fetch inquiries
-app.get("/inquiries", async (req, res) => {
-  try {
-    const inquiries = await Inquiries.find({}); // Use the Inquiries model to find all inquiries
-    res.json(inquiries);
-  } catch (error) {
-    console.error("Error fetching inquiries:", error);
-    res.status(500).json({ error: "Error fetching inquiries" });
-  }
-});
 
 // Route to add a new inquiry
 app.post("/inquiries", async (req, res) => {
@@ -144,8 +134,6 @@ app.post("/inquiries", async (req, res) => {
     res.status(500).json({ error: "Error saving inquiry" });
   }
 });
-
-// Create a user schema
 
 // Handle registration form submission
 app.post("/register", async (req, res) => {
@@ -336,25 +324,35 @@ app.get("/cars", async (req, res) => {
   }
 });
 
-// Create a car schema
-
 // Create a storage configuration for multer
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "images");
   },
   filename: function (req, file, cb) {
-    // Generate a unique filename for the uploaded file
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, file.fieldname + "-" + uniqueSuffix);
+    cb(null, file.originalname);
   },
 });
+
+//admin routes
+// Route to fetch all cars
+// app.get("/admin/cars", async (req, res) => {
+//   try {
+//     const client = await pool.connect();
+//     const result = await client.query("SELECT * FROM cars");
+//     client.release(); // Release the client back to the pool
+//     res.json(result.rows); // Send the result (array of cars) as JSON response
+//   } catch (err) {
+//     console.error("Error executing query", err);
+//     res.status(500).send("Internal Server Error");
+//   }
+// });
 
 // Create the multer middleware using the storage configuration
 const upload = multer({ storage: storage });
 
 // Handle POST request for creating a new car
-app.post("/cars", function (req, res) {
+app.post("/admin/cars", function (req, res) {
   upload.array("images")(req, res, function (error) {
     if (error) {
       console.error("Error uploading images:", error);
@@ -405,7 +403,7 @@ app.post("/cars", function (req, res) {
   });
 });
 // Handle PUT request for updating a car
-app.put("/cars/:id", upload.array("images"), function (req, res) {
+app.put("/admin/cars/:id", upload.array("images"), function (req, res) {
   const carId = req.params.id;
   const {
     maker,
@@ -453,36 +451,48 @@ app.put("/cars/:id", upload.array("images"), function (req, res) {
 });
 
 // Handle DELETE request for deleting a car
-app.delete("/cars/:id", function (req, res) {
+app.delete("/admin/cars/:id", async (req, res) => {
   const carId = req.params.id;
 
-  // Find the car by ID and delete it
-  Cars.findByIdAndRemove(carId)
-    .then(() => {
+  try {
+    // Delete the car by ID
+    const query = {
+      text: "DELETE FROM cars WHERE id = $1",
+      values: [carId],
+    };
+    const result = await pool.query(query);
+
+    if (result.rowCount === 1) {
       console.log("Car deleted:", carId);
       res.sendStatus(204); // Send a success status without content
-    })
-    .catch((error) => {
-      console.error("Error deleting car:", error);
-      res.status(500).json({ error: "Error deleting car" });
-    });
+    } else {
+      console.error("Car not found:", carId);
+      res.status(404).json({ error: "Car not found" });
+    }
+  } catch (error) {
+    console.error("Error deleting car:", error);
+    res.status(500).json({ error: "Error deleting car" });
+  }
 });
 
-app.get("/cars", function (req, res) {
-  Cars.find()
-    .then((cars) => {
-      res.json(cars);
-    })
-    .catch((error) => {
-      console.error("Error fetching cars:", error);
-      res.status(500).json({ error: "Error fetching cars" });
-    });
+// Route to fetch all cars
+app.get("/admin/cars", async (req, res) => {
+  try {
+    // Fetch all cars from the database
+    const query = "SELECT * FROM cars";
+    const result = await pool.query(query);
+    const cars = result.rows;
+    res.json(cars);
+  } catch (error) {
+    console.error("Error fetching cars:", error);
+    res.status(500).json({ error: "Error fetching cars" });
+  }
 });
 
 // Fetch all slider images
 app.get("/sliders", async (req, res) => {
   const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 5;
+  const limit = parseInt(req.query.limit) || 15;
   try {
     const query = {
       text: "SELECT * FROM sliders OFFSET $1 LIMIT $2",
@@ -505,20 +515,27 @@ app.post("/sliders", upload.single("image"), (req, res) => {
     return res.status(400).send("No image was uploaded.");
   }
 
-  const imagePath = `images/${file.filename}`;
-  const slider = new Sliders({ imagePath });
+  // Remove the "image-" prefix from the filename
+  const filenameWithoutPrefix = file.filename.replace(/^image-/, "");
 
-  slider
-    .save()
-    .then(() => {
-      res.json({ imagePath });
+  const imagePath = filenameWithoutPrefix; // Using the modified filename
+
+  const query = {
+    text: "INSERT INTO sliders (imagepath) VALUES ($1) RETURNING *",
+    values: [imagePath],
+  };
+
+  pool
+    .query(query)
+    .then((result) => {
+      const insertedImagePath = result.rows[0].imagepath;
+      res.json({ imagePath: insertedImagePath });
     })
     .catch((error) => {
       console.error("Error adding slider:", error);
       res.status(500).send("Error adding slider.");
     });
 });
-
 // Delete a specific slider image
 app.post("/slider/delete", async (req, res) => {
   try {
@@ -531,30 +548,35 @@ app.post("/slider/delete", async (req, res) => {
   }
 });
 
-//inquiry
+/// Route to fetch inquiries
+app.get("/inquiries", async (req, res) => {
+  try {
+    const query = "SELECT * FROM inquiries";
+    const result = await pool.query(query);
 
-app.get("/inquiries", function (req, res) {
-  Inquiries.find()
-    .then((inquiries) => {
-      res.json(inquiries);
-    })
-    .catch((error) => {
-      console.error("Error fetching inquiries:", error);
-      res.status(500).json({ error: "Error fetching inquiries" });
-    });
+    const inquiries = result.rows;
+
+    res.json(inquiries);
+  } catch (error) {
+    console.error("Error fetching inquiries:", error);
+    res.status(500).json({ error: "Error fetching inquiries" });
+  }
 });
-// reserves fetch
 
 // Route to fetch and display reservations
-app.get("/reserves", function (req, res) {
-  Reserves.find()
-    .then((reservations) => {
-      res.json(reservations);
-    })
-    .catch((error) => {
-      console.error("Error fetching reservations:", error);
-      res.status(500).json({ error: "Error fetching reservations" });
-    });
+
+app.get("/reserves", async (req, res) => {
+  try {
+    const query = "SELECT * FROM inquiries";
+    const result = await pool.query(query);
+
+    const inquiries = result.rows;
+
+    res.json(inquiries);
+  } catch (error) {
+    console.error("Error fetching inquiries:", error);
+    res.status(500).json({ error: "Error fetching inquiries" });
+  }
 });
 
 // Handle PUT request for updating a review rating

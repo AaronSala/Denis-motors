@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         swiperWrapper.appendChild(slideDiv);
       });
 
-      // Initialize Swiper
+      // Initialize Swiper AFTER all slides are appended
       new Swiper(".swiper", {
         autoplay: {
           delay: 3000,

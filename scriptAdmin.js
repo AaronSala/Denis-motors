@@ -1,4 +1,3 @@
-
 // Prevent form from submitting and page refresh
 const carForm = document.getElementById("carForm");
 
@@ -50,14 +49,12 @@ carForm.addEventListener("submit", function (event) {
   axios
     .post("/cars", formData)
     .then(function (response) {
-      
       carForm.reset(); // Reset the form
     })
     .catch(function (error) {
       console.error("Error adding car:", error);
     });
 });
-
 
 //adding slider
 const sliderForm = document.getElementById("sliderForm");
@@ -70,11 +67,11 @@ sliderForm.addEventListener("submit", (event) => {
   const image = imageInput.files[0]; // Get the first selected image
 
   formData.append("image", image); // Append the image to the formData
+
   axios
     .post("/sliders", formData)
     .then(function (response) {
       const imagePath = response.data.imagePath;
-      console.log("Image uploaded:", imagePath);
       sliderForm.reset(); // Reset the form
       fetchSliderImage(); // Fetch and display the updated slider image
     })
@@ -85,9 +82,8 @@ sliderForm.addEventListener("submit", (event) => {
 
 // Function to fetch and display the car data
 function fetchAndDisplayCars() {
-  // Send a GET request to the server to retrieve the car data
   axios
-    .get("/cars")
+    .get("/admin/cars")
     .then(function (response) {
       const carList = response.data;
 
@@ -97,7 +93,7 @@ function fetchAndDisplayCars() {
 
       // Iterate over the car list and create HTML elements to display each car
       carList.forEach(function (car) {
-        const imageFileNames = car.images[0].split("/").pop();
+        const imageFileNames = car.image[0].split("/").pop();
         const carElement = document.createElement("div");
         carElement.classList.add("car");
 
@@ -118,7 +114,7 @@ function fetchAndDisplayCars() {
         `;
         carElement.appendChild(carInfoElement);
 
-        const editButton = document.createElement("button1");
+        const editButton = document.createElement("button");
         editButton.textContent = "Edit";
         editButton.addEventListener("click", function () {
           openEditForm(
@@ -136,10 +132,10 @@ function fetchAndDisplayCars() {
         });
         carElement.appendChild(editButton);
 
-        const deleteButton = document.createElement("button2");
+        const deleteButton = document.createElement("button");
         deleteButton.textContent = "Delete";
         deleteButton.addEventListener("click", function () {
-          deleteCar(car._id);
+          deleteCar(car.id);
         });
         carElement.appendChild(deleteButton);
 
@@ -220,7 +216,7 @@ document
 
     // Send a PUT request to the server to update the car data
     axios
-      .put(`/cars/${carId}`, updatedFormData)
+      .put(`/admin/cars/${carId}`, updatedFormData)
       .then(function (response) {
         console.log("Car updated:", response.data);
         closeEditForm(); // Close the edit form
@@ -247,20 +243,6 @@ function closeEditForm() {
 
   // Hide the edit form
   document.getElementById("editFormContainer").style.display = "none";
-}
-
-// Function to delete a car
-function deleteCar(carId) {
-  // Send a DELETE request to the server to delete the car
-  axios
-    .delete(`/cars/${carId}`)
-    .then(function () {
-      console.log("Car deleted:", carId);
-      fetchAndDisplayCars(); // Fetch and display the updated car data
-    })
-    .catch(function (error) {
-      console.error("Error deleting car:", error);
-    });
 }
 
 // Function to fetch and display customer reviews
@@ -309,6 +291,19 @@ function fetchAndDisplayReviews() {
     })
     .catch(function (error) {
       console.error("Error fetching reviews:", error);
+    });
+}
+// Function to delete a car
+function deleteCar(carId) {
+  // Send a DELETE request to the server to delete the car
+  axios
+    .delete(`/admin/cars/${carId}`)
+    .then(function () {
+      console.log("Car deleted:", carId);
+      fetchAndDisplayCars(); // Fetch and display the updated car data
+    })
+    .catch(function (error) {
+      console.error("Error deleting car:", error);
     });
 }
 
@@ -468,7 +463,7 @@ function handleLogout() {
 }
 
 //fetching and deleting sliders
-function fetchSliderImages() {
+function fetchSliderImage() {
   axios
     .get("/sliders")
     .then(function (response) {
@@ -530,4 +525,4 @@ function deleteSliderImage(imagePath) {
 }
 
 // Call the fetchSliderImage function when the page loads to display the slider image
-fetchSliderImages();
+fetchSliderImage();
