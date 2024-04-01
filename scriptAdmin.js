@@ -274,7 +274,7 @@ function fetchAndDisplayReviews() {
         const editButton = document.createElement("button");
         editButton.textContent = "Post";
         editButton.addEventListener("click", function () {
-          updateRating(review._id);
+          updateRating(review.id);
         });
         reviewElement.appendChild(editButton);
 
@@ -282,7 +282,7 @@ function fetchAndDisplayReviews() {
         const deleteButton = document.createElement("button");
         deleteButton.textContent = "Delete";
         deleteButton.addEventListener("click", function () {
-          deleteReview(review._id);
+          deleteReview(review.id);
         });
         reviewElement.appendChild(deleteButton);
 
@@ -309,20 +309,6 @@ function deleteCar(carId) {
 
 // Call the fetchAndDisplayReviews function to load and display the customer reviews
 fetchAndDisplayReviews();
-
-// Function for deleting a review
-function deleteReview(reviewId) {
-  // Send a DELETE request to the server to delete the review
-  axios
-    .delete(`/reviews/${reviewId}`)
-    .then(function () {
-      console.log("Review deleted:", reviewId);
-      fetchAndDisplayReviews(); // Fetch and display the updated reviews
-    })
-    .catch(function (error) {
-      console.error("Error deleting review:", error);
-    });
-}
 
 // Function to update the rating in the database
 function updateRating(reviewId) {
@@ -366,9 +352,7 @@ function fetchAndDisplayInquiries() {
         // Create the delete button
         const deleteButton = document.createElement("button");
         deleteButton.textContent = "Delete";
-        deleteButton.addEventListener("click", () =>
-          deleteInquiry(inquiry._id)
-        );
+        deleteButton.addEventListener("click", () => deleteInquiry(inquiry.id));
         inquiryElement.appendChild(deleteButton);
 
         inquiryListElement.appendChild(inquiryElement);
@@ -379,13 +363,24 @@ function fetchAndDisplayInquiries() {
     });
 }
 
+//deleting reviews
+function deleteReview(reviewId) {
+  axios
+    .delete(`/reviews/${reviewId}`) // Correctly substitute the reviewId into the URL
+    .then(function () {
+      fetchAndDisplayReviews(); // Fetch and display the updated reviews
+    })
+    .catch(function (error) {
+      console.error("Error deleting review:", error);
+    });
+}
+
 // Function for deleting an inquiry
 function deleteInquiry(inquiryId) {
   fetch(`/inquiries/${inquiryId}`, {
     method: "DELETE",
   })
     .then(() => {
-      console.log("Inquiry deleted:", inquiryId);
       fetchAndDisplayInquiries(); // Fetch and display the updated inquiries
     })
     .catch((error) => {
@@ -462,18 +457,18 @@ function handleLogout() {
   window.location.href = "/index.html";
 }
 
-//fetching and deleting sliders
+// Fetching and deleting sliders
 function fetchSliderImage() {
   axios
     .get("/sliders")
     .then(function (response) {
-      const imagePaths = response.data.imagePaths;
+      const sliderImages = response.data.sliderImages; // Update to match the key from server
 
       // Get the slider container
       const sliderContainer = document.getElementById("sliders");
       sliderContainer.innerHTML = ""; // Clear the container
 
-      imagePaths.forEach((imagePath) => {
+      sliderImages.forEach((imagePath) => {
         const imageFileName = imagePath.split("/").pop();
         // Create a wrapper div for each slider image
         const imageWrapper = document.createElement("div");
@@ -504,7 +499,7 @@ function fetchSliderImage() {
       });
     })
     .catch(function (error) {
-      //console.error('Error fetching slider images:', error);
+      console.error("Error fetching slider images:", error);
     });
 }
 

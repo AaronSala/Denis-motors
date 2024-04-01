@@ -500,7 +500,7 @@ app.get("/sliders", async (req, res) => {
     };
     const result = await pool.query(query);
     const sliderImages = result.rows.map((row) => row.imagepath);
-    res.json({ sliderImages });
+    res.json({ sliderImages }); // Ensure the key is 'sliderImages'
   } catch (error) {
     console.error("Error fetching slider images:", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -540,7 +540,14 @@ app.post("/sliders", upload.single("image"), (req, res) => {
 app.post("/slider/delete", async (req, res) => {
   try {
     const imagePath = req.body.imagePath;
-    await Sliders.findOneAndDelete({ imagePath });
+
+    // Construct the query to delete the slider image from the database
+    const query = {
+      text: "DELETE FROM sliders WHERE imagepath = $1",
+      values: [imagePath],
+    };
+    await pool.query(query);
+
     res.send("Slider image deleted successfully.");
   } catch (error) {
     console.error("Error deleting slider image:", error);
@@ -580,41 +587,60 @@ app.get("/reserves", async (req, res) => {
 });
 
 // Handle PUT request for updating a review rating
-app.put("/reviews/:id", function (req, res) {
+app.put("/reviews/:id", async (req, res) => {
   const reviewId = req.params.id;
   const newRating = "good"; // Update the rating value as desired
 
-  // Find the review by its ID and update the rating field
-  Review.findByIdAndUpdate(reviewId, { rating: newRating }, { new: true })
-    .then((updatedReview) => {
-      if (updatedReview) {
-        console.log("Review updated:", updatedReview);
-        res.json(updatedReview);
-      } else {
-        console.error("Review not found");
-        res.status(404).json({ error: "Review not found" });
-      }
-    })
-    .catch((error) => {
-      console.error("Error updating rating:", error);
-      res.status(500).json({ error: "Error updating rating" });
-    });
+  try {
+    // Construct the query to update the rating for the review with the specified ID
+    const query = {
+                 text: "UPDATE reviews SET rating = $1 WHERE id = $2 RETURNING *",
+      values: [newRating, reviewId],
+    };
+
+    // Execute the query to update the rating in the database
+    const result = await pool.query(query);  knk
+
+    if (result.rowCount === 0) {
+      // Review not found
+      console.error("Review not found");
+      res.status(404).json({ error: "Review not found" });
+    } else {
+      const updatedReview = result.rows[0];
+      console.log("Review updated:", updatedReview);
+      res.json(updatedReview);
+    }
+  } catch (error) {
+    console.error("Error updating rating:", error);
+    res.status(500).json({ error: "Error updating rating" });
+  }
 });
+
 // Handle DELETE request for deleting a review
-app.delete("/reviews/:id", function (req, res) {
+app.delete("/reviews/:id", async (req, res) => {
   const reviewId = req.params.id;
 
-  // Find the review by ID and delete it
-  Review.findByIdAndRemove(reviewId)
-    .then(() => {
+  try {
+    // Construct the query to delete the review by ID from the database
+    const query = {
+      text: "DELETE FROM reviews WHERE id = $1",
+      values: [reviewId],
+    };
+    const result = await pool.query(query);
+
+    if (result.rowCount === 0) {
+      // Review not found
+      res.status(404).json({ error: "Review not found" });
+    } else {
       console.log("Review deleted:", reviewId);
       res.sendStatus(204); // Send a success status without content
-    })
-    .catch((error) => {
-      console.error("Error deleting review:", error);
-      res.status(500).json({ error: "Error deleting review" });
-    });
+    }
+  } catch (error) {
+    console.error("Error deleting review:", error);
+    res.status(500).json({ error: "Error deleting review" });
+  }
 });
+
 // Route to delete a reservation by ID
 app.delete("/reserves/:reservationId", function (req, res) {
   const reservationId = req.params.reservationId;
@@ -635,24 +661,32 @@ app.delete("/reserves/:reservationId", function (req, res) {
     });
 });
 // Delete an inquiry by ID
-app.delete("/inquiries/:inquiryId", function (req, res) {
+app.delete("/inquiries/:inquiryId", async (req, res) => {
   const inquiryId = req.params.inquiryId;
 
-  Inquiries.findByIdAndRemove(inquiryId)
-    .then((deletedInquiry) => {
-      if (!deletedInquiry) {
-        // Inquiry not found
-        res.status(404).json({ error: "Inquiry not found" });
-      } else {
-        console.log("Inquiry deleted:", deletedInquiry);
-        res.json({ message: "Inquiry deleted successfully" });
-      }
-    })
-    .catch((error) => {
-      console.error("Error deleting inquiry:", error);
-      res.status(500).json({ error: "Error deleting inquiry" });
-    });
+  try {
+    // Construct the query to delete the inquiry by ID from the database
+    const query = {
+      text: "DELETE FROM inquiries WHERE id = $1 RETURNING *",
+      values: [inquiryId],
+    };
+
+    // Execute the query
+    const result = await pool.query(query);
+
+    if (result.rowCount === 0) {
+      // Inquiry not found
+      res.status(404).json({ error: "Inquiry not found" });
+    } else {
+      console.log("Inquiry deleted:", result.rows[0]);
+      res.json({ message: "Inquiry deleted successfully" });
+    }
+  } catch (error) {
+    console.error("Error deleting inquiry:", error);
+    res.status(500).json({ error: "Error deleting inquiry" });
+  }
 });
+
 // Start the server
 const PORT = process.env.PORT || 4001;
 app.listen(PORT, () => {
