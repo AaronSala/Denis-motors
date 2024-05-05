@@ -5,20 +5,24 @@ const multer = require("multer");
 const path = require("path");
 const bcrypt = require("bcrypt");
 const cors = require("cors");
-const { Pool } = require("pg");
+const mysql = require("mysql"); // or mariadb
+const async = require("async"); // Import the async library
+const fs = require("fs");
 
-// PostgreSQL connection configuration
-const pool = new Pool({
-  user: "postgres",
+// MariaDB (MySQL) connection configuration
+const connection = mysql.createConnection({
   host: "localhost",
+  user: "root", // Change this to your MariaDB username
+  password: "sala4492", // Change this to your MariaDB password
   database: "denisMotors",
-  password: "sala4492",
-  port: 5432,
 });
 
-pool.on("error", (err, pool) => {
-  console.error("Unexpected error on idle client", err);
-  process.exit(-1);
+connection.connect((err) => {
+  if (err) {
+    console.error("Error connecting to database:", err);
+    return;
+  }
+  console.log("Connected to database");
 });
 
 // Middleware
@@ -35,62 +39,60 @@ app.use(express.static(path.join(__dirname)));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 // Route to fetch car data
-app.get("/api/cars", async (req, res) => {
-  try {
-    const client = await pool.connect();
-    const result = await client.query("SELECT * FROM cars");
-    const cars = result.rows;
-    client.release();
-    res.json(cars);
-  } catch (error) {
-    console.error("Error fetching cars:", error);
-    res.status(500).json({ error: "Error fetching cars" });
-  }
+app.get("/cars", (req, res) => {
+  connection.query("SELECT * FROM cars", (error, results, fields) => {
+    if (error) {
+      console.error("Error fetching cars:", error);
+      res.status(500).json({ error: "Error fetching cars" });
+      return;
+    }
+    res.json(results);
+  });
 });
 
 // Route to fetch reviews
-app.get("/reviews", async (req, res) => {
-  try {
-    const query = "SELECT * FROM reviews"; // SQL query to select all records from the 'reviews' table
-    const result = await pool.query(query);
-    const reviews = result.rows;
-    res.json(reviews);
-  } catch (error) {
-    console.error("Error fetching reviews:", error);
-    res.status(500).json({ error: "Error fetching reviews" });
-  }
+app.get("/reviews", (req, res) => {
+  connection.query("SELECT * FROM reviews", (error, results, fields) => {
+    if (error) {
+      console.error("Error fetching reviews:", error);
+      res.status(500).json({ error: "Error fetching reviews" });
+      return;
+    }
+    res.json(results);
+  });
 });
 
-// Add a route to handle POST requests for adding a review
-app.post("/reviews", async (req, res) => {
-  try {
-    // Retrieve the review data from the request body
-    const { name, location, country, comments, rating } = req.body;
+app.post("/reviews", (req, res) => {
+  // Retrieve the review data from the request body
+  const { name, location, country, comments, rating } = req.body;
 
-    // Define the SQL query to insert a new review into the "reviews" table
-    const query = {
-      text: "INSERT INTO reviews (name, location, country, comments, rating) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-      values: [name, location, country, comments, rating],
-    };
+  // Define the SQL query to insert a new review into the "reviews" table
+  const query = {
+    sql: "INSERT INTO reviews (name, location, country, comments, rating) VALUES (?, ?, ?, ?, ?)",
+    values: [name, location, country, comments, rating],
+  };
 
-    // Execute the SQL query
-    const result = await pool.query(query);
+  // Execute the SQL query
+  connection.query(query, (error, results, fields) => {
+    if (error) {
+      console.error("Error saving review:", error);
+      res.status(500).json({ error: "Error saving review" });
+      return;
+    }
 
-    // Extract the inserted review from the query result
-    const savedReview = result.rows[0];
+    // Extract the inserted review ID from the results
+    const savedReviewId = results.insertId;
+    console.log("Review saved with ID:", savedReviewId);
 
-    console.log("Review saved:", savedReview);
-    res.json(savedReview); // Send the saved review as the response
-  } catch (error) {
-    console.error("Error saving review:", error);
-    res.status(500).json({ error: "Error saving review" });
-  }
+    // Send the saved review ID as the response
+    res.json({ id: savedReviewId });
+  });
 });
 
 // Route to add a new inquiry
-app.post("/inquiries", async (req, res) => {
+app.post("/inquiries", (req, res) => {
   try {
-    // Retrieve the review data from the request body
+    // Retrieve the inquiry data from the request body
     const {
       maker,
       model,
@@ -104,9 +106,9 @@ app.post("/inquiries", async (req, res) => {
       maxdistance,
     } = req.body;
 
-    // Define the SQL query to insert a new review into the "reviews" table
+    // Define the SQL query to insert a new inquiry into the "inquiries" table
     const query = {
-      text: "INSERT INTO inquiries (maker, model, maxprice, minprice, minengine,maxengine, comments, maxdistance, contacts,maxyear) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *",
+      sql: "INSERT INTO inquiries (maker, model, maxprice, minprice, comments, minengine, maxengine, maxyear, contacts, maxdistance) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
       values: [
         maker,
         model,
@@ -121,179 +123,98 @@ app.post("/inquiries", async (req, res) => {
       ],
     };
 
-    // Execute the SQL query
-    const result = await pool.query(query);
+    connection.query(query, (error, results, fields) => {
+      if (error) {
+        console.error("Error saving inquiry:", error);
+        res.status(500).json({ error: "Error saving inquiry" });
+        return;
+      }
 
-    // Extract the inserted review from the query result
-    const savedReview = result.rows[0];
+      // Extract the inserted inquiry ID from the results
+      const savedInquiryId = results.insertId;
+      console.log("Inquiry saved with ID:", savedInquiryId);
 
-    console.log("inquery saved:", savedReview);
-    res.json(savedReview); // Send the saved review as the response
+      // Send the saved inquiry ID as the response
+      res.json({ id: savedInquiryId });
+    });
   } catch (error) {
     console.error("Error saving inquiry:", error);
     res.status(500).json({ error: "Error saving inquiry" });
   }
 });
 
-// Handle registration form submission
-app.post("/register", async (req, res) => {
-  const { email, username, password } = req.body;
-
-  try {
-    // Generate a salt to use for hashing (the higher the rounds, the more secure but slower)
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-    const newUser = new User({
-      email,
-      username,
-      password: hashedPassword,
-    });
-
-    await newUser.save();
-    res.json({ message: "User registered successfully!" });
-  } catch (error) {
-    console.error("Error registering user:", error);
-    res.status(500).json({ error: "Error registering user" });
-  }
-});
-
-// Serve images by name
-app.get("/images/:imagepath", function (req, res) {
-  const imagepath = req.params.imagepath;
-  res.sendFile(path.join(__dirname, "images", imagepath)); //images are stored in a folder named 'images'
-});
-
-// Handle reservation form submission
-app.post("/api/reserves", async (req, res) => {
-  const { name, phone, email, model, maker } = req.body;
-
-  const insertQuery =
-    "INSERT INTO reserves (name, phone, email, model, maker) VALUES ($1, $2, $3, $4, $5)";
-  const values = [name, phone, email, model, maker];
-
-  try {
-    await pool.query(insertQuery, values);
-    res.json({ message: "Reserve registered successfully!" });
-  } catch (error) {
-    console.error("Error registering reservation:", error);
-    res.status(500).json({ error: "Error registering reservation" });
-  }
-});
-
-// Route for user sign-up
-app.post("/signup", async (req, res) => {
-  const { username, email, password } = req.body;
-  console.log("Sign-up request received:", req.body);
-
-  try {
-    // Hash the password using bcrypt before saving it to the database
-    const hashedPassword = await bcrypt.hash(password, 10); // 10 is the salt round
-
-    // Connect to the PostgreSQL database
-    const client = new pg.Client({
-      connectionString: process.env.DATABASE_URL,
-      ssl: {
-        rejectUnauthorized: false,
-      },
-    });
-    await client.connect();
-
-    // Insert the new user into the database
-    const query = {
-      text: "INSERT INTO users (username, email, password) VALUES ($1, $2, $3)",
-      values: [username, email, hashedPassword],
-    };
-    const result = await client.query(query);
-
-    // Close the database connection
-    await client.end();
-
-    // Check if the user was successfully inserted
-    if (result.rowCount === 1) {
-      // Send a success message for sign-up
-      console.log("Sign-up response sent:", { message: "Sign-up successful" });
-      res.json({ message: "Sign-up successful" });
-    } else {
-      // If insertion failed, send an error response
-      console.error("Error inserting user into database");
-      res.status(500).json({ error: "Error inserting user into database" });
-    }
-  } catch (error) {
-    console.error("Error during sign-up:", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-
-// Login route
+// Route for user registration
 app.post("/register", async (req, res) => {
   const { email, password } = req.body;
   console.log("Registration request received:", req.body);
   try {
     // Check if the user already exists
-    const userCheckQuery = {
-      text: "SELECT * FROM users WHERE email = $1",
-      values: [email],
-    };
+    const userCheckQuery = `SELECT * FROM users WHERE email = ?`;
+    connection.query(userCheckQuery, [email], async (error, results) => {
+      if (error) {
+        console.error("Error during registration:", error);
+        res.status(500).json({ error: "Internal server error" });
+        return;
+      }
 
-    const userCheckResult = await pool.query(userCheckQuery);
+      if (results.length > 0) {
+        return res.status(400).json({ error: "User already exists" });
+      }
 
-    if (userCheckResult.rows.length > 0) {
-      return res.status(400).json({ error: "User already exists" });
-    }
+      // Hash the password
+      const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Insert the user into the database
-    const insertQuery = {
-      text: "INSERT INTO users (email, password) VALUES ($1, $2)",
-      values: [email, hashedPassword],
-    };
-
-    // Execute the insert query
-    await pool.query(insertQuery);
-
-    console.log("User registered successfully");
-
-    res.json({ message: "User registered successfully" });
+      // Insert the user into the database
+      const insertQuery = `INSERT INTO users (email, password) VALUES (?, ?)`;
+      connection.query(insertQuery, [email, hashedPassword], (error) => {
+        if (error) {
+          console.error("Error during registration:", error);
+          res.status(500).json({ error: "Internal server error" });
+          return;
+        }
+        console.log("User registered successfully");
+        res.json({ message: "User registered successfully" });
+      });
+    });
   } catch (error) {
     console.error("Error during registration:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 });
 
+// Route to handle user login
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   console.log("Login request received:", req.body);
   try {
     // Query to find the user by email in the database
-    const query = {
-      text: "SELECT * FROM users WHERE email = $1",
-      values: [email],
-    };
+    const query = `SELECT * FROM users WHERE email = ?`;
+    connection.query(query, [email], async (error, results) => {
+      if (error) {
+        console.error("Error during login:", error);
+        res.status(500).json({ error: "Internal server error" });
+        return;
+      }
 
-    // Execute the query
-    const result = await pool.query(query);
+      // If the user does not exist, return an error
+      if (results.length === 0) {
+        return res.status(404).json({ error: "User not found" });
+      }
 
-    // If the user does not exist, return an error
-    if (result.rows.length === 0) {
-      return res.status(404).json({ error: "User not found" });
-    }
+      const user = results[0];
 
-    const user = result.rows[0];
+      // Compare the password with the stored hashed password using bcrypt
+      const isPasswordValid = await bcrypt.compare(password, user.password);
 
-    // Compare the password with the stored hashed password using bcrypt
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+      // If the passwords don't match, return an error
+      if (!isPasswordValid) {
+        return res.status(401).json({ error: "Invalid password" });
+      }
 
-    // If the passwords don't match, return an error
-    if (!isPasswordValid) {
-      return res.status(401).json({ error: "Invalid password" });
-    }
-
-    console.log("Login response sent:", { message: "Login successful" });
-    // If the password is correct, send a success message indicating successful login
-    res.json({ message: "Login successful" });
+      console.log("Login response sent:", { message: "Login successful" });
+      // If the password is correct, send a success message indicating successful login
+      res.json({ message: "Login successful" });
+    });
   } catch (error) {
     console.error("Error during login:", error);
     res.status(500).json({ error: "Internal server error" });
@@ -305,16 +226,15 @@ app.get("/cars", async (req, res) => {
   const { search } = req.query;
 
   try {
-    const regex = new RegExp(search, "i"); // Case-insensitive search regex
-    const filteredCars = await Cars.find({
-      $or: [
-        { category: regex },
-        { maker: regex },
-        { year: { $regex: regex } },
-        { model: regex },
-        { shape: regex },
-      ],
-    });
+    const regex = `%${search}%`; // Use % for wildcard search in MariaDB
+    const query = `SELECT * FROM cars WHERE category LIKE ? OR maker LIKE ? OR year LIKE ? OR model LIKE ? OR shape LIKE ?`;
+    const filteredCars = await connection.query(query, [
+      regex,
+      regex,
+      regex,
+      regex,
+      regex,
+    ]);
     res.json(filteredCars);
   } catch (error) {
     console.error("Error fetching car data:", error);
@@ -324,84 +244,97 @@ app.get("/cars", async (req, res) => {
   }
 });
 
-// Create a storage configuration for multer
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "images");
+    cb(null, "./images/"); // Destination folder for uploaded files
   },
   filename: function (req, file, cb) {
+    // Use the original filename
     cb(null, file.originalname);
   },
 });
 
-//admin routes
-// Route to fetch all cars
-// app.get("/admin/cars", async (req, res) => {
-//   try {
-//     const client = await pool.connect();
-//     const result = await client.query("SELECT * FROM cars");
-//     client.release(); // Release the client back to the pool
-//     res.json(result.rows); // Send the result (array of cars) as JSON response
-//   } catch (err) {
-//     console.error("Error executing query", err);
-//     res.status(500).send("Internal Server Error");
-//   }
-// });
-
-// Create the multer middleware using the storage configuration
+// Route to handle file uploads
 const upload = multer({ storage: storage });
+app.post("/cars", upload.array("images"), (req, res) => {
+  if (!req.files || req.files.length === 0) {
+    return res.status(400).json({ error: "No file uploaded" });
+  }
 
-// Handle POST request for creating a new car
-app.post("/admin/cars", function (req, res) {
-  upload.array("images")(req, res, function (error) {
-    if (error) {
-      console.error("Error uploading images:", error);
-      return res.status(500).send("Error uploading images");
-    }
+  const tempPaths = req.files.map((file) => file.path);
+  const targetPaths = req.files.map((file) =>
+    path.join(__dirname, "./images/", file.originalname)
+  );
 
-    const {
-      maker,
-      model,
-      year,
-      price,
-      category,
-      shape,
-      mileage,
-      engine,
-      description,
-    } = req.body;
-
-    // Extract only the file names without any directory prefixes
-    const imageNames = req.files.map((file) =>
-      path.basename(file.originalname)
-    );
-
-    // Inserting car data into the PostgreSQL database in admin
-    const query = `INSERT INTO cars (maker, model, year, price, category, shape, mileage, engine, description, image) 
-                   VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`;
-    const values = [
-      maker,
-      model,
-      year,
-      price,
-      category,
-      shape,
-      mileage,
-      engine,
-      description,
-      imageNames,
-    ];
-
-    pool.query(query, values, (err, result) => {
+  // Move the uploaded files to the target directory
+  async.eachOf(
+    tempPaths,
+    (tempPath, index, callback) => {
+      fs.rename(tempPath, targetPaths[index], (err) => {
+        if (err) {
+          console.error("Error moving file:", err);
+          return callback(err);
+        }
+        callback();
+      });
+    },
+    (err) => {
       if (err) {
-        console.error("Error inserting car into database:", err);
-        return res.status(500).send("Error inserting car into database");
+        console.error("Error moving files:", err);
+        return res.status(500).json({ error: "Error uploading files" });
       }
-      console.log("Car inserted into database");
-      res.redirect("/");
-    });
+      res.json({ message: "Files uploaded successfully" });
+    }
+  );
+});
+
+/// Handle POST request for creating a new car
+app.post("/admin/cars", upload.array("images"), function (req, res) {
+  const {
+    maker,
+    model,
+    year,
+    price,
+    category,
+    shape,
+    mileage,
+    engine,
+    description,
+  } = req.body;
+
+  if (!req.files || req.files.length === 0) {
+    return res.status(400).json({ error: "No files uploaded" });
+  }
+
+  const imageNames = req.files.map((file) => file.originalname);
+  const imageNamesString = JSON.stringify(imageNames);
+
+  // Inserting car data into the MariaDB database in admin
+  const query = `INSERT INTO cars (maker, model, year, price, category, shape, mileage, engine, description, image) 
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+  const values = [
+    maker,
+    model,
+    year,
+    price,
+    category,
+    shape,
+    mileage,
+    engine,
+    description,
+    imageNamesString,
+  ];
+
+  connection.query(query, values, (err, result) => {
+    if (err) {
+      console.error("Error inserting car into database:", err);
+      return res.status(500).send("Error inserting car into database");
+    }
+    console.log("Car inserted into database");
+    res.redirect("/");
   });
 });
+
 // Handle PUT request for updating a car
 app.put("/admin/cars/:id", upload.array("images"), function (req, res) {
   const carId = req.params.id;
@@ -418,57 +351,62 @@ app.put("/admin/cars/:id", upload.array("images"), function (req, res) {
   } = req.body;
   const imagePaths = req.files.map((file) => file.path);
 
-  // Find the car by its ID and update the fields
-  Cars.findByIdAndUpdate(
-    carId,
-    {
-      maker,
-      model,
-      year,
-      price,
-      shape,
-      description,
-      engine,
-      category,
-      mileage,
-      image: imagePaths,
-    },
-    { new: true }
-  )
-    .then((updatedCar) => {
-      if (updatedCar) {
-        console.log("Car updated:", updatedCar);
-        res.json(updatedCar);
-      } else {
-        console.error("Car not found");
-        res.status(404).json({ error: "Car not found" });
-      }
-    })
-    .catch((error) => {
-      console.error("Error updating car:", error);
-      res.status(500).json({ error: "Error updating car" });
-    });
-});
+  // Define the SQL query to update the car information
+  const query = `
+    UPDATE cars
+    SET maker = ?, model = ?, year = ?, price = ?, shape = ?, description = ?, engine = ?, category = ?, mileage = ?, image = ?
+    WHERE id = ?
+  `;
 
+  // Define the values to be inserted into the query
+  const values = [
+    maker,
+    model,
+    year,
+    price,
+    shape,
+    description,
+    engine,
+    category,
+    mileage,
+    imagePaths.join(","), // Convert array to comma-separated string
+    carId,
+  ];
+
+  // Execute the SQL query
+  connection.query(query, values, (err, result) => {
+    if (err) {
+      console.error("Error updating car:", err);
+      return res.status(500).json({ error: "Error updating car" });
+    }
+    console.log("Car updated successfully");
+    res.json({ message: "Car updated successfully" });
+  });
+});
 // Handle DELETE request for deleting a car
 app.delete("/admin/cars/:id", async (req, res) => {
   const carId = req.params.id;
 
   try {
-    // Delete the car by ID
-    const query = {
-      text: "DELETE FROM cars WHERE id = $1",
-      values: [carId],
-    };
-    const result = await pool.query(query);
+    // Define the SQL query to delete the car by ID
+    const query = `DELETE FROM cars WHERE id = ?`;
 
-    if (result.rowCount === 1) {
-      console.log("Car deleted:", carId);
-      res.sendStatus(204); // Send a success status without content
-    } else {
-      console.error("Car not found:", carId);
-      res.status(404).json({ error: "Car not found" });
-    }
+    // Execute the SQL query
+    connection.query(query, [carId], (err, result) => {
+      if (err) {
+        console.error("Error deleting car:", err);
+        return res.status(500).json({ error: "Error deleting car" });
+      }
+
+      // Check if a car was deleted
+      if (result.affectedRows === 1) {
+        console.log("Car deleted:", carId);
+        res.sendStatus(204); // Send a success status without content
+      } else {
+        console.error("Car not found:", carId);
+        res.status(404).json({ error: "Car not found" });
+      }
+    });
   } catch (error) {
     console.error("Error deleting car:", error);
     res.status(500).json({ error: "Error deleting car" });
@@ -478,11 +416,19 @@ app.delete("/admin/cars/:id", async (req, res) => {
 // Route to fetch all cars
 app.get("/admin/cars", async (req, res) => {
   try {
-    // Fetch all cars from the database
+    // Define the SQL query to fetch all cars
     const query = "SELECT * FROM cars";
-    const result = await pool.query(query);
-    const cars = result.rows;
-    res.json(cars);
+
+    // Execute the SQL query
+    connection.query(query, (err, result) => {
+      if (err) {
+        console.error("Error fetching cars:", err);
+        return res.status(500).json({ error: "Error fetching cars" });
+      }
+
+      // Send the fetched cars as a JSON response
+      res.json(result);
+    });
   } catch (error) {
     console.error("Error fetching cars:", error);
     res.status(500).json({ error: "Error fetching cars" });
@@ -490,24 +436,35 @@ app.get("/admin/cars", async (req, res) => {
 });
 
 // Fetch all slider images
+// Fetch slider images with pagination
 app.get("/sliders", async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 15;
+
   try {
-    const query = {
-      text: "SELECT * FROM sliders OFFSET $1 LIMIT $2",
-      values: [(page - 1) * limit, limit],
-    };
-    const result = await pool.query(query);
-    const sliderImages = result.rows.map((row) => row.imagepath);
-    res.json({ sliderImages }); // Ensure the key is 'sliderImages'
+    // Define the SQL query with pagination
+    const query = "SELECT * FROM sliders LIMIT ? OFFSET ?";
+    const values = [limit, (page - 1) * limit];
+
+    // Execute the SQL query
+    connection.query(query, values, (error, result) => {
+      if (error) {
+        console.error("Error fetching slider images:", error);
+        return res.status(500).json({ error: "Internal Server Error" });
+      }
+
+      // Extract slider image paths from the query result
+      const sliderImages = result.map((row) => row.imagepath);
+
+      // Send the slider images as a JSON response
+      res.json({ sliderImages });
+    });
   } catch (error) {
     console.error("Error fetching slider images:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-// Upload a new slider image
 app.post("/sliders", upload.single("image"), (req, res) => {
   const file = req.file;
 
@@ -520,33 +477,29 @@ app.post("/sliders", upload.single("image"), (req, res) => {
 
   const imagePath = filenameWithoutPrefix; // Using the modified filename
 
-  const query = {
-    text: "INSERT INTO sliders (imagepath) VALUES ($1) RETURNING *",
-    values: [imagePath],
-  };
+  const query = "INSERT INTO sliders (imagepath) VALUES (?)";
+  const values = [imagePath];
 
-  pool
-    .query(query)
-    .then((result) => {
-      const insertedImagePath = result.rows[0].imagepath;
-      res.json({ imagePath: insertedImagePath });
-    })
-    .catch((error) => {
+  connection.query(query, values, (error, result) => {
+    if (error) {
       console.error("Error adding slider:", error);
-      res.status(500).send("Error adding slider.");
-    });
+      return res.status(500).send("Error adding slider.");
+    }
+
+    res.json({ imagePath });
+  });
 });
+
 // Delete a specific slider image
 app.post("/slider/delete", async (req, res) => {
   try {
     const imagePath = req.body.imagePath;
 
     // Construct the query to delete the slider image from the database
-    const query = {
-      text: "DELETE FROM sliders WHERE imagepath = $1",
-      values: [imagePath],
-    };
-    await pool.query(query);
+    const query = "DELETE FROM sliders WHERE imagepath = ?";
+    const values = [imagePath];
+
+    await connection.query(query, values);
 
     res.send("Slider image deleted successfully.");
   } catch (error) {
@@ -555,61 +508,98 @@ app.post("/slider/delete", async (req, res) => {
   }
 });
 
-/// Route to fetch inquiries
-app.get("/inquiries", async (req, res) => {
+// Route to fetch inquiries
+app.get("/inquiries", (req, res) => {
   try {
     const query = "SELECT * FROM inquiries";
-    const result = await pool.query(query);
+    connection.query(query, (error, result) => {
+      if (error) {
+        console.error("Error fetching inquiries:", error);
+        return res.status(500).json({ error: "Error fetching inquiries" });
+      }
 
-    const inquiries = result.rows;
+      const inquiries = result;
 
-    res.json(inquiries);
+      res.json(inquiries);
+    });
   } catch (error) {
     console.error("Error fetching inquiries:", error);
     res.status(500).json({ error: "Error fetching inquiries" });
   }
 });
 
-// Route to fetch and display reservations
+// Route to post reservations
+app.post("/reserves", (req, res) => {
+  // Retrieve the reservation data from the request body
+  const { email, name, phone, maker, model } = req.body;
 
-app.get("/reserves", async (req, res) => {
+  // Define the SQL query to insert a new reservation into the "reservations" table
+  const query = {
+    sql: "INSERT INTO reserves (email, name, phone, maker, model) VALUES (?, ?, ?, ?, ?)",
+    values: [email, name, phone, maker, model],
+  };
+
+  // Execute the SQL query
+  connection.query(query, (error, results, fields) => {
+    if (error) {
+      console.error("Error saving reservation:", error);
+      res.status(500).json({ error: "Error saving reservation" });
+      return;
+    }
+
+    // Send a success response
+    res.json({ message: "Reservation saved successfully" });
+  });
+});
+
+// Route to fetch reservations
+app.get("/reserves", (req, res) => {
   try {
-    const query = "SELECT * FROM inquiries";
-    const result = await pool.query(query);
+    const query = "SELECT * FROM reserves";
+    connection.query(query, (error, result) => {
+      if (error) {
+        console.error("Error fetching reservations:", error);
+        return res.status(500).json({ error: "Error fetching reservations" });
+      }
 
-    const inquiries = result.rows;
+      const reservations = result;
 
-    res.json(inquiries);
+      res.json(reservations);
+    });
   } catch (error) {
-    console.error("Error fetching inquiries:", error);
-    res.status(500).json({ error: "Error fetching inquiries" });
+    console.error("Error fetching reservations:", error);
+    res.status(500).json({ error: "Error fetching reservations" });
   }
 });
 
 // Handle PUT request for updating a review rating
-app.put("/reviews/:id", async (req, res) => {
+app.put("/reviews/:id", (req, res) => {
   const reviewId = req.params.id;
   const newRating = "good"; // Update the rating value as desired
 
   try {
     // Construct the query to update the rating for the review with the specified ID
     const query = {
-                 text: "UPDATE reviews SET rating = $1 WHERE id = $2 RETURNING *",
+      sql: "UPDATE reviews SET rating = ? WHERE id = ?",
       values: [newRating, reviewId],
     };
 
     // Execute the query to update the rating in the database
-    const result = await pool.query(query);  knk
+    connection.query(query, (error, result) => {
+      if (error) {
+        console.error("Error updating rating:", error);
+        return res.status(500).json({ error: "Error updating rating" });
+      }
 
-    if (result.rowCount === 0) {
-      // Review not found
-      console.error("Review not found");
-      res.status(404).json({ error: "Review not found" });
-    } else {
-      const updatedReview = result.rows[0];
-      console.log("Review updated:", updatedReview);
-      res.json(updatedReview);
-    }
+      if (result.affectedRows === 0) {
+        // Review not found
+        console.error("Review not found");
+        res.status(404).json({ error: "Review not found" });
+      } else {
+        console.log("Review updated");
+        res.sendStatus(200); // Success status
+      }
+    });
   } catch (error) {
     console.error("Error updating rating:", error);
     res.status(500).json({ error: "Error updating rating" });
@@ -617,24 +607,32 @@ app.put("/reviews/:id", async (req, res) => {
 });
 
 // Handle DELETE request for deleting a review
-app.delete("/reviews/:id", async (req, res) => {
+app.delete("/reviews/:id", (req, res) => {
   const reviewId = req.params.id;
 
   try {
     // Construct the query to delete the review by ID from the database
     const query = {
-      text: "DELETE FROM reviews WHERE id = $1",
+      sql: "DELETE FROM reviews WHERE id = ?",
       values: [reviewId],
     };
-    const result = await pool.query(query);
 
-    if (result.rowCount === 0) {
-      // Review not found
-      res.status(404).json({ error: "Review not found" });
-    } else {
-      console.log("Review deleted:", reviewId);
-      res.sendStatus(204); // Send a success status without content
-    }
+    // Execute the query to delete the review
+    connection.query(query, (error, result) => {
+      if (error) {
+        console.error("Error deleting review:", error);
+        return res.status(500).json({ error: "Error deleting review" });
+      }
+
+      if (result.affectedRows === 0) {
+        // Review not found
+        console.error("Review not found");
+        res.status(404).json({ error: "Review not found" });
+      } else {
+        console.log("Review deleted:", reviewId);
+        res.sendStatus(204); // Send a success status without content
+      }
+    });
   } catch (error) {
     console.error("Error deleting review:", error);
     res.status(500).json({ error: "Error deleting review" });
@@ -645,21 +643,35 @@ app.delete("/reviews/:id", async (req, res) => {
 app.delete("/reserves/:reservationId", function (req, res) {
   const reservationId = req.params.reservationId;
 
-  Reserve.findByIdAndRemove(reservationId)
-    .then((deletedReservation) => {
-      if (!deletedReservation) {
+  try {
+    // Construct the query to delete the reservation by ID from the database
+    const query = {
+      sql: "DELETE FROM reserves WHERE id = ?",
+      values: [reservationId],
+    };
+
+    // Execute the query to delete the reservation
+    connection.query(query, (error, result) => {
+      if (error) {
+        console.error("Error deleting reservation:", error);
+        return res.status(500).json({ error: "Error deleting reservation" });
+      }
+
+      if (result.affectedRows === 0) {
         // Reservation not found
+        console.error("Reservation not found");
         res.status(404).json({ error: "Reservation not found" });
       } else {
-        console.log("Reservation deleted:", deletedReservation);
+        console.log("Reservation deleted:", reservationId);
         res.json({ message: "Reservation deleted successfully" });
       }
-    })
-    .catch((error) => {
-      console.error("Error deleting reservation:", error);
-      res.status(500).json({ error: "Error deleting reservation" });
     });
+  } catch (error) {
+    console.error("Error deleting reservation:", error);
+    res.status(500).json({ error: "Error deleting reservation" });
+  }
 });
+
 // Delete an inquiry by ID
 app.delete("/inquiries/:inquiryId", async (req, res) => {
   const inquiryId = req.params.inquiryId;
@@ -667,20 +679,26 @@ app.delete("/inquiries/:inquiryId", async (req, res) => {
   try {
     // Construct the query to delete the inquiry by ID from the database
     const query = {
-      text: "DELETE FROM inquiries WHERE id = $1 RETURNING *",
+      sql: "DELETE FROM inquiries WHERE id = ?",
       values: [inquiryId],
     };
 
     // Execute the query
-    const result = await pool.query(query);
+    connection.query(query, (error, result) => {
+      if (error) {
+        console.error("Error deleting inquiry:", error);
+        return res.status(500).json({ error: "Error deleting inquiry" });
+      }
 
-    if (result.rowCount === 0) {
-      // Inquiry not found
-      res.status(404).json({ error: "Inquiry not found" });
-    } else {
-      console.log("Inquiry deleted:", result.rows[0]);
-      res.json({ message: "Inquiry deleted successfully" });
-    }
+      if (result.affectedRows === 0) {
+        // Inquiry not found
+        console.error("Inquiry not found");
+        res.status(404).json({ error: "Inquiry not found" });
+      } else {
+        console.log("Inquiry deleted:", inquiryId);
+        res.json({ message: "Inquiry deleted successfully" });
+      }
+    });
   } catch (error) {
     console.error("Error deleting inquiry:", error);
     res.status(500).json({ error: "Error deleting inquiry" });

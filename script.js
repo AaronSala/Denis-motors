@@ -100,7 +100,7 @@ function fetchAndDisplayCars(
   paginationButtonsContainerId,
   category
 ) {
-  fetch("http://localhost:4001/api/cars")
+  fetch("http://localhost:4001/cars")
     .then((response) => response.json())
     .then((cars) => {
       //const carList = document.getElementById("carList");
@@ -136,12 +136,12 @@ function fetchAndDisplayCars(
           listItem.addEventListener("click", () => {
             // Display images when the car item is clicked
             displayCarImages(
-              car.image[0],
-              car.image.slice(1),
+              JSON.parse(car.image)[0], // Parse the JSON string to an array
+              JSON.parse(car.image).slice(1), // Parse the JSON string and slice to get remaining images
               car.maker,
               car.model
             );
-            console.log(car.image[0]);
+
             window.scrollTo({
               top: mainImageContainer.offsetTop,
               behavior: "smooth",
@@ -285,8 +285,10 @@ function addPaginationButtons(
 }
 
 function createCarListItem(car) {
+  const images = JSON.parse(car.image); // Parse the JSON string to an array
+
   const listItem = document.createElement("div");
-  const mainImage = car.image[0];
+  const mainImage = images[0];
 
   listItem.innerHTML = `
         <img src="/images/${mainImage}" class="car-image">
@@ -423,10 +425,10 @@ function showReservationForm(imageUrl, maker, model) {
       <input type="text" id="name" name="name" required><br>
       <label for="phone">Phone:</label>
       <input type="number" id="phone" name="phone" required><br>
-      <label for="email">Email:</label>
+      <label for="email" >Email:</label>
       <input type="email" id="email" name="email" required><br>
       <input type="hidden" id="carImageUrl" name="carImageUrl" value="${imageUrl}">
-      <input type="hidden" id="maker" name="model" value="${maker}">
+      <input type="hidden" id="maker" name="maker" value="${maker}">
       <input type="hidden" id="model" name="model" value="${model}">
       <button type="submit">Reserve</button>
     </form>
@@ -454,7 +456,7 @@ function handleReservationFormSubmit(event) {
   };
 
   // Send a POST request to the server to add the reservation
-  fetch("http://localhost:4001/api/reserves", {
+  fetch("http://localhost:4001/reserves", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -472,3 +474,63 @@ function handleReservationFormSubmit(event) {
       console.error("Error adding reservation:", error);
     });
 }
+
+// Function to handle form submission
+function submitInquiryForm() {
+  // Get form inputs
+  const maker = document.getElementById("maker").value;
+  const model = document.getElementById("model").value;
+  const maxprice = document.getElementById("maxprice").value;
+  const minprice = document.getElementById("minprice").value;
+  const comments = document.getElementById("comments").value;
+  const minengine = document.getElementById("minengine").value;
+  const maxengine = document.getElementById("maxengine").value;
+  const maxyear = document.getElementById("maxyear").value;
+  const contacts = document.getElementById("contacts").value;
+  const maxdistance = document.getElementById("maxdistance").value;
+
+  // Create inquiry object
+  const inquiryData = {
+    maker,
+    model,
+    maxprice,
+    minprice,
+    comments,
+    minengine,
+    maxengine,
+    maxyear,
+    contacts,
+    maxdistance,
+  };
+
+  // Send POST request to server
+  fetch("http://localhost:4001/inquiries", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(inquiryData),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log("Inquiry saved with ID:", data.id);
+      // Optionally, you can handle the response here
+    })
+    .catch((error) => {
+      console.error("Error saving inquiry:", error);
+      // Handle error here
+    });
+}
+
+// Add event listener to form submit event
+document
+  .getElementById("inquiryForm")
+  .addEventListener("submit", function (event) {
+    event.preventDefault(); // Prevent default form submission
+    submitInquiryForm(); // Call function to submit form
+  });

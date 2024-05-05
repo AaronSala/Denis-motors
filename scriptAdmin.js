@@ -16,38 +16,33 @@ carForm.addEventListener("submit", function (event) {
   const descriptionInput = document.getElementById("description");
   const imageInput = document.getElementById("image");
 
-  // Create an object to hold the car data
-  const carData = {
-    maker: makerInput.value,
-    model: modelInput.value,
-    year: yearInput.value,
-    price: priceInput.value,
-    category: categoryInput.value,
-    shape: shapeInput.value,
-    mileage: mileageInput.value,
-    engine: engineInput.value,
-    description: descriptionInput.value,
-  };
-
-  // Get the selected images from the file input
-  const images = Array.from(imageInput.files);
-
   // Create a new FormData object
   const formData = new FormData();
 
   // Append the car data to the formData object
-  for (const key in carData) {
-    formData.append(key, carData[key]);
-  }
+  formData.append("maker", makerInput.value);
+  formData.append("model", modelInput.value);
+  formData.append("year", yearInput.value);
+  formData.append("price", priceInput.value);
+  formData.append("category", categoryInput.value);
+  formData.append("shape", shapeInput.value);
+  formData.append("mileage", mileageInput.value);
+  formData.append("engine", engineInput.value);
+  formData.append("description", descriptionInput.value);
 
   // Append the selected images to the formData object
+  const images = Array.from(imageInput.files);
   images.forEach((image, index) => {
     formData.append("images", image);
   });
 
   // Send a POST request to the server to save the car data
   axios
-    .post("/cars", formData)
+    .post("/admin/cars", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data", // Ensure correct content type
+      },
+    })
     .then(function (response) {
       carForm.reset(); // Reset the form
     })
@@ -93,7 +88,10 @@ function fetchAndDisplayCars() {
 
       // Iterate over the car list and create HTML elements to display each car
       carList.forEach(function (car) {
-        const imageFileNames = car.image[0].split("/").pop();
+        const images = JSON.parse(car.image); // Parse the JSON string to an array
+        const mainImage = images[0];
+
+        const imageFileNames = mainImage.split("/").pop();
         const carElement = document.createElement("div");
         carElement.classList.add("car");
 
