@@ -255,10 +255,10 @@
             
             function createCarListItem(car) {
     const listItem = document.createElement('div');
-    const mainImage = car.images[0];
+    const mainImage = JSON.parse(car.image);
 
     listItem.innerHTML = `
-      <img src="${mainImage}" class="car-image">
+      <img src="images/${mainImage[0]}" class="car-image">
       <h2>${car.maker} ${car.model}</h2>
       <p>Engine: ${car.engine}</p>
       <p>Price: ${car.price}</p>s
@@ -282,12 +282,14 @@
           container.innerHTML = ''; // Clear previous content
 
           const carsByMaker = cars.filter(car => car.maker.toUpperCase() === maker.toUpperCase());
-
+         
           if (carsByMaker.length > 0) {
+            
             carsByMaker.forEach(car => {
               const listItem = createCarListItem(car);
               listItem.addEventListener('click', () => {
-                displayCarImages(car.images[0], car.images.slice(1), car.maker, car.model);
+                const mainImage = JSON.parse(car.image);
+                displayCarImages(mainImage[0], mainImage.slice(1), car.maker, car.model);
                 window.scrollTo({
                   top: mainImageContainer.offsetTop,
                   behavior: 'smooth'
@@ -312,14 +314,15 @@
 
 function createCarListItem(car) {
   const listItem = document.createElement('div');
-  const mainImage = car.images[0];
+  const mainImage = JSON.parse(car.image);
 
   listItem.innerHTML = `
-    <img src="${mainImage}" class="car-image">
+    <img src="images/${mainImage[0]}" width=200 class="car-image">
     <h2>${car.maker} ${car.model}</h2>
     <p>Engine: ${car.engine}</p>
     <p>Price: ${car.price}</p>
     <p>Mileage: ${car.mileage}</p>
+    <p>Year: ${car.year}</p>
   `;
 
   return listItem;
@@ -335,7 +338,7 @@ function displayCarImages(mainImage, otherImages, maker, model) {
   currentCarModel = model; 
 
   const mainImageContainer = document.getElementById('mainImageContainer');
-  mainImageContainer.innerHTML = `<img src="${mainImage}" class="car-image">`;
+  mainImageContainer.innerHTML = `<img src="images/${mainImage}" class="car-image">`;
 
   const additionalImageContainer = document.getElementById('additionalImageContainer');
   additionalImageContainer.innerHTML = '';
@@ -345,9 +348,9 @@ function displayCarImages(mainImage, otherImages, maker, model) {
 
   otherImages.forEach((image, index) => {
     const additionalImage = document.createElement('img');
-    additionalImage.src = `${image}`;
+    additionalImage.src = `images/${image}`;
     additionalImage.addEventListener('click', () => {
-      mainImageContainer.innerHTML = `<img src="${image}" class="car-image">`;
+      mainImageContainer.innerHTML = `<img src="images/${image}" class="car-image">`;
       currentDisplayedImage = image; // Store the currently displayed image URL
       addReserveButtonToMainImage();
     });
@@ -396,7 +399,7 @@ function showReservationForm(imageUrl, maker, model){
      <input type="number" id="phone" name="phone" required><br>
      <label for="email">Email:</label>
      <input type="email" id="email" name="email" required><br>
-     <input type="hidden" id="carImageUrl" name="carImageUrl" value="${imageUrl}">
+     <input type="hidden" id="carImageUrl" name="carImageUrl" value="$images/{imageUrl}">
      <input type="hidden" id="maker" name="model" value="${maker}">
      <input type="hidden" id="model" name="model" value="${model}">
      <button type="submit">Reserve</button>

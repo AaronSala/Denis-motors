@@ -139,7 +139,8 @@ function fetchAndDisplayCars(
               JSON.parse(car.image)[0], // Parse the JSON string to an array
               JSON.parse(car.image).slice(1), // Parse the JSON string and slice to get remaining images
               car.maker,
-              car.model
+              car.model,
+              car.year
             );
 
             window.scrollTo({
@@ -296,6 +297,7 @@ function createCarListItem(car) {
         <p>Engine: ${car.engine}</p>
         <p>Price: ${car.price}</p>
         <p>Mileage: ${car.mileage}</p>
+         <p>Year: ${car.year}</p>
       `;
 
   return listItem;
@@ -465,6 +467,7 @@ function handleReservationFormSubmit(event) {
   })
     .then((response) => response.json())
     .then((newReservation) => {
+      alert('reservation send successfully')
       console.log("Reservation added:", newReservation);
       // Clear the reservation form
       const reservationForm = document.getElementById("reservationForm");

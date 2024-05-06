@@ -235,23 +235,18 @@
                </div>
                <!-- script for login and register forms -->
  <script>
-                
-             
-const form = document.getElementById('login-form');
+   const form = document.getElementById('login-form');
 const signupBtn = document.getElementById('signupBtn');
 const signinBtn = document.getElementById('signinBtn');
-const nameField = document.getElementById('nameField');
 const title = document.getElementById('title');
+const nameField = document.getElementById('nameField');
+const member = document.getElementById('member');
 const close = document.getElementById('close');
 const longs = document.getElementById('logs');
-const member = document.getElementById('member');
-const error = document.getElementById('error');
-const passwords = document.getElementById('password');
-const emails = document.getElementById('email');
-
 let isSignUp = true;
 
 function toggleForm() {
+  // No need to toggle if already in the current state
   if ((isSignUp && this.id === 'signupBtn') || (!isSignUp && this.id === 'signinBtn')) {
     return;
   }
@@ -272,82 +267,123 @@ function toggleForm() {
 
 function handleFormSubmit(event) {
   event.preventDefault();
-  const email = emails.value;
-  const password = passwords.value;
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+  const error = document.getElementById('error');
+  const passwords = document.getElementById('password');
+  const emails = document.getElementById('email');
   const formData = { email, password };
+  const inputIds = ['email', 'password'];
 
-  fetch('http://localhost:4001/login', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(formData),
-  })
-  .then(response => response.json())
-  .then(data => {
-    console.log('Login response:', data);
-    if (data.message === 'Login successful') {
-      if (email === 'admin@gmail.com' && password === 'adminPassword') {
-        // Redirect to admin.html for admin login
-        window.location.href = 'admin.html';
-      } else if (email === 'admin@gmail.com') {
-        // Handle incorrect password for admin
-        window.location.href = 'admin.html';
-        console.error('Incorrect password for admin');
-        error.style.display = 'none';
-        emails.style.border = '1px solid grey';
-        passwords.style.border = '1px solid grey';
-        clearInputFields();
-        // You can display an error message to the user
-      } else {
-        // Redirect to index.html for other successful logins
-        window.location.href = 'index.html';
-      }
-    } else {
-      // Handle login failure
-      console.error('Login failed:', data.message);
-      error.style.display = 'block';
-      emails.style.border = '1px solid red';
-      passwords.style.border = '1px solid red';
-      // You can display an error message to the user
-    }
-  })
-  .catch(error => {
-    console.error('Error during login:', error);
-  });
+//   // Function to clear input fields
+//   function clearInputFields() {
+//     inputIds.forEach((id) => {
+//       document.getElementById(id).value = '';
+//     });
+//   }
+
+  if (isSignUp) {
+    // Handle Sign Up
+    fetch('http://localhost:4001/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Registration response:', data);
+        if (data.error && data.error === 'User already exists') {
+          // Display error message to the user
+          error.textContent = 'User already exists.';
+          error.style.display = 'block';
+          emails.style.border = '1px solid red';
+          passwords.style.border = '1px solid red';
+          clearInputFields();
+        } else {
+          // Redirect to index.html for successful registration
+          alert("registration successiful")
+        }
+      })
+      .catch((error) => {
+        console.error('Error during registration:', error);
+      });
+  } else {
+    // Handle Login
+    fetch('http://localhost:4001/api/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Login response:', data);
+        if (data.error && data.error === 'User not found') {
+          // Display error message to the user
+          error.textContent = 'User not found. Please register first.';
+          error.style.display = 'block';
+          emails.style.border = '1px solid red';
+          passwords.style.border = '1px solid red';
+          //clearInputFields();
+        } else if (data.error && data.error === 'Invalid password') {
+          // Display error message to the user
+          error.textContent = 'Invalid password.';
+          error.style.display = 'block';
+          emails.style.border = '1px solid red';
+          passwords.style.border = '1px solid red';
+         // clearInputFields();
+        }
+        
+         else {
+          // Redirect to admin.html if email is admin and password matches
+          if (email === 'superadmin25@gmail.com' && data.message === 'Login successful') {
+            window.location.href = 'admin.html';
+          } else {
+            // Redirect to index.html for other successful logins
+            window.location.href = 'index.html';
+          }
+        }
+
+      })
+      .catch((error) => {
+        console.error('Error during login:', error);
+      });
+  }
 }
 
 function clearInputFields() {
-  emails.value = '';
-  passwords.value = '';
+  document.getElementById('email').value = '';
+  document.getElementById('password').value = '';
 }
 
 // Add event listener for form submission
 form.addEventListener('submit', handleFormSubmit);
 
-// Add event listener for member button
-member.onclick = function () {
-  longs.classList.toggle('active');
-};
-
-// Add event listener for close button
-close.onclick = function () {
-  longs.classList.toggle('active');
-};
-
 // Add click event listener to toggle the form between Sign Up and Sign In
 signupBtn.addEventListener('click', toggleForm);
 signinBtn.addEventListener('click', toggleForm);
 
-           
+// Add click event listener for member button
+member.onclick = function () {
+  longs.classList.toggle('active');
+};
+
+// Add click event listener for close button
+close.onclick = function () {
+  longs.classList.toggle('active');
+};
+
+
+      
     </script>
 
 
 
 <section>
-
-
     <div class="containers">
-
-
         <!-- left nav extends to the bottom -->
     <nav class="">
         <div class="left-nav">
@@ -964,9 +1000,9 @@ signinBtn.addEventListener('click', toggleForm);
 <section class=" mt-3">
     <div class="bg-slate-200 h-16 mt-3" >
         <div class="slinks flex justify-center ">
-          <a>  <img src="images/th (4).jpeg" class="h-12 m-2"></a>
-           <a href="https://www.instagram.com/denismotorsimports/"> <img src="images/th (3).jpeg" class="h-12 m-2 ml-8"></a>
-            <a href="https://www.facebook.com/profile.php?id=100065128466178"><img src="images/th (2).jpeg" class="h-12 m-2 ml-8"></a>
+          <a>  <img src="images/x.jpeg" class="h-12 m-2"></a>
+           <a href="https://www.instagram.com/denismotorsimports/"> <img src="images/instagram.jpeg" class="h-12 m-2 ml-8"></a>
+            <a href="https://www.facebook.com/profile.php?id=100065128466178"><img src="images/fb.jpeg" class="h-12 m-2 ml-8"></a>
         </div>
      </div>
 

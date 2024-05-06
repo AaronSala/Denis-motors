@@ -144,7 +144,7 @@ app.post("/inquiries", (req, res) => {
 });
 
 // Route for user registration
-app.post("/register", async (req, res) => {
+app.post("/users", async (req, res) => {
   const { email, password } = req.body;
   console.log("Registration request received:", req.body);
   try {
@@ -183,7 +183,7 @@ app.post("/register", async (req, res) => {
 });
 
 // Route to handle user login
-app.post("/login", async (req, res) => {
+app.post("/api/users", async (req, res) => {
   const { email, password } = req.body;
   console.log("Login request received:", req.body);
   try {
@@ -227,7 +227,7 @@ app.get("/cars", async (req, res) => {
 
   try {
     const regex = `%${search}%`; // Use % for wildcard search in MariaDB
-    const query = `SELECT * FROM cars WHERE category LIKE ? OR maker LIKE ? OR year LIKE ? OR model LIKE ? OR shape LIKE ?`;
+    const query = `SELECT * FROM cars WHERE LOWER(category) LIKE ? OR LOWER(maker) LIKE ? OR year LIKE ? OR LOWER(model) LIKE ? OR LOWER(shape) LIKE ?`;
     const filteredCars = await connection.query(query, [
       regex,
       regex,

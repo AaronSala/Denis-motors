@@ -76,22 +76,37 @@ add2.addEventListener("click", () => {
 
 // search
 // Add event listener to the search button
+// Add event listener to the search button
 document.addEventListener("DOMContentLoaded", function () {
-  document.getElementById("searchButton").addEventListener("click", searchCars);
+  document.getElementById("searchButton").addEventListener("click", (e) => {
+    e.preventDefault();
+    const searchTerm = document
+      .getElementById("searchInput")
+      .value.trim()
+      .toLowerCase();
+    if (searchTerm !== "") {
+      searchCars(searchTerm);
+    } else {
+      // Clear the search results container
+      const additionalImageContainer = document.getElementById(
+        "additionalImageContainer"
+      );
+      additionalImageContainer.innerHTML = "<p>No cars found.</p>";
+    }
+  });
+
   document
     .getElementById("searchForm")
     .addEventListener("submit", handleFormSubmit);
-  //document.body.addEventListener("click", clearSearchResults);
 });
 
 function searchCars() {
-  console.log("clicked button");
   const search = document.getElementById("searchInput").value.toLowerCase();
   const additionalImageContainer = document.getElementById(
     "additionalImageContainer"
   );
 
-  fetch("http://localhost:4001/api/cars")
+  fetch("http://localhost:4001/cars") // Assuming the endpoint is '/cars' on port 4001
     .then((response) => response.json())
     .then((cars) => {
       additionalImageContainer.innerHTML = ""; // Clear previous search results
@@ -110,8 +125,9 @@ function searchCars() {
           const listItem = document.createElement("div");
           listItem.classList.add("car-item");
 
+          const images = JSON.parse(car.image);
           listItem.innerHTML = `
-              <img src="${car.images[0]}" class="car-image">
+              <img src="/images/${images[0]}" class="car-image"> <!-- Adjust image path -->
               <h2>${car.maker} ${car.model}</h2>
               <p>Engine: ${car.engine}</p>
               <p>Price: ${car.price}</p>
@@ -125,18 +141,18 @@ function searchCars() {
             mainImageContainer.innerHTML = "";
 
             const mainImg = document.createElement("img");
-            mainImg.src = `${car.images[0]}`;
+            mainImg.src = `images/${images[0]}`; // Adjust image path
             mainImg.classList.add("car-image");
             mainImageContainer.appendChild(mainImg);
 
             additionalImageContainer.innerHTML = "";
 
-            car.images.forEach((image) => {
+            images.forEach((image) => {
               const img = document.createElement("img");
-              img.src = `${image}`;
+              img.src = `images/${image}`; // Adjust image path
               img.classList.add("additional-image");
               img.addEventListener("click", () => {
-                mainImg.src = `${image}`;
+                mainImg.src = `images/${image}`; // Adjust image path
               });
               additionalImageContainer.appendChild(img);
             });

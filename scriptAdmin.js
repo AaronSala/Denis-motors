@@ -382,6 +382,7 @@ function deleteInquiry(inquiryId) {
       fetchAndDisplayInquiries(); // Fetch and display the updated inquiries
     })
     .catch((error) => {
+      alert("delete inquiry?");
       console.error("Error deleting inquiry:", error);
     });
 }
@@ -416,7 +417,7 @@ function fetchAndDisplayReservations() {
         const deleteButton = document.createElement("button");
         deleteButton.textContent = "Delete";
         deleteButton.addEventListener("click", () =>
-          deleteReservation(reservation._id)
+          deleteReservation(reservation.id)
         );
         reservationElement.appendChild(deleteButton);
 
@@ -433,12 +434,12 @@ fetchAndDisplayReservations();
 
 // Add some console.log statements to track the flow of data and variable values
 function deleteReservation(reservationId) {
-  console.log("Reservation ID:", reservationId); // Check if reservationId is passed correctly
+  console.log("Reservation ID:", reservationId);
   fetch(`/reserves/${reservationId}`, {
     method: "DELETE",
   })
     .then(() => {
-      console.log("Reservation deleted:", reservationId);
+      alert(" do you want to delete reservation?");
       fetchAndDisplayReservations(); // Fetch and display the updated reservations
     })
     .catch((error) => {
