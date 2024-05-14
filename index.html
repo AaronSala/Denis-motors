@@ -284,7 +284,7 @@ function handleFormSubmit(event) {
 
   if (isSignUp) {
     // Handle Sign Up
-    fetch('http://localhost:4001/users', {
+    fetch('https://denismotors.com/users', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -311,7 +311,7 @@ function handleFormSubmit(event) {
       });
   } else {
     // Handle Login
-    fetch('http://localhost:4001/api/users', {
+    fetch('https://denismotors.com/api/users', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -272,7 +272,7 @@
 
   // Function to fetch and display cars
   function fetchAndDisplayCars() {
-    fetch('http://localhost:4001/cars')
+    fetch('https://denismotors.com/cars')
       .then(response => response.json())
       .then(cars => {
         const makers = ['toyota', 'nissan', 'benz', 'mazda', 'subaru', 'suzuki', 'honda', 'bmw', 'volks'];
@@ -428,7 +428,7 @@ function handleReservationFormSubmit(event) {
  };
 
  // Send a POST request to the server to add the reservation
- fetch('http://localhost:4001/reserves', {
+ fetch('https://denismotors.com/reserves', {
    method: 'POST',
    headers: {
      'Content-Type': 'application/json'

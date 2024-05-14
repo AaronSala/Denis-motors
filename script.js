@@ -353,6 +353,8 @@ function displayCarImages(mainImage, otherImages, maker, model) {
   }
 }
 
+let currentDisplayedImage;
+
 function addReserveButtonToMainImage() {
   const mainImageContainer = document.getElementById("mainImageContainer");
   const reserveButton = mainImageContainer.querySelector("button");
@@ -467,7 +469,7 @@ function handleReservationFormSubmit(event) {
   })
     .then((response) => response.json())
     .then((newReservation) => {
-      alert('reservation send successfully')
+      alert("reservation send successfully");
       console.log("Reservation added:", newReservation);
       // Clear the reservation form
       const reservationForm = document.getElementById("reservationForm");

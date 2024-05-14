@@ -8,7 +8,7 @@ bars.addEventListener("click", () => {
 
 document.addEventListener("DOMContentLoaded", async () => {
   try {
-    const response = await fetch("http://localhost:4001/sliders");
+    const response = await fetch("http://localhost:3000/sliders");
     if (response.ok) {
       const data = await response.json();
       const sliderImages = data.sliderImages || [];
@@ -106,7 +106,7 @@ function searchCars() {
     "additionalImageContainer"
   );
 
-  fetch("http://localhost:4001/cars") // Assuming the endpoint is '/cars' on port 4001
+  fetch("http://localhost:/cars") // Assuming the endpoint is '/cars' on port 4001
     .then((response) => response.json())
     .then((cars) => {
       additionalImageContainer.innerHTML = ""; // Clear previous search results

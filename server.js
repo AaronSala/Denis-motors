@@ -12,8 +12,8 @@ const fs = require("fs");
 // MariaDB (MySQL) connection configuration
 const connection = mysql.createConnection({
   host: "localhost",
-  user: "root", // Change this to your MariaDB username
-  password: "sala4492", // Change this to your MariaDB password
+  user: "root",
+  password: "sala4492",
   database: "denisMotors",
 });
 
@@ -38,6 +38,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname)));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
 // Route to fetch car data
 app.get("/cars", (req, res) => {
   connection.query("SELECT * FROM cars", (error, results, fields) => {
@@ -706,7 +707,8 @@ app.delete("/inquiries/:inquiryId", async (req, res) => {
 });
 
 // Start the server
-const PORT = process.env.PORT || 4001;
-app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
+const server = app.listen(4001, "0.0.0.0", () => {
+  const host = server.address().address;
+  const port = server.address().port;
+  console.log(`Server running at http://${host}:${port}/`);
 });
